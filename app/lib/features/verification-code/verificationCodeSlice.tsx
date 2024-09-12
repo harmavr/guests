@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const verificationSlice = createSlice({
   name: "verification",
   initialState: {
-    keyAccess: Math.floor(Math.random() * 999999),
+    keyAccess: Math.floor(Math.random() * (1000000 - 100000) + 100000),
     access: false,
   },
   reducers: {
@@ -14,6 +14,9 @@ const verificationSlice = createSlice({
       } else {
         state.access = false;
       }
+    },
+    newCode(state) {
+      state.keyAccess = Math.floor(Math.random() * (1000000 - 100000) + 100000);
     },
   },
 });
