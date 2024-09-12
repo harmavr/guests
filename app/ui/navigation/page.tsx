@@ -10,7 +10,7 @@ export default function Navigation() {
           <Link href="/">Etouri</Link>
         </div>
         <div className="space-x-4">
-          <Link href="/user-login"> User Login </Link>
+          <Link href="/etouri-properties"> Etouri Properties </Link>
         </div>
       </div>
     </nav>
