@@ -64,9 +64,9 @@ const formSlice = createSlice({
       if (action.payload === 4) {
         state.page = 5;
       }
-      // if (action.payload === 5) {
-      //   state.page = 6;
-      // }
+    },
+    init(state) {
+      state.page = 1;
     },
     back(state) {
       state.page = Math.max(state.page - 1, 1);
