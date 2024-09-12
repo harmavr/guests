@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import EmailModal from "../emailModal";
+import exportFromJSON from "export-from-json";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/lib/store";
+import { log } from "console";
 
 export default function Page5() {
+  const reservations = useSelector(
+    (state: RootState) => state.reservation.items
+  );
+
   useEffect(() => {
     const page1Button = document.querySelector("#page1-button");
     const page2Button = document.querySelector("#page2-button");
@@ -15,9 +23,11 @@ export default function Page5() {
     page4Button?.classList.remove("active");
     page5Button?.classList.add("active");
 
+    console.log(reservations);
+
     // console.log(data.detailedUser);
     // console.log(kidsAges);
-  }, []);
+  }, [reservations]);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -33,6 +43,28 @@ export default function Page5() {
     modalHandler: (arg0: boolean) => void
   ) => {
     modalHandler(!openModal);
+  };
+
+  const exportData = () => {
+    const data = reservations;
+
+    const fileName = "localData";
+    const exportType = exportFromJSON.types.csv;
+
+    exportFromJSON({
+      data,
+      fileName,
+      fields: [
+        "city",
+        "detailedUser",
+        "kidsAges",
+        "numOfAdults",
+        "numOfKids",
+        "propertyName",
+        "tripDetails",
+      ],
+      exportType,
+    });
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -51,6 +83,7 @@ export default function Page5() {
           </form>
           All your Data has been Saved
         </h1>
+        <button onClick={exportData}>export data</button>
       </div>
     </div>
   );
