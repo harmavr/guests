@@ -48,11 +48,13 @@ export default function Page1() {
     const page2Button = document.querySelector("#page2-button");
     const page3Button = document.querySelector("#page3-button");
     const page4Button = document.querySelector("#page4-button");
+    const page5Button = document.querySelector("#page5-button");
 
     page1Button?.classList.add("active");
     page2Button?.classList.remove("active");
     page3Button?.classList.remove("active");
     page4Button?.classList.remove("active");
+    page5Button?.classList.remove("active");
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
