@@ -42,3 +42,19 @@ export interface userData {
 export interface Reservation {
   items: userData[];
 }
+
+export interface Properties {
+  properties: any;
+  name: string;
+  id: number;
+  details: string;
+  nights: number;
+  visitor: string;
+  total_amount: number;
+  status: string;
+}
+
+export interface Verification {
+  keyAccess: number;
+  access: boolean;
+}
