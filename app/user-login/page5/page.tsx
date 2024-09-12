@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import EmailModal from "../emailModal";
 
 export default function Page5() {
   useEffect(() => {
@@ -18,11 +19,36 @@ export default function Page5() {
     // console.log(kidsAges);
   }, []);
 
+  const [openModal, setOpenModal] = useState(false);
+
+  const [next, setNext] = useState(false);
+
+  const modalHandler = () => {
+    setOpenModal(!openModal);
+    setNext(!next);
+  };
+
+  const closeModal = (
+    openModal: boolean,
+    modalHandler: (arg0: boolean) => void
+  ) => {
+    modalHandler(!openModal);
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setOpenModal(!openModal);
+  };
+
   return (
     <div className="flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md text-center">
         <h1 className="text-2xl font-semibold text-green-600">
-          <form></form>
+          <form onSubmit={onSubmit}>
+            {openModal && (
+              <EmailModal openModal={openModal} modalHandler={modalHandler} />
+            )}
+          </form>
           All your Data has been Saved
         </h1>
       </div>
