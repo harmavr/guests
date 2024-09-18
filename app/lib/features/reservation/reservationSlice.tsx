@@ -12,9 +12,29 @@ const reservationSlice = createSlice({
   reducers: {
     saveReservation(state, action: PayloadAction<{ formData: userData }>) {
       const { formData } = action.payload;
-      // console.log(formData);
+      console.log(formData);
 
-      state.items.push(formData);
+      state.items.push(...state.items, formData);
+    },
+
+    saveReservationFromCSV: (state, action) => {
+      const { formData } = action.payload;
+      console.log(formData);
+
+      formData.forEach((reservation) => {
+        state.items.push({
+          propertyName: reservation.propertyName,
+          city: reservation.city,
+          numOfAdults: reservation.numOfAdults,
+          numOfKids: reservation.numOfKids,
+          kidsAges: reservation.kidsAges,
+          detailedUser: reservation.detailedUser,
+          tripDetails: reservation.tripDetails,
+          page: 0,
+          errors: undefined,
+          weAreFreeToGo: false,
+        });
+      });
     },
 
     changeTravellerData(
