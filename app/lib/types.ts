@@ -44,10 +44,10 @@ export interface Reservation {
 }
 
 export interface Properties {
-  properties: any;
   name: string;
   id: number;
   details: string;
+  city: string;
   nights: number;
   visitor: string;
   total_amount: number;
@@ -57,4 +57,18 @@ export interface Properties {
 export interface Verification {
   keyAccess: number;
   access: boolean;
+}
+
+export interface Transaction {
+  paymentMethod: string;
+  transactionNumber: number;
+  date: string;
+  account: string;
+  company: string;
+  description: string;
+  total: number;
+}
+
+export interface TransactionList {
+  items: Transaction[];
 }
