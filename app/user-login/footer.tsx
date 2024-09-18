@@ -109,7 +109,16 @@ export const Footer = () => {
         );
       }
 
-      if (page === 6) {
+      if (page === 5) {
+        dispatch(
+          formActions.validate({
+            firstName: formElement?.querySelector("input[name='firstName']")
+              ?.value,
+
+            lastName: formElement?.querySelector("input[name='lastName']")
+              ?.value,
+          })
+        );
       }
     }
   };
