@@ -29,19 +29,15 @@ export default function EtouriProperties() {
   };
 
   const handleSearch = (term: string) => {
-    console.log(term);
-
     setLoading(true);
     setTimeout(() => {
-      const resultsArray = properties.filter((el: Properties) => {
-        console.log(el.id.toString().includes(term.toLowerCase()));
-
-        el.name.toLowerCase().includes(term.toLowerCase()) ||
+      const resultsArray = properties.filter(
+        (el: Properties) =>
+          el.name.toLowerCase().includes(term.toLowerCase()) ||
           el.id.toString().includes(term.toLowerCase()) ||
-          el.visitor.toLowerCase().includes(term.toLowerCase()) ||
-          el.details.toLowerCase().includes(term.toLowerCase());
-        return;
-      });
+          el.visitor.toLowerCase().includes(term.toLowerCase())
+        // el.details.toLowerCase().includes(term.toLowerCase())
+      );
       setResultList(resultsArray);
       setLoading(false);
     }, 2000);
