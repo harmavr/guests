@@ -8,11 +8,13 @@ import { useSelector } from "react-redux";
 import ModalForKids from "../modalForKids";
 import { userData } from "@/app/lib/types";
 import { formActions } from "@/app/lib/features/form/formSlice";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Page1() {
   const [data, setData] = useState<userData>({
     propertyName: "",
     city: "",
+    id: 0,
     numOfAdults: 0,
     numOfKids: 0,
     kidsAges: [],
@@ -30,7 +32,10 @@ export default function Page1() {
     },
   });
 
-  const errorsRedux = useSelector((state) => state.form.errors);
+  const searchParams = useSearchParams(); // Get the search params (query string)
+  const row = searchParams.get("row");
+
+  const errorsRedux = useAppSelector((state) => state.form.errors);
 
   const [numOfKids, setNumOfKids] = useState(0);
   const kidsAges = useAppSelector((state) => state.form.kidsAges);
@@ -42,6 +47,8 @@ export default function Page1() {
   const dispatch = useAppDispatch();
   const page = useAppSelector((state) => state.form.page);
   const weAreFree = useAppSelector((state) => state.form.weAreFreeToGo);
+  const reservation = useAppSelector((state) => state.reservation.items);
+  const properties = useSelector((state: userData) => state.properties.id);
 
   useEffect(() => {
     const page1Button = document.querySelector("#page1-button");
@@ -55,7 +62,12 @@ export default function Page1() {
     page3Button?.classList.remove("active");
     page4Button?.classList.remove("active");
     page5Button?.classList.remove("active");
-  }, []);
+
+    reservation ? setData(reservation[0]) : setData([]);
+    console.log(reservation);
+    console.log(data);
+    console.log(reservation[0]);
+  }, [reservation, data, row]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -139,6 +151,7 @@ export default function Page1() {
               type="text"
               name="propertyName"
               placeholder="Property Name"
+              value={reservation ? reservation[0]?.propertyName : ""}
               onChange={handleInputChange}
               required
             />
@@ -158,6 +171,7 @@ export default function Page1() {
               type="text"
               name="city"
               placeholder="City"
+              value={reservation ? reservation[0]?.city : ""}
               onChange={handleInputChange}
               required
             />
@@ -202,6 +216,7 @@ export default function Page1() {
               type="number"
               name="numOfAdults"
               placeholder="Number of Adults"
+              value={reservation ? reservation[0]?.numOfAdults : ""}
               onChange={handleInputChange}
               required
             />
@@ -217,7 +232,7 @@ export default function Page1() {
               type="number"
               name="n_of_kids"
               placeholder="Number of Kids"
-              value={numOfKids}
+              value={reservation ? reservation[0]?.numOfKids : ""}
               onChange={handleNumOfKidsChange}
               required
             />

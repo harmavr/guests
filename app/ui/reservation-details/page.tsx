@@ -95,7 +95,7 @@ export default function ReservationDetails({
           <p className="text-sm text-gray-600">Website</p>
           <p className="text-gray-700 mt-1">
             From <strong>{details.tripDetails[0].FlightArrivalDate}</strong> to{" "}
-            <strong>{details.tripDetails[0].FlightDeparturelDate}</strong>
+            <strong>{details.tripDetails[0].FlightDepartureDate}</strong>
           </p>
           <span className="bg-gray-200 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full mt-2 inline-block">
             Guests: {details.numOfAdults} Adults / {details.numOfKids} Kids
@@ -145,7 +145,7 @@ export default function ReservationDetails({
           </p>
           <p className="text-gray-700 mt-1">
             <strong>Departure:</strong>{" "}
-            {`${details.tripDetails[0].LocationDeparturel}, ${details.tripDetails[0].FlightDeparturelDate} at ${details.tripDetails[0].FlightDeparturelTime}`}
+            {`${details.tripDetails[0].LocationDeparture}, ${details.tripDetails[0].FlightDepartureDate} at ${details.tripDetails[0].FlightDepartureTime}`}
           </p>
         </div>
 

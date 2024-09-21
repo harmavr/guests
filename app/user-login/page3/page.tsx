@@ -14,10 +14,10 @@ export default function Page3() {
       NotesArrival: "",
 
       checkboxDeparture: false,
-      FlightDeparturelDate: "",
-      FlightDeparturelTime: "",
-      LocationDeparturel: "",
-      FlightDeparturelNumber: "",
+      FlightDepartureDate: "",
+      FlightDepartureTime: "",
+      LocationDeparture: "",
+      FlightDepartureNumber: "",
       NotesDeparture: "",
     },
   ]);
@@ -254,7 +254,7 @@ export default function Page3() {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, FlightDeparturelDate: e.target.value };
+                      return { ...item, FlightDepartureDate: e.target.value };
                     }
                     return item;
                   });
@@ -262,7 +262,7 @@ export default function Page3() {
                   dispatch(
                     formActions.saveTravelDetails({
                       ...updatedData,
-                      FlightDeparturelDate: e.target.value,
+                      FlightDepartureDate: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -277,7 +277,7 @@ export default function Page3() {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, FlightDeparturelTime: e.target.value };
+                      return { ...item, FlightDepartureTime: e.target.value };
                     }
                     return item;
                   });
@@ -285,7 +285,7 @@ export default function Page3() {
                   dispatch(
                     formActions.saveTravelDetails({
                       ...updatedData,
-                      FlightDeparturelTime: e.target.value,
+                      FlightDepartureTime: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -301,7 +301,7 @@ export default function Page3() {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, LocationDeparturel: e.target.value };
+                      return { ...item, LocationDeparture: e.target.value };
                     }
                     return item;
                   });
@@ -309,7 +309,7 @@ export default function Page3() {
                   dispatch(
                     formActions.saveTravelDetails({
                       ...updatedData,
-                      LocationDeparturel: e.target.value,
+                      LocationDeparture: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -333,7 +333,7 @@ export default function Page3() {
                       // Assuming you're targeting the first object; adjust the condition as needed
                       return {
                         ...item,
-                        FlightDeparturelNumber: e.target.value,
+                        FlightDepartureNumber: e.target.value,
                       };
                     }
                     return item;
@@ -342,7 +342,7 @@ export default function Page3() {
                   dispatch(
                     formActions.saveTravelDetails({
                       ...updatedData,
-                      FlightDeparturelNumber: e.target.value,
+                      FlightDepartureNumber: e.target.value,
                     })
                   );
                   console.log(updatedData);

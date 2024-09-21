@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
-import { Properties } from "../lib/types";
+import { Properties, userData } from "../lib/types";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../lib/hooks";
+import reservationSlice, {
+  reservationActions,
+} from "../lib/features/reservation/reservationSlice";
 
 interface ModalDetails {
   openModal: boolean;
@@ -23,8 +28,18 @@ export default function PropertiesModal({
   };
 
   useEffect(() => {
-    console.log(properties);
+    // console.log(properties[row]);
   });
+
+  const dispatch = useAppDispatch();
+
+  // const prop = useSelector((state: userData) => state.properties);
+
+  const statusHandler = (row: number) => {
+    // if (properties[row].status === "Confirmed") {
+    dispatch(reservationActions.saveReservation({ formData: properties[row] }));
+    // }
+  };
 
   return (
     <>
@@ -44,7 +59,7 @@ export default function PropertiesModal({
 
               <p className="text-gray-600">Pre-check-in form</p>
 
-              <p className="text-gray-700">{`Dear ${properties[row].visitor},`}</p>
+              <p className="text-gray-700">{`Dear ${properties[row].detailedUser[0].firstName} ${properties[row].detailedUser[0].lastName},`}</p>
               <p className="text-gray-600">
                 In order to complete your pre-check-in process, please fill out
                 the form linked below.
@@ -62,11 +77,20 @@ export default function PropertiesModal({
                 </button>
 
                 <Link
-                  href="/user-login"
-                  onClick={() => closeModal(openModal, modalHandler)}
+                  href={
+                    properties[row].status === "Pre Check-in"
+                      ? `/user-login?row=${row + 1}`
+                      : "/"
+                  }
+                  onClick={() => {
+                    closeModal(openModal, modalHandler);
+                    statusHandler(row);
+                  }}
                   className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md"
                 >
-                  Complete the pre-check-in form
+                  {properties[row].status === "Pre Check-in"
+                    ? "Complete the pre-check-in form"
+                    : "Complete Reservation"}
                 </Link>
               </div>
             </div>

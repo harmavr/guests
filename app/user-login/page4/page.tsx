@@ -184,21 +184,21 @@ export default function Page4() {
                 </div>
                 <div>
                   <label className="font-medium">Flight Departure Date:</label>
-                  <span className="ml-2">{trip.FlightDeparturelDate}</span>
+                  <span className="ml-2">{trip.FlightDepartureDate}</span>
                 </div>
                 <div>
                   <label className="font-medium">Flight Departure Time:</label>
-                  <span className="ml-2">{trip.FlightDeparturelTime}</span>
+                  <span className="ml-2">{trip.FlightDepartureTime}</span>
                 </div>
                 <div>
                   <label className="font-medium">Location Departure:</label>
-                  <span className="ml-2">{trip.LocationDeparturel}</span>
+                  <span className="ml-2">{trip.LocationDeparture}</span>
                 </div>
                 <div>
                   <label className="font-medium">
                     Flight Departure Number:
                   </label>
-                  <span className="ml-2">{trip.FlightDeparturelNumber}</span>
+                  <span className="ml-2">{trip.FlightDepartureNumber}</span>
                 </div>
                 <div>
                   <label className="font-medium">Notes Departure:</label>

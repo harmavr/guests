@@ -11,10 +11,10 @@ export interface TripDetail {
   FlightArrivalNumber: string;
   NotesArrival: string;
   checkboxDeparture: boolean;
-  FlightDeparturelDate: string;
-  FlightDeparturelTime: string;
-  LocationDeparturel: string;
-  FlightDeparturelNumber: string;
+  FlightDepartureDate: string;
+  FlightDepartureTime: string;
+  LocationDeparture: string;
+  FlightDepartureNumber: string;
   NotesDeparture: string;
 }
 
@@ -22,6 +22,9 @@ export interface userData {
   propertyName: string;
   city: string;
   numOfAdults: number;
+  id: number;
+  status: string;
+  total_amount: number;
   numOfKids: number;
   kidsAges: { value: number; help: boolean }[];
   page: number;
@@ -71,4 +74,18 @@ export interface Transaction {
 
 export interface TransactionList {
   items: Transaction[];
+}
+
+export interface ReservationData {
+  data: [
+    {
+      propertyName: string;
+      id: number;
+      city: string;
+      tripDetails: { arrivalDate: string; departureDate: string };
+      visitorData: { firstName: string; lastName: string };
+      totalAmount: number;
+      status: string;
+    }
+  ];
 }

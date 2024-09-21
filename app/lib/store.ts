@@ -10,6 +10,7 @@ import reservationSlice from "./features/reservation/reservationSlice";
 import propertiesSlice from "./features/properties/propertiesSlice";
 import verificationCodeSlice from "./features/verification-code/verificationCodeSlice";
 import transactionsSlice from "./features/transactions/transactionsSlice";
+import reservationDataSlice from "./features/reservationData/reservationDataSlice";
 // ...
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   properties: propertiesSlice,
   verification: verificationCodeSlice,
   transaction: transactionsSlice,
+  reservationData: reservationDataSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -30,6 +32,7 @@ export const makeStore = () => {
       properties: propertiesSlice,
       verification: verificationCodeSlice,
       transaction: transactionsSlice,
+      reservationData: reservationDataSlice,
     },
   });
 };
