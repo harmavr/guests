@@ -26,6 +26,8 @@ export default function CreateReservation() {
     console.log(array);
   });
 
+  // asda
+
   const inputFields = [
     { name: "Property Name", type: "text" },
     { name: "City", type: "text" },
