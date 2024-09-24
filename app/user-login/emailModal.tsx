@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../lib/hooks";
+import { useAppDispatch, useAppSelector } from "../lib/hooks";
 import { formActions } from "../lib/features/form/formSlice";
 import Link from "next/link";
 import { verificationActions } from "../lib/features/verification-code/verificationCodeSlice";
+import { ReservationData } from "../lib/types";
+import { reservationDataActions } from "../lib/features/reservationData/reservationDataSlice";
+import { useSearchParams } from "next/navigation";
 
 interface ModalDetails {
   openModal: boolean;
@@ -17,6 +20,10 @@ export default function EmailModal({ openModal, modalHandler }: ModalDetails) {
   ) => {
     modalHandler(!openModal);
   };
+
+  const reservation = useAppSelector(state => state.reservationData.data)
+  const searchParams = useSearchParams(); // Get the search params (query string)
+  const row = parseInt(searchParams.get("row"));
 
   useEffect(() => {
     verifyRef.current?.focus();
@@ -44,6 +51,8 @@ export default function EmailModal({ openModal, modalHandler }: ModalDetails) {
     } else {
       setError(""); // Clear any previous error messages
       console.log("SUCCESS");
+
+      dispatch(reservationDataActions.changeStatus({ index: row - 1 }))
       closeModal(openModal, modalHandler);
       dispatch(formActions.init());
       dispatch(verificationActions.newCode());
