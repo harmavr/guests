@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
-import { Properties, userData } from "../lib/types";
+import { Properties, ReservationData, userData } from "../lib/types";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../lib/hooks";
 import reservationSlice, {
   reservationActions,
 } from "../lib/features/reservation/reservationSlice";
+import { reservationDataActions } from "../lib/features/reservationData/reservationDataSlice";
 
 interface ModalDetails {
   openModal: boolean;
   modalHandler(): any;
-  properties: Properties;
+  properties: any;
   row: number;
 }
 
@@ -28,17 +29,17 @@ export default function PropertiesModal({
   };
 
   useEffect(() => {
-    // console.log(properties[row]);
-  });
+    console.log(properties[row]);
+  }, [properties]);
 
   const dispatch = useAppDispatch();
 
   // const prop = useSelector((state: userData) => state.properties);
 
   const statusHandler = (row: number) => {
-    // if (properties[row].status === "Confirmed") {
-    dispatch(reservationActions.saveReservation({ formData: properties[row] }));
-    // }
+    if (properties[row].status === "Confirmed") {
+      dispatch(reservationActions.saveReservation({ formData: properties[row] }));
+    }
   };
 
   return (
@@ -66,7 +67,7 @@ export default function PropertiesModal({
               </p>
 
               <p className="text-gray-700">{`Reservation ref: ${properties[row].id}`}</p>
-              <p className="text-gray-700">{`Traveler's details: ${properties[row].name}`}</p>
+              <p className="text-gray-700">{`Traveler's details: ${properties[row].detailedUser[0].firstName} ${properties[row].detailedUser[0].lastName}`}</p>
 
               <div className="flex justify-between items-center">
                 <button

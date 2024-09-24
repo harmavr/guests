@@ -83,8 +83,12 @@ export interface ReservationData {
       id: number;
       city: string;
       tripDetails: { arrivalDate: string; departureDate: string };
-      visitorData: { firstName: string; lastName: string };
+      detailedUser: DetailedUser[], 
+     
+      numOfKids: number,
       totalAmount: number;
+      numOfAdults: number,
+      total_amount: number,
       status: string;
     }
   ];

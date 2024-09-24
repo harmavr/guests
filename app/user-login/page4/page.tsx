@@ -16,7 +16,7 @@ export default function Page4() {
   const detailedUser = useAppSelector((state) => state.form.detailedUser);
   const tripDetails = useAppSelector((state) => state.form.tripDetails);
 
-  const [data, setData] = useState<userData>({
+  const [data, setData] = useState({
     propertyName: "",
     city: "",
     numOfAdults: 0,
@@ -134,9 +134,8 @@ export default function Page4() {
         <div>
           <h2 className="text-xl font-semibold mb-4">Kids Ages</h2>
           {kidsAges.map((kid, idx) => (
-            <p key={idx} className="mb-2">{`Kid ${idx + 1}: Age ${
-              kid.value
-            }, Needs Help? ${kid.help ? "Yes" : "No"}`}</p>
+            <p key={idx} className="mb-2">{`Kid ${idx + 1}: Age ${kid.value
+              }, Needs Help? ${kid.help ? "Yes" : "No"}`}</p>
           ))}
         </div>
         <div className="mb-6">

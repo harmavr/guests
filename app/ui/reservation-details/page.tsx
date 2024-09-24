@@ -6,7 +6,6 @@ import Modal from "../modal";
 import { useAppSelector } from "@/app/lib/hooks";
 import { userData } from "@/app/lib/types";
 import TravellerModal from "@/app/travellerModal";
-import { useSelector } from "react-redux";
 
 interface ReservationProps {
   title: string;
@@ -26,25 +25,20 @@ export default function ReservationDetails({
 
   const data = useAppSelector((state) => state.form);
   const [travellerId, setTravellerId] = useState(0);
-  const travellers = useSelector((state) => state.reservation.items);
+  const travellers = useAppSelector((state) => state.reservation.items);
+
   const [firstName, setFirstName] = useState(
-    travellers[0].detailedUser[travellerId].firstName
+    // travellers[0].detailedUser[travellerId].firstName
   );
   const [lastName, setLastName] = useState(
-    travellers[0].detailedUser[travellerId].lastName
+    // travellers[0].detailedUser[travellerId].lastName
   );
   const userDetailsHandler = (firstName: string, lastName: string) => {
     console.log(firstName, lastName);
-    setFirstName(firstName);
-    setLastName(lastName);
+    setFirstName(details.detailedUser[0].firstName);
+    setLastName(details.detailedUser[0].lastName);
   };
 
-  // useEffect(() => {
-  //   if (travellers && travellers[0]) {
-  //     setFirstName(travellers[0].detailedUser[travellerId]?.firstName || "");
-  //     setLastName(travellers[0].detailedUser[travellerId]?.lastName || "");
-  //   }
-  // }, [travellerId, travellers]);
 
   const modalHandler = () => {
     setClick(!click);
@@ -93,10 +87,10 @@ export default function ReservationDetails({
         {/* Trip Details Section */}
         <div className="border border-gray-300 rounded-lg p-4 mt-4 bg-gray-50">
           <p className="text-sm text-gray-600">Website</p>
-          <p className="text-gray-700 mt-1">
+          {/* <p className="text-gray-700 mt-1">
             From <strong>{details.tripDetails[0].FlightArrivalDate}</strong> to{" "}
             <strong>{details.tripDetails[0].FlightDepartureDate}</strong>
-          </p>
+          </p> */}
           <span className="bg-gray-200 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full mt-2 inline-block">
             Guests: {details.numOfAdults} Adults / {details.numOfKids} Kids
           </span>
@@ -141,11 +135,11 @@ export default function ReservationDetails({
           <h2 className="text-lg font-semibold text-gray-800">TRIP DETAILS</h2>
           <p className="text-gray-700 mt-2">
             <strong>Arrival:</strong>{" "}
-            {`${details.tripDetails[0].LocationArrival}, ${details.tripDetails[0].FlightArrivalDate} at ${details.tripDetails[0].FlightArrivalTime}`}
+            {/* {`${details.tripDetails[0].LocationArrival}, ${details.tripDetails[0].FlightArrivalDate} at ${details.tripDetails[0].FlightArrivalTime}`} */}
           </p>
           <p className="text-gray-700 mt-1">
             <strong>Departure:</strong>{" "}
-            {`${details.tripDetails[0].LocationDeparture}, ${details.tripDetails[0].FlightDepartureDate} at ${details.tripDetails[0].FlightDepartureTime}`}
+            {/* {`${details.tripDetails[0].LocationDeparture}, ${details.tripDetails[0].FlightDepartureDate} at ${details.tripDetails[0].FlightDepartureTime}`} */}
           </p>
         </div>
 
@@ -154,11 +148,11 @@ export default function ReservationDetails({
           <h2 className="text-lg font-semibold text-gray-800">NOTES</h2>
           <p className="text-gray-700 mt-2">
             <strong>Arrival Notes:</strong>{" "}
-            {details.tripDetails[0].NotesArrival}
+            {/* {details.tripDetails[0].NotesArrival} */}
           </p>
           <p className="text-gray-700 mt-1">
             <strong>Departure Notes:</strong>{" "}
-            {details.tripDetails[0].NotesDeparture}
+            {/* {details.tripDetails[0].NotesDeparture} */}
           </p>
         </div>
 

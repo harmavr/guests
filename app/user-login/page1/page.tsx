@@ -11,7 +11,7 @@ import { formActions } from "@/app/lib/features/form/formSlice";
 import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Page1() {
-  const [data, setData] = useState<userData>({
+  const [data, setData] = useState({
     propertyName: "",
     city: "",
     id: 0,
@@ -33,7 +33,7 @@ export default function Page1() {
   });
 
   const searchParams = useSearchParams(); // Get the search params (query string)
-  const row = searchParams.get("row");
+  const row = parseInt(searchParams.get("row"));
 
   const errorsRedux = useAppSelector((state) => state.form.errors);
 
@@ -47,7 +47,7 @@ export default function Page1() {
   const dispatch = useAppDispatch();
   const page = useAppSelector((state) => state.form.page);
   const weAreFree = useAppSelector((state) => state.form.weAreFreeToGo);
-  const reservation = useAppSelector((state) => state.reservation.items);
+  const reservation = useAppSelector((state) => state.reservationData.data);
   const properties = useSelector((state: userData) => state.properties.id);
 
   useEffect(() => {
@@ -143,15 +143,14 @@ export default function Page1() {
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <input
-              className={`appearance-none block md:w-full ${
-                errorsRedux.propertyNameError
-                  ? "border border-red-500 placeholder-red-500"
-                  : "text-gray-700 border placeholder-gray-500 "
-              }   rounded py-3 px-4 mb-3 leading-tight focus:outline-none `}
+              className={`appearance-none block md:w-full ${errorsRedux.propertyNameError
+                ? "border border-red-500 placeholder-red-500"
+                : "text-gray-700 border placeholder-gray-500 "
+                }   rounded py-3 px-4 mb-3 leading-tight focus:outline-none `}
               type="text"
               name="propertyName"
               placeholder="Property Name"
-              value={reservation ? reservation[0]?.propertyName : ""}
+              value={reservation ? reservation[row - 1]?.propertyName : ""}
               onChange={handleInputChange}
               required
             />
@@ -163,15 +162,14 @@ export default function Page1() {
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <input
-              className={`appearance-none block md:w-full ${
-                errorsRedux.cityError
-                  ? "border border-red-500 placeholder-red-500"
-                  : "text-gray-700 border placeholder-gray-500 "
-              }  text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+              className={`appearance-none block md:w-full ${errorsRedux.cityError
+                ? "border border-red-500 placeholder-red-500"
+                : "text-gray-700 border placeholder-gray-500 "
+                }  text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
               type="text"
               name="city"
               placeholder="City"
-              value={reservation ? reservation[0]?.city : ""}
+              value={reservation ? reservation[row - 1]?.city : ""}
               onChange={handleInputChange}
               required
             />
@@ -199,7 +197,7 @@ export default function Page1() {
               type="date"
               name="check_out"
               placeholder="Check out"
-              // required
+            // required
             />
           </div>
         </div>
@@ -208,15 +206,14 @@ export default function Page1() {
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <input
-              className={`appearance-none block md:w-full ${
-                errorsRedux.numOfAdultsError
-                  ? "border border-red-500 placeholder-red-500"
-                  : "text-gray-700 border placeholder-gray-500 "
-              }  text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+              className={`appearance-none block md:w-full ${errorsRedux.numOfAdultsError
+                ? "border border-red-500 placeholder-red-500"
+                : "text-gray-700 border placeholder-gray-500 "
+                }  text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
               type="number"
               name="numOfAdults"
               placeholder="Number of Adults"
-              value={reservation ? reservation[0]?.numOfAdults : ""}
+              value={reservation ? reservation[row - 1]?.numOfAdults : ""}
               onChange={handleInputChange}
               required
             />
@@ -232,7 +229,7 @@ export default function Page1() {
               type="number"
               name="n_of_kids"
               placeholder="Number of Kids"
-              value={reservation ? reservation[0]?.numOfKids : ""}
+              value={reservation ? reservation[row - 1]?.numOfKids : ""}
               onChange={handleNumOfKidsChange}
               required
             />

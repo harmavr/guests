@@ -4,15 +4,16 @@ import { formActions } from "../lib/features/form/formSlice";
 import { reservationActions } from "../lib/features/reservation/reservationSlice";
 import Page1 from "./page1/page";
 import { log } from "console";
+import { useAppSelector } from "../lib/hooks";
 
 export const Footer = () => {
   const dispatch = useDispatch();
-  const page = useSelector((state) => state.form.page);
-  const errors = useSelector((state) => state.form.errors);
-  const detailedUser = useSelector((state) => state.form.detailedUser);
-  const numOfAdults = useSelector((state) => state.form.numOfAdults);
-  const weAreFree = useSelector((state) => state.form.weAreFreeToGo);
-  const formData = useSelector((state) => state.form);
+  const page = useAppSelector((state) => state.form.page);
+  const errors = useAppSelector((state) => state.form.errors);
+  const detailedUser = useAppSelector((state) => state.form.detailedUser);
+  const numOfAdults = useAppSelector((state) => state.form.numOfAdults);
+  const weAreFree = useAppSelector((state) => state.form.weAreFreeToGo);
+  const formData = useAppSelector((state) => state.form);
 
   const [isNextEnabled, setIsNextEnabled] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -36,7 +37,7 @@ export const Footer = () => {
     if (page === 2) {
       setIsNextEnabled(
         parseInt(numOfAdults) === currentUser.length + 1 ||
-          currentUser.length === parseInt(numOfAdults)
+        currentUser.length === parseInt(numOfAdults)
       );
     } else {
       setIsNextEnabled(true);
@@ -72,11 +73,11 @@ export const Footer = () => {
         }
       }
 
-      if (page === 4) {
-        console.log(formData);
+      // if (page === 4) {
+      //   console.log(formData);
 
-        dispatch(reservationActions.saveReservation({ formData }));
-      }
+      //   dispatch(reservationActions.saveReservation({ formData }));
+      // }
 
       if (weAreFree) {
         dispatch(formActions.next(page));
@@ -137,9 +138,8 @@ export const Footer = () => {
         Back
       </button>
       <button
-        className={`bg-blue-500 text-white font-bold rounded shadow-lg ${
-          !isNextEnabled ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
-        } transition-colors duration-200 p-3`}
+        className={`bg-blue-500 text-white font-bold rounded shadow-lg ${!isNextEnabled ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
+          } transition-colors duration-200 p-3`}
         type="button"
         onClick={handleNext}
         disabled={!isNextEnabled}

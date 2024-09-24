@@ -1,150 +1,122 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Properties, ReservationData, userData } from "../lib/types";
+import { useAppSelector } from "../lib/hooks";
 import PropertiesModal from "./propertiesModal";
 import PaymentsModal from "./paymentsModal";
 import CreateReservation from "./create-reservation";
-import { useAppSelector } from "../lib/hooks";
 
 export default function EtouriProperties() {
-  const properties = useSelector((state: userData) => state.properties);
+  // Fetching reservations from the Redux state
   const reservations = useAppSelector((state) => state.reservationData.data);
+
+  // State variables
   const [openModal, setOpenModal] = useState(false);
   const [openPaymentModal, setOpenPaymentModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [row, setRow] = useState(0);
-  const [resultList, setResultList] =
-    useState<(userData | Properties)[]>(properties);
-  // const [dropdownList, setDropdownList] = useState<Properties[]>([]);
+  const [resultList, setResultList] = useState(reservations); // Initial result list
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
-  const [resultsFound, setResultsFound] = useState(true); // Initially true since we're displaying all properties
-
+  const [resultsFound, setResultsFound] = useState(true); // Initially true since we're displaying all reservations
   const [propertyFromDropdown, setPropertyFromDropdown] = useState("");
-
   const [searchArray, setSearchArray] = useState([]);
-
-  const [propertyArray, setPropertyArray] = useState<Properties[]>([]);
-
-  // const reservations = useSelector(
-  //   (state: RootState) => state.reservation.items
-  // );
-  // const [data, setData] = useState<userData[]>([]);
-
-  // useEffect(() => {
-  //   setData(reservations);
-  //   console.log(reservations);
-  // }, [reservations]);
-
-  const [reservationArray, setReservationArray] = useState<ReservationData[]>(
-    []
-  );
-
   const [tab, setTab] = useState(0);
 
   const modalHandler = () => {
     setOpenModal(!openModal);
   };
 
-  useEffect(() => {
-    setReservationArray(reservations);
-    console.log(reservations);
-  }, [reservations]);
-
   const paymentsModalHandler = () => {
     setOpenPaymentModal(!openPaymentModal);
   };
 
+  useEffect(() => {
+    setResultList(reservations); // Update result list whenever reservations change
+
+
+  }, [reservations]);
+
+  // Handle Search by Property Name, ID, or Visitor Name
   const handleSearch = (term: string) => {
     setLoading(true);
     setTimeout(() => {
       if (!term) {
-        // If the search box is empty, show all results
-        setResultList(properties);
+        setResultList(reservations); // Show all reservations if search is empty
         setResultsFound(true);
       } else {
-        const resultsArray = properties.filter(
-          (el: userData) =>
-            el.propertyName.toLowerCase().includes(term.toLowerCase()) ||
-            el.id.toString().includes(term.toLowerCase()) ||
-            el.detailedUser[0].firstName
-              .toLowerCase()
-              .includes(term.toLowerCase()) ||
-            el.detailedUser[0].lastName
-              .toLowerCase()
-              .includes(term.toLowerCase())
+        const resultsArray = reservations.filter((el) =>
+          el.propertyName.toLowerCase().includes(term.toLowerCase()) ||
+          el.id.toString().includes(term.toLowerCase()) ||
+          el.detailedUser[0].firstName
+            .toLowerCase()
+            .includes(term.toLowerCase()) ||
+          el.detailedUser[0].lastName
+            .toLowerCase()
+            .includes(term.toLowerCase())
         );
         setResultList(resultsArray);
         setResultsFound(resultsArray.length > 0);
       }
       setLoading(false);
-    }, 2000);
+    }, 500);
   };
 
+  // Handle Search by City
   const handleSearchForProperties = (term: string) => {
     if (!term) {
-      // If the search box is empty, show all results
-      setResultList(properties);
+      setResultList(reservations);
       setResultsFound(true);
     } else {
-      const resultsArray = properties.filter((el: Properties) =>
+      const resultsArray = reservations.filter((el) =>
         el.city.toLowerCase().includes(term.toLowerCase())
       );
-      setPropertyArray(resultsArray);
+      setResultList(resultsArray);
     }
   };
 
+  // Handle Option Click for City Dropdown
   const handleOptionClick = (city: string) => {
     setPropertyFromDropdown(city);
     setIsOpenDropdown(false);
 
-    const filteredResults = properties.filter((el: Properties) =>
+    const filteredResults = reservations.filter((el) =>
       el.city.toLowerCase().includes(city.toLowerCase())
     );
     setResultList(filteredResults);
   };
 
+  // Search By Date (Current Year, Month, or Day)
   const searchByDate = (date: string) => {
     setLoading(true);
 
     setTimeout(() => {
-      const resultsArray = properties.filter((el: userData) => {
-        const arrivalDate = el.tripDetails[0].FlightArrivalDate.replace(
+      const resultsArray = reservations.filter((el) => {
+        const arrivalDate = el.tripDetails.arrivalDate.replace(
           /[^\d\/\n]/g,
           ""
         );
-        const departureDate = el.tripDetails[0].FlightDepartureDate.replace(
+        const departureDate = el.tripDetails.departureDate.replace(
           /[^\d\/\n]/g,
           ""
         );
-        console.log(arrivalDate);
-
         const dates = arrivalDate.split("\n");
 
-        const x = new Date();
-        let currentDay = x.getDate();
-        let currentMonth = x.getMonth() + 1; // JS months are 0-based, so add 1
-        let currentYear = x.getFullYear();
+        const currentDate = new Date();
+        let currentDay = currentDate.getDate();
+        let currentMonth = currentDate.getMonth() + 1;
+        let currentYear = currentDate.getFullYear();
 
         return dates.some((dateStr) => {
-          const [day, month, year] = dateStr.split("/").map(Number); // Convert to numbers
+          const [day, month, year] = dateStr.split("/").map(Number);
           if (!day || !month || !year) return false;
 
           switch (date) {
             case "Current Year":
               return year === currentYear;
-
             case "Current Month":
               return month === currentMonth && year === currentYear;
-
             case "Current Day":
-              return (
-                day === currentDay &&
-                month === currentMonth &&
-                year === currentYear
-              );
-
+              return day === currentDay && month === currentMonth && year === currentYear;
             default:
               return false;
           }
@@ -160,23 +132,17 @@ export default function EtouriProperties() {
   return (
     <>
       <div className="container mx-auto p-4">
-        <h2 className="text-3xl font-bold mb-4 text-gray-800">
-          List of Reservations
-        </h2>
+        <h2 className="text-3xl font-bold mb-4 text-gray-800">List of Reservations</h2>
 
         <div className="tabs flex flex-row space-x-3">
           <button
-            className={
-              tab === 1 ? `bg-slate-300 hover:underline` : `hover:underline`
-            }
+            className={tab === 1 ? `bg-slate-300 hover:underline` : `hover:underline`}
             onClick={() => setTab(1)}
           >
             Display all Reservations
           </button>
           <button
-            className={
-              tab === 2 ? `bg-slate-300 hover:underline` : `hover:underline`
-            }
+            className={tab === 2 ? `bg-slate-300 hover:underline` : `hover:underline`}
             onClick={() => setTab(2)}
           >
             Create a Reservation
@@ -185,29 +151,18 @@ export default function EtouriProperties() {
 
         {tab === 1 && (
           <div className="pt-5">
-            <h1 className="text-lg font-semibold text-gray-700 mb-2">
-              See analytically the reservations, input filter, and create your
-              own lists
-            </h1>
-            <h3 className="text-base text-gray-600 mb-6">
-              In this site you can see bla bla...
-            </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              {/* Search by name, ID, visitor, or details */}
               <input
                 className="border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:ring-blue-500 transition-all outline-none"
                 type="search"
                 placeholder="Search by Property name, ID or visitor"
                 onChange={(e) => handleSearch(e.target.value)}
               />
-
-              {/* Search by City */}
               <div className="relative">
                 <input
                   className="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:ring-blue-500 transition-all outline-none"
                   type="search"
                   placeholder="Search by City"
-                  name="city"
                   value={propertyFromDropdown}
                   onClick={() => setIsOpenDropdown(!isOpenDropdown)}
                   onChange={(e) => {
@@ -218,18 +173,13 @@ export default function EtouriProperties() {
                 />
                 {isOpenDropdown && (
                   <ul className="absolute w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto z-10">
-                    {properties
-                      .map((el: Properties) => el.city) // Extract the city names
-                      .filter(
-                        (city: string, index: number, self: string) =>
-                          self.indexOf(city) === index
-                      ) // Remove duplicates
-                      .filter((city: string): boolean =>
-                        city
-                          .toLowerCase()
-                          .includes(propertyFromDropdown.toLowerCase())
-                      ) // Filter based on input
-                      .map((city: string, index: string) => (
+                    {reservations
+                      .map((el) => el.city)
+                      .filter((city, index, self) => self.indexOf(city) === index)
+                      .filter((city) =>
+                        city.toLowerCase().includes(propertyFromDropdown.toLowerCase())
+                      )
+                      .map((city, index) => (
                         <li
                           key={index}
                           className="px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-blue-600 transition-all"
@@ -242,7 +192,6 @@ export default function EtouriProperties() {
                 )}
               </div>
 
-              {/* Date Input */}
               <select
                 name="account"
                 id="account"
@@ -260,163 +209,102 @@ export default function EtouriProperties() {
             </div>
 
             <div className="flex flex-col">
-              {/* Table for Properties */}
               <table className="min-w-full bg-white border border-gray-200 rounded-lg">
                 <thead>
                   <tr className="bg-gray-100 border-b">
-                    <th className="text-left p-4 text-gray-600 font-semibold">
-                      PROPERTY
-                    </th>
-                    <th className="text-left p-4 text-gray-600 font-semibold">
-                      CITY
-                    </th>
-                    <th className="text-left p-4 text-gray-600 font-semibold">
-                      A/A
-                    </th>
-                    <th className="text-left p-4 text-gray-600 font-semibold">
-                      DETAILS
-                    </th>
-                    <th className="text-left p-4 text-gray-600 font-semibold">
-                      NIGHTS
-                    </th>
-                    <th className="text-left p-4 text-gray-600 font-semibold">
-                      VISITOR
-                    </th>
-                    <th className="text-left p-4 text-gray-600 font-semibold">
-                      TOTAL AMOUNT
-                    </th>
-                    <th className="text-left p-4 text-gray-600 font-semibold">
-                      STATUS
-                    </th>
+                    <th className="text-left p-4 text-gray-60 font-semibold">PROPERTY</th>
+                    <th className="text-left p-4 text-gray-600 font-semibold">CITY</th>
+                    <th className="text-left p-4 text-gray-600 font-semibold">A/A</th>
+                    <th className="text-left p-4 text-gray-600 font-semibold">DETAILS</th>
+                    <th className="text-left p-4 text-gray-600 font-semibold">NIGHTS</th>
+                    <th className="text-left p-4 text-gray-600 font-semibold">VISITOR</th>
+                    <th className="text-left p-4 text-gray-600 font-semibold">TOTAL AMOUNT</th>
+                    <th className="text-left p-4 text-gray-600 font-semibold">STATUS</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {loading ? (
                     <tr>
-                      <td className="text-center p-4" colSpan={7}>
-                        <div>Loading...</div>
+                      <td colSpan={9} className="text-center p-4">
+                        Loading...
                       </td>
                     </tr>
                   ) : resultList.length > 0 ? (
-                    resultList.map((el: userData, index: number) => (
-                      <tr
-                        key={el.id}
-                        className="border-b hover:bg-gray-50 cursor-pointer"
-                        onClick={() => {
-                          modalHandler();
-                          setRow(index);
-                        }}
-                      >
-                        <td className="p-4">{el.propertyName}</td>
-                        <td className="p-4">{el.city}</td>
-                        <td className="p-4">{el.id}</td>
+                    resultList.map((reservation, index) => (
+                      <tr key={index} className="border-b cursor-pointer" onClick={() => {
+                        modalHandler();
+                        setRow(index);
+                        // console.log(`reservatiomn ${reservations.}`);
+                      }}>
+                        <td className="p-4">{reservation.propertyName}</td>
+                        <td className="p-4">{reservation.city}</td>
+                        <td className="p-4">{reservation.id}</td>
                         <td className="p-4">
-                          {el.tripDetails[0].FlightArrivalDate}{" "}
-                          {el.tripDetails[0].FlightDepartureDate}
+                          <div className="grid-2">
+                            <div>{reservation.tripDetails.arrivalDate} </div>
+                            <div>{reservation.tripDetails.departureDate}</div>
+                          </div>
                         </td>
-                        <td className="p-4">{`el.nights`}</td>
                         <td className="p-4">
-                          {el.detailedUser[0].firstName}{" "}
-                          {el.detailedUser[0].lastName}
+                          {
+                            (() => {
+                              const arrivalDate = new Date(reservation.tripDetails.arrivalDate.split('/').reverse().join('-'));
+                              const departureDate = new Date(reservation.tripDetails.departureDate.split('/').reverse().join('-'));
+                              const nights = (departureDate - arrivalDate) / (1000 * 60 * 60 * 24);
+                              return nights;
+                            })()
+                          }
                         </td>
-                        <td className="p-4">{el.total_amount}</td>
-                        <td className="p-4">{el.status}</td>
+
+                        <td className="p-4">
+                          {reservation.detailedUser ? reservation.detailedUser[0].firstName : ''}{" "}
+                          {reservation.detailedUser
+                            ? reservation.detailedUser[0].lastName : ''}
+                        </td>
+                        <td className="p-4">€{reservation.total_amount}</td>
+                        <td className="p-4" > <div className={`p-1 flex justify-center text-white rounded ${reservation.status === 'Pre Check-in' ? ' bg-blue-500' : 'bg-green-500'}`}>{reservation.status}</div></td>
+
                       </tr>
+
+
                     ))
-                  ) : !resultsFound ? (
+                  ) : (
                     <tr>
-                      <td className="text-center p-4" colSpan={7}>
-                        No Results Found
+                      <td colSpan={9} className="text-center p-4">
+                        No results found
                       </td>
                     </tr>
-                  ) : (
-                    properties.map((el: Properties, index: number) => (
-                      <tr
-                        key={el.id}
-                        className="border-b hover:bg-gray-50 cursor-pointer"
-                        onClick={() => {
-                          modalHandler();
-                          setRow(index);
-                        }}
-                      >
-                        <td className="p-4">{el.name}</td>
-                        <td className="p-4">{el.city}</td>
-                        <td className="p-4">{el.id}</td>
-                        <td className="p-4">{el.details}</td>
-                        <td className="p-4">{el.nights}</td>
-                        <td className="p-4">{el.visitor}</td>
-                        <td className="p-4">{el.total_amount}</td>
-                        <td className="p-4">{el.status}</td>
-                      </tr>
-                    ))
                   )}
                 </tbody>
 
-                {/* RESERVATION ARRAY */}
-
-                <tbody>
-                  {reservations.map((el: ReservationData, index: number) => (
-                    <tr
-                      key={el.data[index].id}
-                      className="border-b hover:bg-gray-50 cursor-pointer"
-                      onClick={() => {
-                        modalHandler();
-                        setRow(index);
-                      }}
-                    >
-                      <td className="p-4">{el.data[index].propertyName}</td>
-                      <td className="p-4">{el.data[index].city}</td>
-                      <td className="p-4">{el.data[index].id}</td>
-                      <td className="p-4">
-                        {el.data[index].tripDetails.arrivalDate}{" "}
-                        {el.data[index].tripDetails.departureDate}
-                      </td>
-                      <td className="p-4">{`el.data[index].nights`}</td>
-                      <td className="p-4">
-                        {el.data[index].visitorData.firstName}{" "}
-                        {el.data[index].visitorData.lastName}
-                      </td>
-                      <td className="p-4">{el.data[index].totalAmount}</td>
-                      <td className="p-4">{el.data[index].status}</td>
-                    </tr>
-                  ))}
-                </tbody>
               </table>
-              {/* END */}
-              {/* Payment Button */}
-              <div className="mt-4">
-                <button
-                  className="rounded bg-blue-500 text-white px-6 py-2 font-semibold hover:bg-blue-600 transition-all"
-                  onClick={() => setOpenPaymentModal(true)}
-                >
-                  Payment
-                </button>
-              </div>
+
             </div>
+            <button className="p-3 bg-blue-200 border border-1 mt-5" onClick={() => paymentsModalHandler()}>Payment</button>
           </div>
         )}
 
-        {tab === 2 && <CreateReservation />}
-
-        {/* Payment Modal */}
-        {openPaymentModal && (
-          <PaymentsModal
-            open={openPaymentModal}
-            modalHandler={paymentsModalHandler}
-          />
-        )}
-
-        {/* Properties Modal */}
-        {openModal && (
-          <PropertiesModal
-            properties={properties}
-            openModal={openModal}
-            row={row}
-            modalHandler={modalHandler}
-          />
-        )}
+        {tab === 2 && <CreateReservation setTab={setTab} />}
       </div>
+
+      {/* Payment Modal */}
+      {openPaymentModal && (
+        <PaymentsModal
+          open={openPaymentModal}
+          modalHandler={paymentsModalHandler}
+        />
+      )}
+
+      {/* Properties Modal */}
+      {openModal && (
+        <PropertiesModal
+          properties={resultList}
+          openModal={openModal}
+          row={row}
+          modalHandler={modalHandler}
+        />
+      )}
     </>
   );
 }
