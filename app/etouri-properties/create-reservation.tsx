@@ -1,32 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { ReservationData } from "../lib/types";
 import { reservationDataActions } from "../lib/features/reservationData/reservationDataSlice";
 import { useAppDispatch, useAppSelector } from "../lib/hooks";
 
-export default function CreateReservation() {
+export default function CreateReservation({ setTab }) {
   const formRefs = useRef([]);
-
   const array = useAppSelector((state) => state.reservationData.data);
-
-  //   const [data, setData] = useState<ReservationData>({
-  //     data: [
-  //       {
-  //         propertyName: "",
-  //         city: "",
-  //         tripDetails: { arrivalDate: "", departureDate: "" },
-  //         visitorData: { firstName: "", lastName: "" },
-  //         totalAmount: 0,
-  //       },
-  //     ],
-  //   });
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     console.log(array);
   });
-
-  // asda
 
   const inputFields = [
     { name: "Property Name", type: "text" },
@@ -40,7 +24,6 @@ export default function CreateReservation() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const newReservation = {
       propertyName: formRefs.current[0].value,
       city: formRefs.current[1].value,
@@ -48,32 +31,27 @@ export default function CreateReservation() {
         arrivalDate: formRefs.current[2].value,
         departureDate: formRefs.current[3].value,
       },
-      visitorData: {
+      id: array.length + 1,
+      detailedUser: [{
         firstName: formRefs.current[4].value,
         lastName: formRefs.current[5].value,
-      },
-      totalAmount: parseFloat(formRefs.current[6].value) || 0,
+      }],
+      total_amount: parseFloat(formRefs.current[6].value) || 0,
     };
 
-    // setData(() => ({
-    //   data: [newReservation],
-    // }));
-
-    dispatch(
-      reservationDataActions.saveReservationData({ resData: newReservation })
-    );
-
-    // console.log("Updated Reservation Data: ", data);
+    dispatch(reservationDataActions.saveReservationData({ resData: newReservation, status: 'Pre Check-in' }));
+    setTab(1);
   };
 
   return (
-    <div className="pt-5">
-      <form>
-        <div className="grid grid-cols-4 gap-4">
+    <div className="pt-5 max-w-xl ">
+      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <h2 className="text-lg font-bold mb-4">Create Reservation</h2>
+        <div className="grid grid-cols-1 gap-4">
           {inputFields.map((field, index) => (
             <input
               key={index}
-              className="border-2"
+              className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               type={field.type}
               placeholder={field.name}
               ref={(el) => (formRefs.current[index] = el)}
@@ -81,7 +59,11 @@ export default function CreateReservation() {
           ))}
         </div>
         <div className="pt-4">
-          <button type="button" onClick={handleSubmit}>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition"
+          >
             Save Data
           </button>
         </div>
