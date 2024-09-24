@@ -3,12 +3,14 @@ import EmailModal from "../emailModal";
 import exportFromJSON from "export-from-json";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/lib/store";
-import { log } from "console";
+import { useAppSelector } from "@/app/lib/hooks";
 
 export default function Page5() {
   const reservations = useSelector(
     (state: RootState) => state.reservation.items
   );
+
+  const reservation = useAppSelector(state => state.reservationData.data)
 
   useEffect(() => {
     const page1Button = document.querySelector("#page1-button");
