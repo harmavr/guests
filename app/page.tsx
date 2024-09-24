@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
 import { userData } from "./lib/types";
 
 export default function Page() {
-  const reservations = useSelector(
-    (state: RootState) => state.reservation.items
+  const reservations = useAppSelector(
+    (state) => state.reservation.items
   );
   const [data, setData] = useState<userData[]>([]);
 
