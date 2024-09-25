@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { useAppDispatch } from "../lib/hooks";
+import { useAppDispatch, useAppSelector } from "../lib/hooks";
 import { formActions } from "../lib/features/form/formSlice";
 import { useSelector } from "react-redux";
+import { reservationDataActions } from "../lib/features/reservationData/reservationDataSlice";
+import { useSearchParams } from "next/navigation";
 
 interface ModalDetails {
   openModal: boolean;
@@ -24,9 +26,12 @@ export default function ModalForKids({
     modalHandler(!openModal);
   };
 
-  const weAreFree = useSelector((state) => state.form.weAreFreeToGo);
+  const searchParams = useSearchParams();
+  const row = parseInt(searchParams.get("row") || "0"); // Default to 0 if not found
 
-  const handleCheckboxChange = (index, checked) => {
+  const weAreFree = useAppSelector((state) => state.form.weAreFreeToGo);
+
+  const handleCheckboxChange = (index: number, checked: boolean) => {
     // Create a new array with the updated object
     const updatedKidsAges = localKidsAges.map((kid, i) =>
       i === index ? { ...kid, help: checked } : kid
@@ -38,7 +43,7 @@ export default function ModalForKids({
     // Dispatch the changes to the Redux store
     localKidsAges.forEach((kid, index) => {
       dispatch(
-        formActions.saveKidsAge({ index, age: kid.value, help: kid.help })
+        reservationDataActions.saveKids({ index: row, age: kid.value, help: kid.help, kidId: index })
       );
     });
     dispatch(formActions.setWeAreFreeToGo(!weAreFree));
@@ -52,9 +57,8 @@ export default function ModalForKids({
       )}
       <aside
         id="separator-sidebar"
-        className={`fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-6 bg-white rounded-lg shadow-lg transition-transform ${
-          openModal ? "scale-100" : "scale-0"
-        }`}
+        className={`fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-6 bg-white rounded-lg shadow-lg transition-transform ${openModal ? "scale-100" : "scale-0"
+          }`}
         aria-label="Sidebar"
       >
         <div className="p-4">

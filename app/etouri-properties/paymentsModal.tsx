@@ -39,8 +39,8 @@ export default function PaymentsModal({ open, modalHandler }: ModalDetails) {
           <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-10"></div>
 
           {/* Modal content */}
-          <div className="fixed inset-0 flex items-end justify-end z-10 ">
-            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 space-y-6 h-full overflow-auto">
+          <div className="fixed  inset-0 flex items-end justify-end z-10 ">
+            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full transform translate-y-3 opacity-1  ease-out  p-6 space-y-6 h-full overflow-auto">
               {/* Modal header with close button */}
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Payments</h2>
@@ -124,12 +124,16 @@ export default function PaymentsModal({ open, modalHandler }: ModalDetails) {
           </div>
 
           {/* Payment Form Modal */}
-          {openPaymentsFormModal && (
+          <div className={`fixed inset-0 z-10 transition-all duration-500 ease-in-out
+          ${openPaymentsFormModal ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"}
+           `}>
+
             <PaymentsFormModal
               open={openPaymentsFormModal}
               modalHandler={paymentsFormModalHandler}
             />
-          )}
+
+          </div>
         </>
       )}
     </>

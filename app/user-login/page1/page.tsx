@@ -9,35 +9,16 @@ import ModalForKids from "../modalForKids";
 import { userData } from "@/app/lib/types";
 import { formActions } from "@/app/lib/features/form/formSlice";
 import { usePathname, useSearchParams } from "next/navigation";
+import { reservationDataActions } from "@/app/lib/features/reservationData/reservationDataSlice";
 
 export default function Page1() {
-  const [data, setData] = useState({
-    propertyName: "",
-    city: "",
-    id: 0,
-    numOfAdults: 0,
-    numOfKids: 0,
-    kidsAges: [],
-    page: 0,
-    detailedUser: [
-      {
-        firstName: "",
-        lastName: "",
-      },
-    ],
-    errors: {
-      propertyNameError: false,
-      cityError: false,
-      numOfAdultsError: false,
-    },
-  });
+
 
   const searchParams = useSearchParams(); // Get the search params (query string)
   const row = parseInt(searchParams.get("row"));
 
   const errorsRedux = useAppSelector((state) => state.form.errors);
 
-  const [numOfKids, setNumOfKids] = useState(0);
   const kidsAges = useAppSelector((state) => state.form.kidsAges);
   const [smallKidsArray, setSmallKidsArray] = useState<
     { value: number; help: boolean }[]
@@ -48,7 +29,10 @@ export default function Page1() {
   const page = useAppSelector((state) => state.form.page);
   const weAreFree = useAppSelector((state) => state.form.weAreFreeToGo);
   const reservation = useAppSelector((state) => state.reservationData.data);
-  const properties = useSelector((state: userData) => state.properties.id);
+  // const properties = useSelector((state: userData) => state.properties.id);
+  const [data, setData] = useState(reservation[row - 1]);
+  const [numOfKids, setNumOfKids] = useState(reservation[row - 1].kidsAges);
+
 
   useEffect(() => {
     const page1Button = document.querySelector("#page1-button");
@@ -63,24 +47,29 @@ export default function Page1() {
     page4Button?.classList.remove("active");
     page5Button?.classList.remove("active");
 
-    reservation ? setData(reservation[0]) : setData([]);
-    console.log(reservation);
+    // reservation ? setData(reservation[row - 1]) : setData([]);
+    // console.log(reservation);
     console.log(data);
-    console.log(reservation[0]);
-  }, [reservation, data, row]);
+    console.log(reservation[row - 1]);
+    console.log(numOfKids);
+
+  }, [data, row]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    // console.log(`Name ${name}, Value ${value}`);
-    // console.log(data);
+    console.log(`Name ${name}, Value ${value}`);
+    console.log(data);
 
     setData({ ...data, [name]: value });
 
+    console.log(data);
+
     dispatch(
-      formActions.submit({
+      reservationDataActions.update({
         ...data,
         [name]: value,
+        index: row - 1
       })
     );
 
@@ -110,7 +99,7 @@ export default function Page1() {
     setSmallKidsArray(foundSmallKid);
     modalHandler();
     if (weAreFree) {
-      dispatch(formActions.submit({ ...data, kidsAges }));
+      dispatch(reservationDataActions.update({ ...data, kidsAges }));
       dispatch(formActions.next(page));
     }
     console.log("Form Submitted", { ...data, kidsAges });
@@ -118,7 +107,7 @@ export default function Page1() {
 
   const handleNumOfKidsChange = (e: any) => {
     const num = parseInt(e.target.value) || 0;
-    setNumOfKids(num);
+    setNumOfKids({ value: 1, help: true });
 
     // console.log(`kids age {kidsAges}`);
 
@@ -129,7 +118,7 @@ export default function Page1() {
     });
 
     dispatch(
-      formActions.submit({
+      reservationDataActions.update({
         ...data,
         numOfKids: e.target.value,
       })
@@ -150,7 +139,7 @@ export default function Page1() {
               type="text"
               name="propertyName"
               placeholder="Property Name"
-              value={reservation ? reservation[row - 1]?.propertyName : ""}
+              value={data.propertyName}
               onChange={handleInputChange}
               required
             />
@@ -169,7 +158,7 @@ export default function Page1() {
               type="text"
               name="city"
               placeholder="City"
-              value={reservation ? reservation[row - 1]?.city : ""}
+              value={data.city}
               onChange={handleInputChange}
               required
             />
@@ -213,7 +202,7 @@ export default function Page1() {
               type="number"
               name="numOfAdults"
               placeholder="Number of Adults"
-              value={reservation ? reservation[row - 1]?.numOfAdults : ""}
+              value={data.numOfAdults}
               onChange={handleInputChange}
               required
             />
@@ -229,7 +218,7 @@ export default function Page1() {
               type="number"
               name="n_of_kids"
               placeholder="Number of Kids"
-              value={reservation ? reservation[row - 1]?.numOfKids : ""}
+              value={data.numOfKids ? data.numOfKids : 0}
               onChange={handleNumOfKidsChange}
               required
             />
@@ -237,7 +226,7 @@ export default function Page1() {
         </div>
 
         {/* Kids Ages Inputs */}
-        {numOfKids > 0 && (
+        {numOfKids.length > 0 && (
           <>
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="kids">
@@ -251,15 +240,15 @@ export default function Page1() {
 
             <br />
             {Array.from(
-              { length: Math.ceil(numOfKids / 2) },
+              { length: Math.ceil(numOfKids.length / 2) },
               (_, pairIndex) => (
                 <div key={pairIndex} className="w-full px-3 mb-6 md:mb-0">
                   <div className="flex flex-wrap -mx-3">
                     {Array.from({ length: 2 }, (_, offset) => {
                       const kidIndex = pairIndex * 2 + offset;
-                      return kidIndex < numOfKids ? (
+                      return kidIndex < numOfKids.length ? (
                         <div key={kidIndex} className="w-full md:w-1/2 px-3">
-                          <Kids index={kidIndex} />
+                          <Kids index={kidIndex} numOfKids={numOfKids} />
                         </div>
                       ) : null;
                     })}
@@ -271,7 +260,7 @@ export default function Page1() {
         )}
         {openModal && smallKidsArray.length > 0 && (
           <ModalForKids
-            kidsAges={kidsAges}
+            kidsAges={numOfKids}
             openModal={openModal}
             modalHandler={modalHandler}
           />

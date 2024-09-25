@@ -131,8 +131,8 @@ export default function EtouriProperties() {
 
   return (
     <>
-      <div className="container mx-auto p-4">
-        <h2 className="text-3xl font-bold mb-4 text-gray-800">List of Reservations</h2>
+      <div className="container mx-auto pt-4 pb-4">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">List of Reservations</h2>
 
         <div className="tabs flex flex-row space-x-3">
           <button
@@ -288,13 +288,15 @@ export default function EtouriProperties() {
         {tab === 2 && <CreateReservation setTab={setTab} />}
       </div>
 
+
       {/* Payment Modal */}
-      {openPaymentModal && (
-        <PaymentsModal
-          open={openPaymentModal}
-          modalHandler={paymentsModalHandler}
-        />
-      )}
+      <div
+        className={`fixed inset-0 z-10 transition-all duration-500 ease-in-out
+          ${openPaymentModal ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"}
+        `}
+      >
+        <PaymentsModal open={openPaymentModal} modalHandler={paymentsModalHandler} />
+      </div>
 
       {/* Properties Modal */}
       {openModal && (

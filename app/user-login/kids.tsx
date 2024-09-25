@@ -1,14 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../lib/hooks";
-import { formActions, userData } from "../lib/features/form/formSlice";
+import { formActions } from "../lib/features/form/formSlice";
 
-export default function Kids({ index }: any) {
+export default function Kids({ index, numOfKids }: any) {
   const dispatch = useAppDispatch();
-  const arr = useAppSelector((state) => state.form.kidsAges);
+
+  const [kids, setKids] = useState(numOfKids)
 
   useEffect(() => {
-    console.log(arr);
+    console.log(index, numOfKids[index]);
+
   });
+
+  const handleChange = (e) => {
+
+
+    console.log(e.target.value);
+
+    setKids(e.target.value)
+    console.log(kids);
+
+    dispatch(
+      formActions.saveKidsAge({
+        index: index,
+        age: e.target.value,
+        help: false,
+      })
+    )
+  }
 
   return (
     <div>
@@ -17,14 +36,10 @@ export default function Kids({ index }: any) {
         type="number"
         name={`kid_age_${index + 1}`}
         placeholder={`Age of Kid ${index + 1}`}
+        value={kids ? kids[index].value : 0}
         onChange={(e) =>
-          dispatch(
-            formActions.saveKidsAge({
-              index: index,
-              age: e.target.value,
-              help: false,
-            })
-          )
+          handleChange(e)
+
         }
       />
     </div>

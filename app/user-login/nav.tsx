@@ -4,7 +4,7 @@ import React from "react";
 export default function Nav() {
   return (
     <nav
-      className="flex grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium   md:justify-start  "
+      className="flex grow items-center justify-center gap-10 rounded-md  p-3 text-sm font-medium   md:justify-start  "
       id="nav-buttons"
     >
       <button id="page1-button">

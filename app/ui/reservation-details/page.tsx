@@ -51,7 +51,7 @@ export default function ReservationDetails({
 
   return (
     <>
-      <div className="max-w-md mx-auto p-1 rounded-lg bg-slate-400 ">
+      <div className="max-w-md mx-auto p-1 rounded-lg bg-slate-150 ">
         {/* Image and Title Section */}
         <div className="relative rounded-lg overflow-hidden shadow-md bg-gray-100 p-4">
           <Image
@@ -59,13 +59,7 @@ export default function ReservationDetails({
             alt={title}
             className="w-full h-64 object-cover rounded-lg"
           />
-          {/* Uncomment if you want to use the overlay */}
-          {/* <div className="absolute inset-0 bg-black bg-opacity-50 text-white p-4 flex items-end">
-        <div>
-          <h2 className="text-2xl font-bold">{title}</h2>
-          <p className="text-lg">{head}</p>
-        </div>
-      </div> */}
+
 
           {/* Property and Guests Section */}
           <div className="relative rounded-lg overflow-hidden  bg-gray-100 p-4">

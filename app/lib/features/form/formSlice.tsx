@@ -45,6 +45,9 @@ const formSlice = createSlice({
     submit(state, action: PayloadAction<Partial<userData>>) {
       const { propertyName, city, numOfAdults, numOfKids, kidsAges } =
         action.payload;
+
+      console.log(action.payload);
+
       if (propertyName !== undefined) state.propertyName = propertyName;
       if (city !== undefined) state.city = city;
       if (numOfAdults !== undefined) state.numOfAdults = numOfAdults;

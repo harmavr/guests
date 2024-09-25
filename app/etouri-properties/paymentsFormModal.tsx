@@ -42,7 +42,7 @@ export default function PaymentsFormModal({
     <>
       {open && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm z-10"></div>
+          <div className="fixed inset-0 bg-black bg-opacity-5 backdrop-blur-sm z-10"></div>
 
           <div className="fixed inset-0 flex items-center justify-end z-10 overflow-auto ">
             <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 space-y-6 h-full">
