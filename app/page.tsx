@@ -26,7 +26,7 @@ export default function Page() {
 
   return (
     <div className="relative ">
-      <div className="fixed w-full ">
+      <div className="fixed w-full z-10">
         <Navigation />
       </div>
       <main className="flex pt-16">

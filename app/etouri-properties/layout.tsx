@@ -6,7 +6,7 @@ import Navigation from "../ui/navigation/page";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="fixed top-0 w-full ">
+      <div className="fixed top-0 w-full z-10">
         <Navigation />
       </div>
 
