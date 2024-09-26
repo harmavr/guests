@@ -1,33 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../lib/hooks";
+import { useAppDispatch } from "../lib/hooks";
 import { formActions } from "../lib/features/form/formSlice";
+import { reservationDataActions } from "../lib/features/reservationData/reservationDataSlice";
 
-export default function Kids({ index, numOfKids }: any) {
+export default function Kids({ index, kidsArray, row }: any) {
   const dispatch = useAppDispatch();
 
-  const [kids, setKids] = useState(numOfKids)
+  const [kids, setKids] = useState(kidsArray.map((kid: any) => ({ ...kid })));
+  // const [kidValue, setKidValue] = useState(kidsArray[index].value);
 
   useEffect(() => {
-    console.log(index, numOfKids[index]);
+    console.log(index, kidsArray[index]);
+  }, [index, kidsArray]);
 
-  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newValue = parseInt(e.target.value);
 
-  const handleChange = (e) => {
+    const updatedKids = kidsArray.map((kid: any, i: number) =>
+      i === index ? { ...kid, value: newValue } : { ...kid }
+    );
 
+    setKids(updatedKids);
+    // setKidValue(newValue);
 
-    console.log(e.target.value);
+    console.log(updatedKids);
 
-    setKids(e.target.value)
-    console.log(kids);
-
+    // Dispatch the updated value
     dispatch(
-      formActions.saveKidsAge({
+      reservationDataActions.saveKids({
+        kids: updatedKids,
+        row: row,
         index: index,
-        age: e.target.value,
         help: false,
       })
-    )
-  }
+    );
+  };
 
   return (
     <div>
@@ -36,11 +43,8 @@ export default function Kids({ index, numOfKids }: any) {
         type="number"
         name={`kid_age_${index + 1}`}
         placeholder={`Age of Kid ${index + 1}`}
-        value={kids ? kids[index].value : 0}
-        onChange={(e) =>
-          handleChange(e)
-
-        }
+        value={kidsArray ? kids[index].value : 0}
+        onChange={(e) => handleChange(e, index)}
       />
     </div>
   );
