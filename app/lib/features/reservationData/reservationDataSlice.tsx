@@ -24,8 +24,8 @@ const initialState: ReservationData = {
     tripDetails:
       { arrivalDate: "11/10/2024", departureDate: "15/10/2024" },
 
-    nights: 2,
-    detailedUser: [{ firstName: "Giannis", lastName: "Zoub" }],
+    // nights: 2,
+    detailedUser: [{ firstName: "Giannis", lastName: "Zoub" }, { firstName: "Titos", lastName: "Chan" }],
     numOfKids: 3,
     numOfAdults: 2,
     total_amount: 1500,
@@ -62,6 +62,13 @@ const reservationDataSlice = createSlice({
 
       console.log(action.payload);
 
+      console.log(index);
+
+
+      console.log(state.data[index].kidsAges.map((e) => e.value));
+
+
+
       if (propertyName !== undefined) state.data[index].propertyName = propertyName;
       if (city !== undefined) state.data[index].city = city;
       if (numOfAdults !== undefined) state.data[index].numOfAdults = numOfAdults;
@@ -71,12 +78,49 @@ const reservationDataSlice = createSlice({
     saveKids(
       state,
       action) {
-      const { index, age, help, kidId } = action.payload;
-      while (state.data[index].kidsAges.length <= index) {
-        state.data[index].kidsAges.push({ value: 0, help: false });
-      }
-      state.data[index].kidsAges[kidId] = { value: age, help };
+      const { help, kids, index, row } = action.payload;
+
+      console.log(action.payload);
+
+      // while (state.data[index].kidsAges.length <= index) {
+      //   state.data[index].kidsAges.push({ value: 0, help: false });
+      // }
+      // state.data[index].kidsAges[kidId] = { value: age, help };
+      console.log(kids);
+
+      // console.log(state.data[row - 1].propertyName);
+
+      state.data[row - 1].kidsAges = kids
+
+      console.log(state.data[row - 1].kidsAges[index]);
+      // console.log(state.data[row - 1].kidsAges[0].value);
+
+      // console.log(state.data[row - 1].kidsAges[0].value);
+
+
     },
+
+    saveData(
+      state,
+      action
+    ) {
+      const { firstName, lastName, index, row } = action.payload;
+      console.log(action.payload);
+
+      if (index >= 0) {
+        state.data[row - 1].detailedUser[index] = { firstName, lastName };
+      } else {
+        console.error("Invalid index");
+      }
+
+      console.log(state.data[row - 1].detailedUser[index]);
+    },
+
+    saveHelpForKids(state, action) {
+      const { row, kidId, help } = action.payload
+
+      state.data[row].kidsAges[kidId].help = help
+    }
   },
 });
 
