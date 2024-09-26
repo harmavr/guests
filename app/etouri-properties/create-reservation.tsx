@@ -36,6 +36,7 @@ export default function CreateReservation({ setTab }) {
         firstName: formRefs.current[4].value,
         lastName: formRefs.current[5].value,
       }],
+      kidsAges: [],
       total_amount: parseFloat(formRefs.current[6].value) || 0,
     };
 
