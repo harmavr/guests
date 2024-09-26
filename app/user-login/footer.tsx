@@ -5,13 +5,19 @@ import { reservationActions } from "../lib/features/reservation/reservationSlice
 import Page1 from "./page1/page";
 import { log } from "console";
 import { useAppSelector } from "../lib/hooks";
+import { useSearchParams } from "next/navigation";
 
 export const Footer = () => {
+
+  const searchParams = useSearchParams(); // Get the search params (query string)
+  const row = parseInt(searchParams.get("row") || "0");
+
+
   const dispatch = useDispatch();
   const page = useAppSelector((state) => state.form.page);
   const errors = useAppSelector((state) => state.form.errors);
-  const detailedUser = useAppSelector((state) => state.form.detailedUser);
-  const numOfAdults = useAppSelector((state) => state.form.numOfAdults);
+  const detailedUser = useAppSelector((state) => state.reservationData.data[row - 1].detailedUser);
+  const numOfAdults = useAppSelector((state) => state.reservationData.data[row - 1].numOfAdults);
   const weAreFree = useAppSelector((state) => state.form.weAreFreeToGo);
   const formData = useAppSelector((state) => state.form);
 
