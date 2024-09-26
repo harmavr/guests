@@ -1,24 +1,27 @@
 "use client";
 
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Footer } from "../footer";
-import { formActions } from "@/app/lib/features/form/formSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
+import { useSearchParams } from "next/navigation";
+import { reservationDataActions } from "@/app/lib/features/reservationData/reservationDataSlice";
 
 export default function Page2() {
-  const zoub = {
-    firstName: "",
-    lastName: "",
-  };
+  const searchParams = useSearchParams(); // Get the search params (query string)
+  const row = parseInt(searchParams.get("row") || "0");
+
+  const detailedUsers = useAppSelector(
+    (state) => state.reservationData.data[row - 1].detailedUser
+  );
+
+  const [user, setUser] = useState([...detailedUsers]);
+
   const dispatch = useAppDispatch();
 
-  const [data, setData] = useState(zoub);
   const [completedUsers, setCompletedUsers] = useState<number[]>([]);
-  const page = useAppSelector((state) => state.form.page);
-  const property = useAppSelector((state) => state.form.propertyName);
-  const city = useAppSelector((state) => state.form.city);
-  const num_of_adults = useAppSelector((state) => state.form.numOfAdults);
+
+  const num_of_adults = useAppSelector(
+    (state) => state.reservationData.data[row - 1].numOfAdults
+  );
 
   useEffect(() => {
     const page1Button = document.querySelector("#page1-button");
@@ -32,65 +35,38 @@ export default function Page2() {
     page4Button?.classList.remove("active");
   }, []);
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Submitted", { ...data });
+    console.log("Form Submitted", { ...user });
   };
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-
-  //   console.log(`Name ${name}, Value ${value}`);
-  //   console.log(data);
-
-  //   setData({ ...data, [name]: value });
-
-  //   dispatch(
-  //     formActions.submit({
-  //       ...data,
-  //       [name]: value,
-  //     })
-  //   );
-
-  //   // Trigger validation
-  //   dispatch(
-  //     formActions.validate({
-  //       propertyName: name === "propertyName" ? value : undefined,
-  //       city: name === "city" ? value : undefined,
-  //       numOfAdults: name === "numberOfAdults" ? value : undefined,
-  //     })
-  //   );
-  // };
-
-  const adultsArray = Array.from(
-    { length: num_of_adults },
-    (_, index) => index + 1
-  );
+  const adultsArray = Array.from({ length: num_of_adults }, (_, index) => index + 1);
 
   const saveData = (index: number) => {
     console.log(`the index is ${index}`);
 
     dispatch(
-      formActions.saveData({
-        firstName: data.firstName,
-        lastName: data.lastName,
+      reservationDataActions.saveData({
+        firstName: user[index - 1].firstName,
+        lastName: user[index - 1].lastName,
         index: index - 1, // Adjust index to 0-based for array access
+        row,
       })
     );
-    console.log(`Data saved for User${index}`, data);
+    console.log(`Data saved for User ${index}`);
     setCompletedUsers([...completedUsers, index]);
+  };
 
-    // dispatch(
-    //   formActions.validate({
-    //     firstName: name
-    //   })
-    // );
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { name, value } = e.target;
 
-    // const next = () => {
-    //   dispatch(formActions.next);
-    // };
+    const updatedUsers = [...user];
+    updatedUsers[index - 1] = { ...updatedUsers[index - 1], [name]: value };
 
-    setData(zoub);
+    setUser(updatedUsers);
   };
 
   return (
@@ -100,7 +76,6 @@ export default function Page2() {
           {completedUsers.length + 1 === index ? (
             <>
               <p>{`User${index} out of ${adultsArray.length}`}</p>
-              {/* <h3>{`User${index}`}</h3> */}
               <form onSubmit={onSubmit}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -109,9 +84,8 @@ export default function Page2() {
                       type="text"
                       name="firstName"
                       placeholder="First Name"
-                      onChange={(e) => {
-                        setData({ ...data, firstName: e.target.value });
-                      }}
+                      value={user[index - 1].firstName || ""}
+                      onChange={(e) => handleInputChange(e, index)}
                       required
                     />
                   </div>
@@ -121,9 +95,8 @@ export default function Page2() {
                       type="text"
                       placeholder="Last Name"
                       name="lastName"
-                      onChange={(e) => {
-                        setData({ ...data, lastName: e.target.value });
-                      }}
+                      value={user[index - 1].lastName || ""}
+                      onChange={(e) => handleInputChange(e, index)}
                       required
                     />
                   </div>
