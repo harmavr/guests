@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../lib/hooks";
 import { formActions } from "../lib/features/form/formSlice";
 import { useSelector } from "react-redux";
@@ -8,16 +8,20 @@ import { useSearchParams } from "next/navigation";
 interface ModalDetails {
   openModal: boolean;
   modalHandler(): any;
-  kidsAges: { value: number; help: boolean }[];
+  // kidsAges: { value: number; help: boolean }[];
 }
 
 export default function ModalForKids({
-  kidsAges,
+  // kidsAges,
   openModal,
   modalHandler,
 }: ModalDetails) {
   const dispatch = useAppDispatch();
-  const [localKidsAges, setLocalKidsAges] = useState([...kidsAges]);
+  const searchParams = useSearchParams();
+  const row = parseInt(searchParams.get("row") || "0"); // Default to 0 if not found
+  const kids = useAppSelector(state => state.reservationData.data[row - 1].kidsAges)
+  const test = useAppSelector(state => state.reservationData.data[row - 1])
+  const [localKidsAges, setLocalKidsAges] = useState(kids);
 
   const closeModal = (
     openModal: boolean,
@@ -26,26 +30,37 @@ export default function ModalForKids({
     modalHandler(!openModal);
   };
 
-  const searchParams = useSearchParams();
-  const row = parseInt(searchParams.get("row") || "0"); // Default to 0 if not found
+  useEffect(() => {
+    console.log(localKidsAges);
+    console.log(test);
+    console.log(row);
+
+
+  })
+
+
 
   const weAreFree = useAppSelector((state) => state.form.weAreFreeToGo);
 
   const handleCheckboxChange = (index: number, checked: boolean) => {
     // Create a new array with the updated object
-    const updatedKidsAges = localKidsAges.map((kid, i) =>
-      i === index ? { ...kid, help: checked } : kid
+    const updatedKidsAges = kids.map((kid, i) => {
+      i === index ? { ...kid, help: checked } : kid;
+      dispatch(
+        reservationDataActions.saveHelpForKids({ row: row, kidId: i, help: checked })
+      );
+    }
+
     );
     setLocalKidsAges(updatedKidsAges);
   };
 
   const handleDoneClick = () => {
-    // Dispatch the changes to the Redux store
-    localKidsAges.forEach((kid, index) => {
-      dispatch(
-        reservationDataActions.saveKids({ index: row, age: kid.value, help: kid.help, kidId: index })
-      );
-    });
+
+    // dispatch(
+    //   reservationDataActions.saveHelpForKids({ row: row, kids: localKidsAges })
+    // );
+
     dispatch(formActions.setWeAreFreeToGo(!weAreFree));
     closeModal(openModal, modalHandler); // Close the modal after saving
   };
