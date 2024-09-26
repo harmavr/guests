@@ -19,7 +19,7 @@ export default function Page1() {
 
   const errorsRedux = useAppSelector((state) => state.form.errors);
 
-  const kidsAges = useAppSelector((state) => state.form.kidsAges);
+  const kidsAges = useAppSelector((state) => state.reservationData.data[row - 1].kidsAges);
   const [smallKidsArray, setSmallKidsArray] = useState<
     { value: number; help: boolean }[]
   >([{ value: 0, help: false }]);
@@ -63,7 +63,10 @@ export default function Page1() {
 
     setData({ ...data, [name]: value });
 
-    console.log(data);
+
+    // console.log(row);
+
+
 
     dispatch(
       reservationDataActions.update({
@@ -94,12 +97,12 @@ export default function Page1() {
     if (foundSmallKid.length === 0) {
       dispatch(formActions.setWeAreFreeToGo());
     }
-    console.log(`PINAKAS ME TA PAIDIA ${foundSmallKid}`);
+    console.log(`PINAKAS ME TA PAIDIA ${foundSmallKid[0].value}`);
 
     setSmallKidsArray(foundSmallKid);
     modalHandler();
     if (weAreFree) {
-      dispatch(reservationDataActions.update({ ...data, kidsAges }));
+      dispatch(reservationDataActions.update({ ...data, kidsAges, index: row - 1 }));
       dispatch(formActions.next(page));
     }
     console.log("Form Submitted", { ...data, kidsAges });
@@ -107,7 +110,7 @@ export default function Page1() {
 
   const handleNumOfKidsChange = (e: any) => {
     const num = parseInt(e.target.value) || 0;
-    setNumOfKids({ value: 1, help: true });
+    setNumOfKids([{ value: 1, help: true }]);
 
     // console.log(`kids age {kidsAges}`);
 
@@ -117,12 +120,12 @@ export default function Page1() {
       kidsAges: kidsAges,
     });
 
-    dispatch(
-      reservationDataActions.update({
-        ...data,
-        numOfKids: e.target.value,
-      })
-    );
+    // dispatch(
+    //   reservationDataActions.update({
+    //     ...data,
+    //     numOfKids: e.target.value,
+    //   })
+    // );
   };
 
   return (
@@ -226,7 +229,7 @@ export default function Page1() {
         </div>
 
         {/* Kids Ages Inputs */}
-        {numOfKids.length > 0 && (
+        {numOfKids && numOfKids.length > 0 && (
           <>
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="kids">
@@ -248,7 +251,7 @@ export default function Page1() {
                       const kidIndex = pairIndex * 2 + offset;
                       return kidIndex < numOfKids.length ? (
                         <div key={kidIndex} className="w-full md:w-1/2 px-3">
-                          <Kids index={kidIndex} numOfKids={numOfKids} />
+                          <Kids index={kidIndex} row={row} kidsArray={numOfKids} />
                         </div>
                       ) : null;
                     })}
@@ -260,7 +263,7 @@ export default function Page1() {
         )}
         {openModal && smallKidsArray.length > 0 && (
           <ModalForKids
-            kidsAges={numOfKids}
+            // kidsAges={numOfKids}\
             openModal={openModal}
             modalHandler={modalHandler}
           />
