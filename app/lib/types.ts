@@ -18,6 +18,21 @@ export interface TripDetail {
   NotesDeparture: string;
 }
 
+export interface Trip {
+  arrivalCheckbox: boolean;
+  arrivalDate: string;
+  arrivalTime: string;
+  arrivalLocation: string;
+  arrivalFlightNumber: string;
+  arrivalNotes: string;
+  departureCheckbox: boolean;
+  departureDate: string;
+  departureTime: string;
+  departureLocation: string;
+  departureFlightNumber: string;
+  departureNotes: string;
+}
+
 export interface userData {
   propertyName: string;
   city: string;
@@ -82,7 +97,7 @@ export interface ReservationData {
       propertyName: string;
       id: number;
       city: string;
-      tripDetails: { arrivalDate: string; departureDate: string };
+      tripDetails: Trip[];
       detailedUser: DetailedUser[];
       kidsAges: { value: number; help: boolean }[];
       numOfKids: number;

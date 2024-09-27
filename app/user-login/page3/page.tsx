@@ -1,26 +1,19 @@
 import { formActions } from "@/app/lib/features/form/formSlice";
+import { reservationDataActions } from "@/app/lib/features/reservationData/reservationDataSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function Page3() {
   const dispatch = useAppDispatch();
-  const [data, setData] = useState([
-    {
-      checkboxArrival: false,
-      FlightArrivalDate: "",
-      FlightArrivalTime: "",
-      LocationArrival: "",
-      FlightArrivalNumber: "",
-      NotesArrival: "",
 
-      checkboxDeparture: false,
-      FlightDepartureDate: "",
-      FlightDepartureTime: "",
-      LocationDeparture: "",
-      FlightDepartureNumber: "",
-      NotesDeparture: "",
-    },
-  ]);
+
+
+  const searchParams = useSearchParams(); // Get the search params (query string)
+  const row = parseInt(searchParams.get("row") || "0");
+  const tripDetails = useAppSelector(state => state.reservationData.data[row - 1].tripDetails)
+
+  const [data, setData] = useState(tripDetails);
 
   useEffect(() => {
     const buttons = [
@@ -37,7 +30,13 @@ export default function Page3() {
         button?.classList.remove("active");
       }
     });
+
+
+
+    console.log(data[0].arrivalCheckbox);
+
   }, []);
+
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,19 +54,22 @@ export default function Page3() {
           <input
             type="checkbox"
             id="travel-chania"
+            checked={data[0].arrivalCheckbox}
             onChange={(e) => {
               const updatedData = data.map((item, index) => {
                 if (index === 0) {
-                  // Assuming you're targeting the first object; adjust the condition as needed
-                  return { ...item, checkboxArrival: e.target.checked };
+                  return { ...item, arrivalCheckbox: e.target.checked };
                 }
                 return item;
               });
               setData(updatedData);
               dispatch(
-                formActions.saveTravelDetails({
-                  ...updatedData,
-                  checkboxArrival: e.target.checked,
+                reservationDataActions.saveTravelDetails({
+                  row: row - 1,
+                  data: {
+                    updatedData,
+
+                  },
                 })
               );
               console.log(updatedData);
@@ -88,20 +90,22 @@ export default function Page3() {
             <div className="w-full md:w-1/4 px-3">
               <input
                 type="date"
+                value={data[0].arrivalDate}
                 className={inputClass}
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, FlightArrivalDate: e.target.value };
+                      return { ...item, arrivalDate: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      FlightArrivalDate: e.target.value,
+                      arrivalDate: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -112,19 +116,22 @@ export default function Page3() {
               <input
                 type="time"
                 className={inputClass}
+                value={data[0].arrivalTime}
+
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, FlightArrivalTime: e.target.value };
+                      return { ...item, arrivalTime: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      FlightArrivalTime: e.target.value,
+                      arrivalTime: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -136,19 +143,22 @@ export default function Page3() {
                 name="locations"
                 id="locations"
                 className="block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                value={data[0].arrivalLocation}
+
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, LocationArrival: e.target.value };
+                      return { ...item, arrivalLocation: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      LocationArrival: e.target.value,
+                      arrivalLocation: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -165,20 +175,23 @@ export default function Page3() {
               <input
                 type="text"
                 className={inputClass}
+                value={data[0].arrivalFlightNumber}
+
                 placeholder="Arrival Flight Number"
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, FlightArrivalNumber: e.target.value };
+                      return { ...item, arrivalFlightNumber: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      FlightArrivalNumber: e.target.value,
+                      arrivalFlightNumber: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -189,19 +202,22 @@ export default function Page3() {
               <textarea
                 className={inputClass}
                 placeholder="Your notes go here"
+                value={data[0].arrivalNotes}
+
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, NotesArrival: e.target.value };
+                      return { ...item, arrivalNotes: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      NotesArrival: e.target.value,
+                      arrivalNotes: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -216,19 +232,22 @@ export default function Page3() {
           <input
             type="checkbox"
             id="travel-athens"
+            checked={data[0].departureCheckbox}
+
             onChange={(e) => {
               const updatedData = data.map((item, index) => {
                 if (index === 0) {
                   // Assuming you're targeting the first object; adjust the condition as needed
-                  return { ...item, checkboxDeparture: e.target.checked };
+                  return { ...item, departureCheckbox: e.target.checked };
                 }
                 return item;
               });
               setData(updatedData);
               dispatch(
-                formActions.saveTravelDetails({
+                reservationDataActions.saveTravelDetails({
+                  row: row - 1,
                   ...updatedData,
-                  checkboxDeparture: e.target.checked,
+                  departureCheckbox: e.target.checked,
                 })
               );
               console.log(updatedData);
@@ -249,20 +268,23 @@ export default function Page3() {
             <div className="w-full md:w-1/4 px-3">
               <input
                 type="date"
+                value={data[0].departureDate}
+
                 className={inputClass}
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, FlightDepartureDate: e.target.value };
+                      return { ...item, departureDate: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      FlightDepartureDate: e.target.value,
+                      departureDate: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -272,20 +294,23 @@ export default function Page3() {
             <div className="w-full md:w-1/4 px-3">
               <input
                 type="time"
+                value={data[0].departureTime}
+
                 className={inputClass}
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, FlightDepartureTime: e.target.value };
+                      return { ...item, departureTime: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      FlightDepartureTime: e.target.value,
+                      departureTime: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -297,19 +322,22 @@ export default function Page3() {
                 name="locations"
                 id="locations"
                 className="block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                value={data[0].departureLocation}
+
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, LocationDeparture: e.target.value };
+                      return { ...item, departureLocation: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      LocationDeparture: e.target.value,
+                      departureLocation: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -326,6 +354,8 @@ export default function Page3() {
               <input
                 type="text"
                 className={inputClass}
+                value={data[0].departureFlightNumber}
+
                 placeholder="Departure Fligth Number"
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
@@ -333,16 +363,17 @@ export default function Page3() {
                       // Assuming you're targeting the first object; adjust the condition as needed
                       return {
                         ...item,
-                        FlightDepartureNumber: e.target.value,
+                        departureFlightNumber: e.target.value,
                       };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      FlightDepartureNumber: e.target.value,
+                      departureFlightNumber: e.target.value,
                     })
                   );
                   console.log(updatedData);
@@ -353,19 +384,22 @@ export default function Page3() {
               <textarea
                 className={inputClass}
                 placeholder="Your notes go here"
+                value={data[0].departureNotes}
+
                 onChange={(e) => {
                   const updatedData = data.map((item, index) => {
                     if (index === 0) {
                       // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, NotesDeparture: e.target.value };
+                      return { ...item, departureNotes: e.target.value };
                     }
                     return item;
                   });
                   setData(updatedData);
                   dispatch(
-                    formActions.saveTravelDetails({
+                    reservationDataActions.saveTravelDetails({
+                      row: row - 1,
                       ...updatedData,
-                      NotesDeparture: e.target.value,
+                      departureNotes: e.target.value,
                     })
                   );
                   console.log(updatedData);

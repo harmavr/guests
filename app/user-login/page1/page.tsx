@@ -15,7 +15,7 @@ export default function Page1() {
 
 
   const searchParams = useSearchParams(); // Get the search params (query string)
-  const row = parseInt(searchParams.get("row"));
+  const row = parseInt(searchParams.get("row") || "0");
 
   const errorsRedux = useAppSelector((state) => state.form.errors);
 
@@ -61,22 +61,26 @@ export default function Page1() {
     console.log(`Name ${name}, Value ${value}`);
     console.log(data);
 
-    setData({ ...data, [name]: value });
+    const updatedTripDetails = data.tripDetails.map((trip, index) =>
+      index === 0 ? { ...trip, [name]: value } : trip
+    );
 
-
-    // console.log(row);
-
-
+    setData({
+      ...data,
+      tripDetails: updatedTripDetails,
+      [name]: value,
+    });
 
     dispatch(
       reservationDataActions.update({
         ...data,
+        tripDetails: updatedTripDetails,
         [name]: value,
-        index: row - 1
+        index: row - 1,
       })
     );
 
-    // Trigger validation
+    // Optional: Trigger validation logic here if needed
     // dispatch(
     //   formActions.validate({
     //     ...data.errors,
@@ -86,6 +90,7 @@ export default function Page1() {
     //   })
     // );
   };
+
 
   const modalHandler = () => {
     setOpenModal(!openModal);
@@ -179,7 +184,9 @@ export default function Page1() {
             <input
               className="appearance-none block md:w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               type="date"
-              name="check_in"
+              name="arrivalDate"
+              value={data.tripDetails[0].arrivalDate}
+              onChange={handleInputChange}
               placeholder="Check in"
             />
           </div>
@@ -187,7 +194,9 @@ export default function Page1() {
             <input
               className="appearance-none block md:w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               type="date"
-              name="check_out"
+              name="departureDate"
+              onChange={handleInputChange}
+              value={data.tripDetails[0].departureDate}
               placeholder="Check out"
             // required
             />

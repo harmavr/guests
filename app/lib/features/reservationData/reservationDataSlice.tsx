@@ -1,12 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ReservationData } from "../../types";
 
+
+
+// checkboxArrival: boolean;
+// FlightArrivalDate: string;
+// FlightArrivalTime: string;
+// LocationArrival: string;
+// FlightArrivalNumber: string;
+// NotesArrival: string;
+// checkboxDeparture: boolean;
+// FlightDepartureDate: string;
+// FlightDepartureTime: string;
+// LocationDeparture: string;
+// FlightDepartureNumber: string;
+// NotesDeparture: string;
+
+
 const initialState: ReservationData = {
   data: [{
     propertyName: "Villa Aroma",
     id: 1,
-    tripDetails: { arrivalDate: "10/9/2024", departureDate: "17/9/2024" },
-
+    tripDetails: [{
+      arrivalDate: "2024-9-10", departureDate: "2024-9-11",
+      arrivalCheckbox: true,
+      arrivalTime: "11:50",
+      arrivalLocation: "",
+      arrivalFlightNumber: "",
+      arrivalNotes: "",
+      departureCheckbox: false,
+      departureTime: "",
+      departureLocation: "",
+      departureFlightNumber: "10101",
+      departureNotes: "123"
+    }],
 
     detailedUser: [{ firstName: "Charis", lastName: "Mavr" }],
     numOfKids: 1,
@@ -21,10 +48,19 @@ const initialState: ReservationData = {
   {
     propertyName: "Euphoria",
     id: 2,
-    tripDetails:
-      { arrivalDate: "11/10/2024", departureDate: "15/10/2024" },
-
-    // nights: 2,
+    tripDetails: [{
+      arrivalDate: "2024-10-20", departureDate: "2024-11-26",
+      arrivalCheckbox: true,
+      arrivalTime: "11:50",
+      arrivalLocation: "Turkey",
+      arrivalFlightNumber: "111111",
+      arrivalNotes: "asd",
+      departureCheckbox: true,
+      departureTime: "12:50",
+      departureLocation: "Greece",
+      departureFlightNumber: "10101",
+      departureNotes: "123"
+    }],
     detailedUser: [{ firstName: "Giannis", lastName: "Zoub" }, { firstName: "Titos", lastName: "Chan" }],
     numOfKids: 3,
     numOfAdults: 2,
@@ -57,7 +93,7 @@ const reservationDataSlice = createSlice({
     },
 
     update(state, action) {
-      const { propertyName, city, numOfAdults, numOfKids, kidsAges, index } =
+      const { propertyName, city, numOfAdults, numOfKids, kidsAges, index, arrivalDate, departureDate } =
         action.payload;
 
       console.log(action.payload);
@@ -74,6 +110,9 @@ const reservationDataSlice = createSlice({
       if (numOfAdults !== undefined) state.data[index].numOfAdults = numOfAdults;
       if (numOfKids !== undefined) state.data[index].numOfKids = numOfKids;
       if (kidsAges !== undefined) state.data[index].kidsAges = kidsAges;
+      if (arrivalDate !== undefined) state.data[index].tripDetails[0].arrivalDate = arrivalDate;
+      if (departureDate !== undefined) state.data[index].tripDetails[0].departureDate = departureDate;
+
     },
     saveKids(
       state,
@@ -120,7 +159,18 @@ const reservationDataSlice = createSlice({
       const { row, kidId, help } = action.payload
 
       state.data[row].kidsAges[kidId].help = help
-    }
+    },
+
+    saveTravelDetails(state, action) {
+      const { row, data } = action.payload
+
+      console.log(row, data);
+
+      state.data[row - 1].tripDetails[0] = data
+
+      console.log(state.data[row - 1].tripDetails[0]);
+
+    },
   },
 });
 
