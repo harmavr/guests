@@ -91,11 +91,11 @@ export default function EtouriProperties() {
 
     setTimeout(() => {
       const resultsArray = reservations.filter((el) => {
-        const arrivalDate = el.tripDetails.arrivalDate.replace(
+        const arrivalDate = el.tripDetails[0].arrivalDate.replace(
           /[^\d\/\n]/g,
           ""
         );
-        const departureDate = el.tripDetails.departureDate.replace(
+        const departureDate = el.tripDetails[0].deparatureDate.replace(
           /[^\d\/\n]/g,
           ""
         );
@@ -107,7 +107,7 @@ export default function EtouriProperties() {
         let currentYear = currentDate.getFullYear();
 
         return dates.some((dateStr) => {
-          const [day, month, year] = dateStr.split("/").map(Number);
+          const [day, month, year] = dateStr.split("-").map(Number);
           if (!day || !month || !year) return false;
 
           switch (date) {
@@ -242,16 +242,17 @@ export default function EtouriProperties() {
                         <td className="p-4">{reservation.id}</td>
                         <td className="p-4">
                           <div className="grid-2">
-                            <div>{reservation.tripDetails.arrivalDate} </div>
-                            <div>{reservation.tripDetails.departureDate}</div>
+                            <div>{reservation.tripDetails[0].arrivalDate} </div>
+                            <div>{reservation.tripDetails[0].departureDate}</div>
                           </div>
                         </td>
                         <td className="p-4">
                           {
                             (() => {
-                              const arrivalDate = new Date(reservation.tripDetails.arrivalDate.split('/').reverse().join('-'));
-                              const departureDate = new Date(reservation.tripDetails.departureDate.split('/').reverse().join('-'));
-                              const nights = (departureDate - arrivalDate) / (1000 * 60 * 60 * 24);
+                              const arrivalDate = new Date(reservation.tripDetails[0].arrivalDate);
+                              const departureDate = new Date(reservation.tripDetails[0].departureDate);
+                              // const nights = (departureDate - arrivalDate) / (1000 * 60 * 60 * 24);
+                              const nights = (departureDate - arrivalDate) / (24 * 60 * 60 * 1000);
                               return nights;
                             })()
                           }
