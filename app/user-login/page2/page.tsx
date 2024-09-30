@@ -10,17 +10,17 @@ export default function Page2() {
   const row = parseInt(searchParams.get("row") || "0");
 
   const detailedUsers = useAppSelector(
-    (state) => state.reservationData.data[row - 1].detailedUser
+    (state) => state.reservationData.data[row - 1]?.detailedUser || []
   );
 
   const [user, setUser] = useState([...detailedUsers]);
 
   const dispatch = useAppDispatch();
 
-  const [completedUsers, setCompletedUsers] = useState<number[]>([]);
+  const [currentUserIndex, setCurrentUserIndex] = useState(0);
 
   const num_of_adults = useAppSelector(
-    (state) => state.reservationData.data[row - 1].numOfAdults
+    (state) => state.reservationData.data[row - 1]?.numOfAdults || 0
   );
 
   useEffect(() => {
@@ -40,21 +40,26 @@ export default function Page2() {
     console.log("Form Submitted", { ...user });
   };
 
-  const adultsArray = Array.from({ length: num_of_adults }, (_, index) => index + 1);
+  const adultsArray = useAppSelector(
+    (state) => state.reservationData.data[row - 1]?.detailedUser || []
+  );
 
   const saveData = (index: number) => {
     console.log(`the index is ${index}`);
 
     dispatch(
       reservationDataActions.saveData({
-        firstName: user[index - 1].firstName,
-        lastName: user[index - 1].lastName,
-        index: index - 1, // Adjust index to 0-based for array access
+        firstName: user[index].firstName,
+        lastName: user[index].lastName,
+        index, // 0-based index
         row,
       })
     );
     console.log(`Data saved for User ${index}`);
-    setCompletedUsers([...completedUsers, index]);
+
+    if (index < adultsArray.length - 1) {
+      setCurrentUserIndex(currentUserIndex + 1);
+    }
   };
 
   const handleInputChange = (
@@ -62,20 +67,18 @@ export default function Page2() {
     index: number
   ) => {
     const { name, value } = e.target;
-
     const updatedUsers = [...user];
-    updatedUsers[index - 1] = { ...updatedUsers[index - 1], [name]: value };
-
+    updatedUsers[index] = { ...updatedUsers[index], [name]: value };
     setUser(updatedUsers);
   };
 
   return (
     <>
-      {adultsArray.map((index) => (
+      {adultsArray.map((el, index) => (
         <div key={index}>
-          {completedUsers.length + 1 === index ? (
+          {currentUserIndex === index ? (
             <>
-              <p>{`User${index} out of ${adultsArray.length}`}</p>
+              <p>{`User ${index + 1} out of ${adultsArray.length}`}</p>
               <form onSubmit={onSubmit}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -84,7 +87,7 @@ export default function Page2() {
                       type="text"
                       name="firstName"
                       placeholder="First Name"
-                      value={user[index - 1].firstName || ""}
+                      value={user[index]?.firstName || ""}
                       onChange={(e) => handleInputChange(e, index)}
                       required
                     />
@@ -93,9 +96,9 @@ export default function Page2() {
                     <input
                       className="appearance-none block md:w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
-                      placeholder="Last Name"
                       name="lastName"
-                      value={user[index - 1].lastName || ""}
+                      placeholder="Last Name"
+                      value={user[index]?.lastName || ""}
                       onChange={(e) => handleInputChange(e, index)}
                       required
                     />
