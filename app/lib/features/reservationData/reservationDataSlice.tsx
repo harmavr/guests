@@ -93,27 +93,35 @@ const reservationDataSlice = createSlice({
     },
 
     update(state, action) {
-      const { propertyName, city, numOfAdults, numOfKids, kidsAges, index, arrivalDate, departureDate } =
-        action.payload;
-
-      console.log(action.payload);
-
-      console.log(index);
-
-
-      console.log(state.data[index].kidsAges.map((e) => e.value));
-
-
+      const { propertyName, city, numOfAdults, numOfKids, kidsAges, index, arrivalDate, departureDate } = action.payload;
 
       if (propertyName !== undefined) state.data[index].propertyName = propertyName;
       if (city !== undefined) state.data[index].city = city;
-      if (numOfAdults !== undefined) state.data[index].numOfAdults = numOfAdults;
-      if (numOfKids !== undefined) state.data[index].numOfKids = numOfKids;
+      if (numOfAdults !== undefined) state.data[index].numOfAdults = parseInt(numOfAdults);
+
+      if (numOfAdults > state.data[index].detailedUser.length) {
+        const missingUsers = numOfAdults - state.data[index].detailedUser.length;
+        for (let i = 0; i < missingUsers; i++) {
+          state.data[index].detailedUser.push({ firstName: '', lastName: '' });
+        }
+      }
+
       if (kidsAges !== undefined) state.data[index].kidsAges = kidsAges;
+
+      if (numOfKids !== undefined) {
+        if (numOfKids > state.data[index].kidsAges.length) {
+          const missingKids = numOfKids - state.data[index].kidsAges.length;
+          for (let i = 0; i < missingKids; i++) {
+            state.data[index].kidsAges.push({ value: 0, help: false });
+          }
+        }
+        state.data[index].numOfKids = numOfKids;
+      }
+
       if (arrivalDate !== undefined) state.data[index].tripDetails[0].arrivalDate = arrivalDate;
       if (departureDate !== undefined) state.data[index].tripDetails[0].departureDate = departureDate;
-
     },
+
     saveKids(
       state,
       action) {
@@ -158,7 +166,7 @@ const reservationDataSlice = createSlice({
     saveHelpForKids(state, action) {
       const { row, kidId, help } = action.payload
 
-      state.data[row].kidsAges[kidId].help = help
+      state.data[row - 1].kidsAges[kidId].help = help
     },
 
     saveTravelDetails(state, action) {
