@@ -49,6 +49,7 @@ export default function Page4() {
         firstName: data.detailedUser[idx].firstName,
         lastName: data.detailedUser[idx].lastName,
         index: idx,
+        row
       })
     );
   };
