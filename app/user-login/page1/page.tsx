@@ -51,7 +51,6 @@ export default function Page1() {
     // console.log(reservation);
     console.log(data);
     console.log(reservation[row - 1]);
-    console.log(numOfKids);
 
   }, [data, row]);
 
@@ -102,7 +101,6 @@ export default function Page1() {
     if (foundSmallKid.length === 0) {
       dispatch(formActions.setWeAreFreeToGo());
     }
-    console.log(`PINAKAS ME TA PAIDIA ${foundSmallKid[0].value}`);
 
     setSmallKidsArray(foundSmallKid);
     modalHandler();
@@ -115,22 +113,34 @@ export default function Page1() {
 
   const handleNumOfKidsChange = (e: any) => {
     const num = parseInt(e.target.value) || 0;
-    setNumOfKids([{ value: 1, help: true }]);
 
-    // console.log(`kids age {kidsAges}`);
+    let updatedKidsAges = [...data.kidsAges];
+
+    if (num > updatedKidsAges.length) {
+      const missingKids = num - updatedKidsAges.length;
+      for (let i = 0; i < missingKids; i++) {
+        updatedKidsAges.push({ value: 0, help: false });
+      }
+    } else if (num < updatedKidsAges.length) {
+      updatedKidsAges = updatedKidsAges.slice(0, num);
+    }
 
     setData({
       ...data,
-      numOfKids: parseInt(e.target.value),
-      kidsAges: kidsAges,
+      numOfKids: num,
+      kidsAges: updatedKidsAges,
     });
 
-    // dispatch(
-    //   reservationDataActions.update({
-    //     ...data,
-    //     numOfKids: e.target.value,
-    //   })
-    // );
+    setNumOfKids(updatedKidsAges);
+
+    dispatch(
+      reservationDataActions.update({
+        ...data,
+        numOfKids: num,
+        kidsAges: updatedKidsAges,
+        index: row - 1,
+      })
+    );
   };
 
   return (
@@ -230,7 +240,7 @@ export default function Page1() {
               type="number"
               name="n_of_kids"
               placeholder="Number of Kids"
-              value={data.numOfKids ? data.numOfKids : 0}
+              value={data.numOfKids}
               onChange={handleNumOfKidsChange}
               required
             />
