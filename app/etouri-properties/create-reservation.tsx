@@ -27,10 +27,10 @@ export default function CreateReservation({ setTab }) {
     const newReservation = {
       propertyName: formRefs.current[0].value,
       city: formRefs.current[1].value,
-      tripDetails: {
+      tripDetails: [{
         arrivalDate: formRefs.current[2].value,
         departureDate: formRefs.current[3].value,
-      },
+      }],
       id: array.length + 1,
       detailedUser: [{
         firstName: formRefs.current[4].value,
@@ -38,6 +38,8 @@ export default function CreateReservation({ setTab }) {
       }],
       kidsAges: [],
       total_amount: parseFloat(formRefs.current[6].value) || 0,
+      numOfAdults: 1,
+      numOfKids: 0,
     };
 
     dispatch(reservationDataActions.saveReservationData({ resData: newReservation, status: 'Pre Check-in' }));
