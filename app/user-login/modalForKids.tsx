@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../lib/hooks";
 import { formActions } from "../lib/features/form/formSlice";
-import { useSelector } from "react-redux";
 import { reservationDataActions } from "../lib/features/reservationData/reservationDataSlice";
 import { useSearchParams } from "next/navigation";
 
 interface ModalDetails {
   openModal: boolean;
   modalHandler(): any;
-  // kidsAges: { value: number; help: boolean }[];
 }
 
 export default function ModalForKids({
-  // kidsAges,
   openModal,
   modalHandler,
 }: ModalDetails) {
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const row = parseInt(searchParams.get("row") || "0"); // Default to 0 if not found
-  const kids = useAppSelector(state => state.reservationData.data[row - 1].kidsAges)
-  const test = useAppSelector(state => state.reservationData.data[row - 1])
+
+  const kids = useAppSelector(
+    (state) => state.reservationData.data[row - 1]?.kidsAges || []
+  );
+
+  const test = useAppSelector(
+    (state) => state.reservationData.data[row - 1]
+  );
+
   const [localKidsAges, setLocalKidsAges] = useState(kids);
 
   const closeModal = (
@@ -31,36 +35,28 @@ export default function ModalForKids({
   };
 
   useEffect(() => {
-    console.log(localKidsAges);
-    console.log(test);
-    console.log(row);
-
-
-  })
-
-
+    setLocalKidsAges(kids);
+  }, [kids]);
 
   const weAreFree = useAppSelector((state) => state.form.weAreFreeToGo);
 
   const handleCheckboxChange = (index: number, checked: boolean) => {
-    // Create a new array with the updated object
-    const updatedKidsAges = kids.map((kid, i) => {
-      i === index ? { ...kid, help: checked } : kid;
-      dispatch(
-        reservationDataActions.saveHelpForKids({ row: row, kidId: i, help: checked })
-      );
-    }
-
+    const updatedKidsAges = localKidsAges.map((kid, i) =>
+      i === index ? { ...kid, help: checked } : kid
     );
+
     setLocalKidsAges(updatedKidsAges);
+
+    dispatch(
+      reservationDataActions.saveHelpForKids({
+        row: row,
+        kidId: index,
+        help: checked,
+      })
+    );
   };
 
   const handleDoneClick = () => {
-
-    // dispatch(
-    //   reservationDataActions.saveHelpForKids({ row: row, kids: localKidsAges })
-    // );
-
     dispatch(formActions.setWeAreFreeToGo(!weAreFree));
     closeModal(openModal, modalHandler); // Close the modal after saving
   };
@@ -78,23 +74,26 @@ export default function ModalForKids({
       >
         <div className="p-4">
           {/* Content */}
-          {localKidsAges.map(
-            (kid, index) =>
-              kid.value < 12 && (
-                <div key={index}>
-                  <p></p>
-                  <label className="container">
-                    Kid {index + 1} with age {kid.value} needs extra help?
-                    <input
-                      type="checkbox"
-                      checked={kid.help}
-                      onChange={(e) =>
-                        handleCheckboxChange(index, e.target.checked)
-                      }
-                    />
-                  </label>
-                </div>
-              )
+          {localKidsAges?.length > 0 ? (
+            localKidsAges.map(
+              (kid, index) =>
+                kid?.value < 12 && (
+                  <div key={index}>
+                    <label className="container">
+                      Kid {index + 1} with age {kid?.value} needs extra help?
+                      <input
+                        type="checkbox"
+                        checked={kid?.help}
+                        onChange={(e) =>
+                          handleCheckboxChange(index, e.target.checked)
+                        }
+                      />
+                    </label>
+                  </div>
+                )
+            )
+          ) : (
+            <p>No kids available</p>
           )}
         </div>
         <button onClick={handleDoneClick}>Done</button>
