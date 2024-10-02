@@ -108,3 +108,15 @@ export interface ReservationData {
     }
   ];
 }
+
+export interface UserLogin {
+  loggedIn: boolean;
+  userCredentials: [
+    {
+      firstName: string;
+      lastName: string;
+      email: string;
+      password: string;
+    }
+  ];
+}

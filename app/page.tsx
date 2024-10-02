@@ -7,14 +7,22 @@ import villa from "@/public/villa.jpg";
 import { useAppSelector } from "./lib/hooks";
 import { useEffect, useState } from "react";
 import { userData } from "./lib/types";
+import { redirect } from "next/navigation";
 
 export default function Page() {
   const reservations = useAppSelector(
     (state) => state.reservation.items
   );
-  const [data, setData] = useState<userData[]>([]);
 
+  const loggedIn = useAppSelector(state => state.login.loggedIn)
+
+  const [data, setData] = useState<userData[]>([]);
   useEffect(() => {
+
+
+
+    !loggedIn ? redirect('/login-page') : null;
+
     setData(reservations);
     console.log(reservations);
   }, [reservations]);
