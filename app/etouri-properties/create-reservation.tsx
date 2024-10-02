@@ -30,12 +30,24 @@ export default function CreateReservation({ setTab }) {
       tripDetails: [{
         arrivalDate: formRefs.current[2].value,
         departureDate: formRefs.current[3].value,
+        arrivalCheckbox: false,
+        arrivalTime: "",
+        arrivalLocation: "",
+        arrivalFlightNumber: "",
+        arrivalNotes: "",
+        departureCheckbox: false,
+        departureTime: "",
+        departureLocation: "",
+        departureFlightNumber: "",
+        departureNotes: ""
       }],
       id: array.length + 1,
-      detailedUser: [{
-        firstName: formRefs.current[4].value,
-        lastName: formRefs.current[5].value,
-      }],
+      detailedUser: {
+        details: [{
+          firstName: formRefs.current[4].value,
+          lastName: formRefs.current[5].value,
+        }], user: 0
+      },
       kidsAges: [],
       total_amount: parseFloat(formRefs.current[6].value) || 0,
       numOfAdults: 1,

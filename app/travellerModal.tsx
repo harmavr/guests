@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "./lib/hooks";
+import { useAppDispatch, useAppSelector } from "./lib/hooks";
 import { formActions } from "./lib/features/form/formSlice";
 import { reservationActions } from "./lib/features/reservation/reservationSlice";
+import { useSearchParams } from "next/navigation";
 
 interface TravellerModalDetails {
   open: boolean;
@@ -15,20 +16,31 @@ export default function TravellerModal({
   travellerModalHandler,
   id,
 }: TravellerModalDetails) {
-  const travellers = useSelector((state) => state.reservation.items);
+
+  const searchParams = useSearchParams(); // Get the search params (query string)
+  const row = parseInt(searchParams.get("row") || "0");
+
+  const travellers = useAppSelector((state) => state.reservationData.data[row - 1].detailedUser);
   const dispatch = useAppDispatch();
 
   const [firstName, setFirstName] = useState(
-    travellers[0].detailedUser[id].firstName
+    travellers[0].details[id].firstName
   );
   const [lastName, setLastName] = useState(
-    travellers[0].detailedUser[id].lastName
+    travellers[0].details[id].lastName
+
   );
 
   useEffect(() => {
     // Update state when id or travellers data changes
-    setFirstName(travellers[0].detailedUser[id].firstName);
-    setLastName(travellers[0].detailedUser[id].lastName);
+    setFirstName(travellers[0].details[id].firstName
+    );
+    setLastName(travellers[0].details[id].lastName
+    );
+
+    console.log(travellers);
+
+
   }, [id, travellers]);
 
   const closeModal = (
@@ -42,7 +54,7 @@ export default function TravellerModal({
     closeModal(open, travellerModalHandler);
     console.log(id);
     console.log(travellers);
-    console.log(travellers[0].detailedUser[id]);
+    console.log(travellers[0]);
   };
 
   const saveTravellerDetails = () => {
@@ -74,9 +86,8 @@ export default function TravellerModal({
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-10 flex justify-center items-center">
           <aside
-            className={`w-full max-w-md p-6 bg-white rounded-lg shadow-lg transform transition-transform duration-300 ${
-              open ? "scale-100" : "scale-0"
-            }`}
+            className={`w-full max-w-md p-6 bg-white rounded-lg shadow-lg transform transition-transform duration-300 ${open ? "scale-100" : "scale-0"
+              }`}
           >
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               Edit Traveller Details

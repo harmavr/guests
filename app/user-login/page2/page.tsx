@@ -13,7 +13,7 @@ export default function Page2() {
     (state) => state.reservationData.data[row - 1]?.detailedUser || []
   );
 
-  const [user, setUser] = useState([...detailedUsers]);
+  const [user, setUser] = useState(detailedUsers);
 
   const dispatch = useAppDispatch();
 
@@ -41,7 +41,7 @@ export default function Page2() {
   };
 
   const adultsArray = useAppSelector(
-    (state) => state.reservationData.data[row - 1]?.detailedUser || []
+    (state) => state.reservationData.data[row - 1]?.detailedUser.details || []
   );
 
   const saveData = (index: number) => {
@@ -49,9 +49,10 @@ export default function Page2() {
 
     dispatch(
       reservationDataActions.saveData({
-        firstName: user[index].firstName,
-        lastName: user[index].lastName,
+        firstName: user.details[index].firstName,
+        lastName: user.details[index].lastName,
         index, // 0-based index
+
         row,
       })
     );
@@ -62,15 +63,28 @@ export default function Page2() {
     }
   };
 
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     const { name, value } = e.target;
-    const updatedUsers = [...user];
-    updatedUsers[index] = { ...updatedUsers[index], [name]: value };
-    setUser(updatedUsers);
+
+    const updatedUser = { ...user };
+
+    const updatedDetails = [...updatedUser.details];
+
+    updatedDetails[index] = {
+      ...updatedDetails[index],
+      [name]: value,
+    };
+
+    updatedUser.details = updatedDetails;
+
+    setUser(updatedUser);
   };
+
+
 
   return (
     <>
@@ -83,22 +97,23 @@ export default function Page2() {
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <input
-                      className="appearance-none block md:w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      className={`appearance-none block md:w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${user.details[index].firstName ? 'border-slate-500' : 'border-red-500'
+                        }`}
                       type="text"
                       name="firstName"
                       placeholder="First Name"
-                      value={user[index]?.firstName || ""}
+                      value={user.details[index].firstName || ""}
                       onChange={(e) => handleInputChange(e, index)}
                       required
                     />
                   </div>
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <input
-                      className="appearance-none block md:w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                      type="text"
+                      className={`appearance-none block md:w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${user.details[index].lastName ? 'border-slate-500' : 'border-red-500'
+                        }`} type="text"
                       name="lastName"
                       placeholder="Last Name"
-                      value={user[index]?.lastName || ""}
+                      value={user.details[index].lastName || ""}
                       onChange={(e) => handleInputChange(e, index)}
                       required
                     />

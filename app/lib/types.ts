@@ -1,6 +1,6 @@
 export interface DetailedUser {
-  firstName: string;
-  lastName: string;
+  details: [{ firstName: string; lastName: string }];
+  user: number;
 }
 
 export interface TripDetail {
@@ -43,7 +43,7 @@ export interface userData {
   numOfKids: number;
   kidsAges: { value: number; help: boolean }[];
   page: number;
-  detailedUser: DetailedUser[];
+  detailedUser: DetailedUser;
   errors: {
     propertyNameError: boolean;
     cityError: boolean;
@@ -98,7 +98,7 @@ export interface ReservationData {
       id: number;
       city: string;
       tripDetails: Trip[];
-      detailedUser: DetailedUser[];
+      detailedUser: DetailedUser;
       kidsAges: { value: number; help: boolean }[];
       numOfKids: number;
       totalAmount: number;

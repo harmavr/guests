@@ -35,8 +35,8 @@ export default function ReservationDetails({
   );
   const userDetailsHandler = (firstName: string, lastName: string) => {
     console.log(firstName, lastName);
-    setFirstName(details.detailedUser[0].firstName);
-    setLastName(details.detailedUser[0].lastName);
+    setFirstName(details.detailedUser.details[0].firstName);
+    setLastName(details.detailedUser.details[0].lastName);
   };
 
 
@@ -96,8 +96,8 @@ export default function ReservationDetails({
             PRINCIPAL GUEST DETAILS
           </h2>
           <ul className="text-gray-700 mt-2 list-disc list-inside">
-            <li>{details.detailedUser[0].firstName}</li>
-            <li>{details.detailedUser[0].lastName}</li>
+            <li>{details.detailedUser.details[0].firstName}</li>
+            <li>{details.detailedUser.details[0].lastName}</li>
           </ul>
         </div>
 
@@ -105,7 +105,7 @@ export default function ReservationDetails({
         <div className="border border-gray-300 rounded-lg p-4 mt-4 bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-800">TRAVELLERS</h2>
           <ul className="mt-2">
-            {details.detailedUser.slice(1).map((el, index) => (
+            {details.detailedUser.details.slice(1).map((el, index) => (
               <li
                 key={index}
                 className="flex justify-between items-center py-2 border-b last:border-b-0"

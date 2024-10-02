@@ -47,10 +47,10 @@ export default function EtouriProperties() {
         const resultsArray = reservations.filter((el) =>
           el.propertyName.toLowerCase().includes(term.toLowerCase()) ||
           el.id.toString().includes(term.toLowerCase()) ||
-          el.detailedUser[0].firstName
+          el.detailedUser.details[0].firstName
             .toLowerCase()
             .includes(term.toLowerCase()) ||
-          el.detailedUser[0].lastName
+          el.detailedUser.details[0].lastName
             .toLowerCase()
             .includes(term.toLowerCase())
         );
@@ -95,7 +95,7 @@ export default function EtouriProperties() {
           /[^\d\/\n]/g,
           ""
         );
-        const departureDate = el.tripDetails[0].deparatureDate.replace(
+        const departureDate = el.tripDetails[0].departureDate.replace(
           /[^\d\/\n]/g,
           ""
         );
@@ -259,9 +259,9 @@ export default function EtouriProperties() {
                         </td>
 
                         <td className="p-4">
-                          {reservation.detailedUser ? reservation.detailedUser[0].firstName : ''}{" "}
+                          {reservation.detailedUser ? reservation.detailedUser.details[0].firstName : ''}{" "}
                           {reservation.detailedUser
-                            ? reservation.detailedUser[0].lastName : ''}
+                            ? reservation.detailedUser.details[0].lastName : ''}
                         </td>
                         <td className="p-4">€{reservation.total_amount}</td>
                         <td className="p-4" > <div className={`p-1 flex justify-center text-white rounded ${reservation.status === 'Pre Check-in' ? ' bg-blue-500' : 'bg-green-500'}`}>{reservation.status}</div></td>

@@ -31,11 +31,35 @@ export default function Page3() {
       }
     });
 
+    setData(tripDetails)
 
 
     console.log(data[0].arrivalCheckbox);
 
-  }, []);
+  }, [tripDetails]);
+
+  const handleChange = (e) => {
+
+    const { name, value } = e.target;
+    const updatedData = data.map((item, index) => {
+      // if (index === 0) {
+      return { ...item, [name]: value };
+      // }
+      return item;
+    });
+    setData(updatedData);
+    dispatch(
+      reservationDataActions.saveTravelDetails({
+        row,
+        data:
+          // ...data,
+          updatedData,
+        // [name]: value
+
+
+      })
+    );
+  }
 
 
   const onSubmit = (e: React.FormEvent) => {
@@ -54,26 +78,9 @@ export default function Page3() {
           <input
             type="checkbox"
             id="travel-chania"
+            name="arrivalCheckbox"
             checked={data[0].arrivalCheckbox}
-            onChange={(e) => {
-              const updatedData = data.map((item, index) => {
-                if (index === 0) {
-                  return { ...item, arrivalCheckbox: e.target.checked };
-                }
-                return item;
-              });
-              setData(updatedData);
-              dispatch(
-                reservationDataActions.saveTravelDetails({
-                  row: row - 1,
-                  data: {
-                    updatedData,
-
-                  },
-                })
-              );
-              console.log(updatedData);
-            }}
+            onChange={handleChange}
           />
           <label htmlFor="travel-chania" className="ml-2">
             Travel by boat/Already in Chania
@@ -90,79 +97,30 @@ export default function Page3() {
             <div className="w-full md:w-1/4 px-3">
               <input
                 type="date"
+                name="arrivalDate"
                 value={data[0].arrivalDate}
                 className={inputClass}
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, arrivalDate: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      arrivalDate: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full md:w-1/4 px-3">
               <input
                 type="time"
+                name="arrivalTime"
                 className={inputClass}
                 value={data[0].arrivalTime}
 
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, arrivalTime: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      arrivalTime: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
               <select
-                name="locations"
-                id="locations"
+                name="arrivalLocation"
+                id="arrivalLocation"
                 className="block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 value={data[0].arrivalLocation}
 
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, arrivalLocation: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      arrivalLocation: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               >
                 <option value="Greece">Greece</option>
                 <option value="Turkey">Turkey</option>
@@ -175,53 +133,21 @@ export default function Page3() {
               <input
                 type="text"
                 className={inputClass}
+                name="arrivalFlightNumber"
                 value={data[0].arrivalFlightNumber}
 
                 placeholder="Arrival Flight Number"
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, arrivalFlightNumber: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      arrivalFlightNumber: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full px-3">
               <textarea
                 className={inputClass}
+                name="arrivalNotes"
                 placeholder="Your notes go here"
                 value={data[0].arrivalNotes}
 
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, arrivalNotes: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      arrivalNotes: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               ></textarea>
             </div>
           </div>
@@ -232,26 +158,10 @@ export default function Page3() {
           <input
             type="checkbox"
             id="travel-athens"
+            name="departureCheckbox"
             checked={data[0].departureCheckbox}
 
-            onChange={(e) => {
-              const updatedData = data.map((item, index) => {
-                if (index === 0) {
-                  // Assuming you're targeting the first object; adjust the condition as needed
-                  return { ...item, departureCheckbox: e.target.checked };
-                }
-                return item;
-              });
-              setData(updatedData);
-              dispatch(
-                reservationDataActions.saveTravelDetails({
-                  row: row - 1,
-                  ...updatedData,
-                  departureCheckbox: e.target.checked,
-                })
-              );
-              console.log(updatedData);
-            }}
+            onChange={handleChange}
           />
           <label htmlFor="travel-athens" className="ml-2">
             Travel by boat/Already in Athens
@@ -268,80 +178,31 @@ export default function Page3() {
             <div className="w-full md:w-1/4 px-3">
               <input
                 type="date"
+                name="departureDate"
                 value={data[0].departureDate}
 
                 className={inputClass}
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, departureDate: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      departureDate: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full md:w-1/4 px-3">
               <input
                 type="time"
+                name="departureTime"
                 value={data[0].departureTime}
 
                 className={inputClass}
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, departureTime: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      departureTime: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
               <select
-                name="locations"
+                name="departureLocation"
                 id="locations"
                 className="block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 value={data[0].departureLocation}
 
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, departureLocation: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      departureLocation: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               >
                 <option value="Greece">Greece</option>
                 <option value="Turkey">Turkey</option>
@@ -353,31 +214,12 @@ export default function Page3() {
             <div className="w-full md:w-1/4 px-3">
               <input
                 type="text"
+                name="departureFlightNumber"
                 className={inputClass}
                 value={data[0].departureFlightNumber}
 
                 placeholder="Departure Fligth Number"
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return {
-                        ...item,
-                        departureFlightNumber: e.target.value,
-                      };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      departureFlightNumber: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full px-3">
@@ -386,24 +228,7 @@ export default function Page3() {
                 placeholder="Your notes go here"
                 value={data[0].departureNotes}
 
-                onChange={(e) => {
-                  const updatedData = data.map((item, index) => {
-                    if (index === 0) {
-                      // Assuming you're targeting the first object; adjust the condition as needed
-                      return { ...item, departureNotes: e.target.value };
-                    }
-                    return item;
-                  });
-                  setData(updatedData);
-                  dispatch(
-                    reservationDataActions.saveTravelDetails({
-                      row: row - 1,
-                      ...updatedData,
-                      departureNotes: e.target.value,
-                    })
-                  );
-                  console.log(updatedData);
-                }}
+                onChange={handleChange}
               ></textarea>
             </div>
           </div>

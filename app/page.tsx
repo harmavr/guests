@@ -3,13 +3,8 @@
 import ReservationDetails from "./ui/reservation-details/page";
 import Map from "./ui/map/page";
 import Navigation from "./ui/navigation/page";
-import Card from "./ui/card";
 import villa from "@/public/villa.jpg";
-import villa2 from "@/public/villa2jpg.jpg";
-import villa3 from "@/public/villa3jpg.jpg";
-import { Provider, useSelector } from "react-redux";
 import { useAppSelector } from "./lib/hooks";
-import { RootState } from "./lib/store";
 import { useEffect, useState } from "react";
 import { userData } from "./lib/types";
 

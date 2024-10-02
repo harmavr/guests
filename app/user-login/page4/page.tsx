@@ -2,67 +2,68 @@
 
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
-import { formActions } from "@/app/lib/features/form/formSlice";
-import { userData } from "@/app/lib/types";
-import { useSearchParams } from "next/navigation";
 import { reservationDataActions } from "@/app/lib/features/reservationData/reservationDataSlice";
+import { useSearchParams } from "next/navigation";
 
 export default function Page4() {
-
-  const searchParams = useSearchParams(); // Get the search params (query string)
+  const searchParams = useSearchParams();
   const row = parseInt(searchParams.get("row") || "0");
 
   const dispatch = useAppDispatch();
-  const page = useAppSelector((state) => state.form.page);
-  const property = useAppSelector((state) => state.reservationData.data[row - 1].propertyName);
+  const property = useAppSelector(
+    (state) => state.reservationData.data[row - 1].propertyName
+  );
   const city = useAppSelector((state) => state.reservationData.data[row - 1].city);
-  const num_of_adults = useAppSelector((state) => state.reservationData.data[row - 1].numOfAdults);
-  const num_of_kids = useAppSelector((state) => state.reservationData.data[row - 1].numOfKids);
+  const num_of_adults = useAppSelector(
+    (state) => state.reservationData.data[row - 1].numOfAdults
+  );
+  const num_of_kids = useAppSelector(
+    (state) => state.reservationData.data[row - 1].numOfKids
+  );
   const kidsAges = useAppSelector((state) => state.reservationData.data[row - 1].kidsAges);
-  const detailedUser = useAppSelector((state) => state.reservationData.data[row - 1].detailedUser);
-  const tripDetails = useAppSelector((state) => state.reservationData.data[row - 1].tripDetails);
-  const reservation = useAppSelector((state) => state.reservationData.data[row - 1]);
+  const detailedUser = useAppSelector(
+    (state) => state.reservationData.data[row - 1].detailedUser
+  );
+  const tripDetails = useAppSelector(
+    (state) => state.reservationData.data[row - 1].tripDetails
+  );
+  const reservation = useAppSelector(
+    (state) => state.reservationData.data[row - 1]
+  );
 
   const [data, setData] = useState(reservation);
+  const [user, setUser] = useState(detailedUser);
 
   useEffect(() => {
-    const page1Button = document.querySelector("#page1-button");
-    const page2Button = document.querySelector("#page2-button");
-    const page3Button = document.querySelector("#page3-button");
-    const page4Button = document.querySelector("#page4-button");
-    const page5Button = document.querySelector("#page5-button");
-
-    page1Button?.classList.remove("active");
-    page2Button?.classList.remove("active");
-    page3Button?.classList.remove("active");
-    page4Button?.classList.add("active");
-    page5Button?.classList.remove("active");
-
-  }, [data.detailedUser, detailedUser, kidsAges]);
+    console.log(property, tripDetails);
+  }, [data, detailedUser, kidsAges]);
 
   const saveData = (idx: number) => {
-    console.log(data.detailedUser[idx].firstName);
-    console.log(idx);
+    console.log(user.details[idx]);
 
     dispatch(
       reservationDataActions.saveData({
-        firstName: data.detailedUser[idx].firstName,
-        lastName: data.detailedUser[idx].lastName,
+        firstName: user.details[idx].firstName,
+        lastName: user.details[idx].lastName,
         index: idx,
-        row
+        row,
       })
     );
   };
 
   const handleInputChange = (
-    idx: number,
-    field: "firstName" | "lastName",
-    value: string
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
   ) => {
-    const updatedDetailedUser = [...data.detailedUser];
-    updatedDetailedUser[idx] = { ...updatedDetailedUser[idx], [field]: value };
-    setData({ ...data, detailedUser: updatedDetailedUser });
-    console.log(data);
+    const { name, value } = e.target;
+
+    const updatedDetails = [...user.details];
+    updatedDetails[index] = {
+      ...updatedDetails[index],
+      [name]: value,
+    };
+
+    setUser({ ...user, details: updatedDetails });
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -92,28 +93,27 @@ export default function Page4() {
 
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-4">Saved User Data</h2>
-          {data.detailedUser.map((user, idx) => (
+          {user.details.map((userDetail, idx) => (
             <div key={idx} className="flex items-center space-x-4 mb-4">
               <p className="font-medium">{`User ${idx + 1}:`}</p>
               <input
                 className="flex-1 p-2 border border-gray-300 rounded"
                 type="text"
-                placeholder={`First Name: ${user.firstName}`}
-                value={user.firstName}
-                onChange={(e) =>
-                  handleInputChange(idx, "firstName", e.target.value)
-                }
+                name="firstName"
+                placeholder="First Name"
+                value={userDetail.firstName || ""}
+                onChange={(e) => handleInputChange(e, idx)}
               />
               <input
                 className="flex-1 p-2 border border-gray-300 rounded"
                 type="text"
-                placeholder={`Last Name: ${user.lastName}`}
-                value={user.lastName}
-                onChange={(e) =>
-                  handleInputChange(idx, "lastName", e.target.value)
-                }
+                name="lastName"
+                placeholder="Last Name"
+                value={userDetail.lastName || ""}
+                onChange={(e) => handleInputChange(e, idx)}
               />
               <button
+                type="button"
                 className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 onClick={() => saveData(idx)}
               >
@@ -125,8 +125,7 @@ export default function Page4() {
         <div>
           <h2 className="text-xl font-semibold mb-4">Kids Ages</h2>
           {kidsAges.map((kid, idx) => (
-            <p key={idx} className="mb-2">{`Kid ${idx + 1}: Age ${kid.value
-              }, Needs Help? ${kid.help ? "Yes" : "No"}`}</p>
+            <p key={idx} className="mb-2">{`Kid ${idx + 1}: Age ${kid.value}, Needs Help? ${kid.help ? "Yes" : "No"}`}</p>
           ))}
         </div>
         <div className="mb-6">
@@ -185,9 +184,7 @@ export default function Page4() {
                   <span className="ml-2">{trip.departureLocation}</span>
                 </div>
                 <div>
-                  <label className="font-medium">
-                    Flight Departure Number:
-                  </label>
+                  <label className="font-medium">Flight Departure Number:</label>
                   <span className="ml-2">{trip.departureFlightNumber}</span>
                 </div>
                 <div>

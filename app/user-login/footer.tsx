@@ -37,14 +37,13 @@ export const Footer = () => {
     console.log(detailedUser);
 
     console.log(
-      `number of adults ${numOfAdults} and detailed user length ${currentUser.length}`
+      `number of adults ${numOfAdults} and detailed user length ${detailedUser.user}`
     );
 
     if (page === 2) {
       setIsNextEnabled(
-        parseInt(numOfAdults) === currentUser.length + 1 ||
-        currentUser.length === parseInt(numOfAdults)
-      );
+        numOfAdults === detailedUser.user
+      )
     } else {
       setIsNextEnabled(true);
     }
@@ -59,12 +58,12 @@ export const Footer = () => {
       formElement.requestSubmit();
 
       console.log(
-        `detailed  ${detailedUser.length}, numofAdults ${numOfAdults}`
+        `detailed  ${detailedUser.details.length}, numofAdults ${numOfAdults}`
       );
 
       if (
-        parseInt(numOfAdults) === detailedUser.length + 1 ||
-        detailedUser.length === parseInt(numOfAdults)
+        numOfAdults === detailedUser.details.length + 1 ||
+        detailedUser.details.length === numOfAdults
       ) {
         if (page === 2) {
           dispatch(
@@ -104,6 +103,8 @@ export const Footer = () => {
       }
       if (page == 2) {
         console.log("MAPINW STO DISPATCDH");
+
+
 
         dispatch(
           formActions.validate({

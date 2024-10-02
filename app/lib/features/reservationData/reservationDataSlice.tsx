@@ -35,7 +35,7 @@ const initialState: ReservationData = {
       departureNotes: "123"
     }],
 
-    detailedUser: [{ firstName: "Charis", lastName: "Mavr" }],
+    detailedUser: { details: [{ firstName: "Charis", lastName: "Mavr" }], user: 0 },
     numOfKids: 1,
     numOfAdults: 2,
     total_amount: 1000,
@@ -61,7 +61,9 @@ const initialState: ReservationData = {
       departureFlightNumber: "10101",
       departureNotes: "123"
     }],
-    detailedUser: [{ firstName: "Giannis", lastName: "Zoub" }, { firstName: "Titos", lastName: "Chan" }],
+    detailedUser: {
+      details: [{ firstName: "Giannis", lastName: "Zoub" }, { firstName: "Titos", lastName: "Chan" }], user: 0
+    },
     numOfKids: 3,
     numOfAdults: 2,
     total_amount: 1500,
@@ -99,10 +101,10 @@ const reservationDataSlice = createSlice({
       if (city !== undefined) state.data[index].city = city;
       if (numOfAdults !== undefined) state.data[index].numOfAdults = parseInt(numOfAdults);
 
-      if (numOfAdults > state.data[index].detailedUser.length) {
-        const missingUsers = numOfAdults - state.data[index].detailedUser.length;
+      if (numOfAdults > state.data[index].detailedUser.details.length) {
+        const missingUsers = numOfAdults - state.data[index].detailedUser.details.length;
         for (let i = 0; i < missingUsers; i++) {
-          state.data[index].detailedUser.push({ firstName: '', lastName: '' });
+          state.data[index].detailedUser.details.push({ firstName: '', lastName: '' });
         }
       }
 
@@ -155,12 +157,13 @@ const reservationDataSlice = createSlice({
       console.log(action.payload);
 
       if (index >= 0) {
-        state.data[row - 1].detailedUser[index] = { firstName, lastName };
+        state.data[row - 1].detailedUser.details[index] = { firstName, lastName };
+        state.data[row - 1].detailedUser.user++
       } else {
         console.error("Invalid index");
       }
 
-      console.log(state.data[row - 1].detailedUser[index]);
+      console.log(state.data[row - 1].detailedUser.details[index]);
     },
 
     saveHelpForKids(state, action) {

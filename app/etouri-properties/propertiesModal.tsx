@@ -60,14 +60,14 @@ export default function PropertiesModal({
 
               <p className="text-gray-600">Pre-check-in form</p>
 
-              <p className="text-gray-700">{`Dear ${properties[row].detailedUser[0].firstName} ${properties[row].detailedUser[0].lastName},`}</p>
+              <p className="text-gray-700">{`Dear ${properties[row].detailedUser.details[0].firstName} ${properties[row].detailedUser.details[0].lastName},`}</p>
               <p className="text-gray-600">
                 In order to complete your pre-check-in process, please fill out
                 the form linked below.
               </p>
 
               <p className="text-gray-700">{`Reservation ref: ${properties[row].id}`}</p>
-              <p className="text-gray-700">{`Traveler's details: ${properties[row].detailedUser[0].firstName} ${properties[row].detailedUser[0].lastName}`}</p>
+              <p className="text-gray-700">{`Traveler's details: ${properties[row].detailedUser.details[0].firstName} ${properties[row].detailedUser.details[0].lastName}`}</p>
 
               <div className="flex justify-between items-center">
                 <button
