@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
-import { reservationDataActions } from "@/app/lib/features/reservationData/reservationDataSlice";
+import { useAppDispatch, useAppSelector } from "@/app/[locale]/lib/hooks";
+import { reservationDataActions } from "@/app/[locale]/lib/features/reservationData/reservationDataSlice";
 import { useSearchParams } from "next/navigation";
 
 export default function Page4() {

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import EmailModal from "../emailModal";
 import exportFromJSON from "export-from-json";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/lib/store";
-import { useAppSelector } from "@/app/lib/hooks";
+import { RootState } from "@/app/[locale]/lib/store";
+import { useAppSelector } from "@/app/[locale]/lib/hooks";
 import { useSearchParams } from "next/navigation";
 
 export default function Page5() {

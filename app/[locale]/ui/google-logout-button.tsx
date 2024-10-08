@@ -8,7 +8,7 @@ interface GoogleSignOutButtonProps {
 
 export const GoogleLogoutButton: FC<GoogleSignOutButtonProps> = ({ children }) => {
     const logoutWithGoogle = () => {
-        signOut({ callbackUrl: 'http://localhost:3000/login-page' });
+        signOut({ callbackUrl: 'http://localhost:3000/en/login-page' });
     }
 
 

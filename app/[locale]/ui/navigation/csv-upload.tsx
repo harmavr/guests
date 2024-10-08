@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
-import { useAppDispatch } from "@/app/lib/hooks"; // Assuming you have a custom hook to get dispatch from Redux
-import { reservationActions } from "@/app/lib/features/reservation/reservationSlice";
+import { useAppDispatch } from "@/app/[locale]/lib/hooks"; // Assuming you have a custom hook to get dispatch from Redux
+import { reservationActions } from "@/app/[locale]/lib/features/reservation/reservationSlice";
 import Image from "next/image";
 import ExcelIcon from "../../../public/excel.png";
 
@@ -84,11 +84,10 @@ const CSVUpload = () => {
       <button
         onClick={handleSaveData}
         disabled={!csvData.length}
-        className={`px-4 py-2 text-white font-semibold rounded-lg shadow-md ${
-          csvData.length
+        className={`px-4 py-2 text-white font-semibold rounded-lg shadow-md ${csvData.length
             ? "bg-blue-500 hover:bg-blue-600"
             : "bg-gray-400 cursor-not-allowed"
-        }`}
+          }`}
       >
         Save Data
       </button>

@@ -3,7 +3,7 @@
 import ReservationDetails from "./ui/reservation-details/page";
 import Map from "./ui/map/page";
 import Navigation from "./ui/navigation/page";
-import villa from "@/public/villa.jpg";
+import villa from "@/app/public/villa.jpg";
 import { useAppDispatch, useAppSelector } from "./lib/hooks";
 import { useEffect, useState } from "react";
 import { userData } from "./lib/types";
