@@ -6,6 +6,8 @@ import Link from "next/link";
 import { GoogleLogoutButton } from "../google-logout-button";
 import { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
+import LocaleSwitcher from "../../components/locale-switcher";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function Navigation() {
 
@@ -39,6 +41,10 @@ export default function Navigation() {
     checkSession();
   },);
 
+  const t = useTranslations('Navigation');
+  const localActive = useLocale()
+
+
   return (
     <nav className="bg-white shadow-lg p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -49,10 +55,10 @@ export default function Navigation() {
 
         <div className="flex items-center space-x-6">
           <Link
-            href="/etouri-properties"
-            className="text-gray-600 hover:text-gray-800 transition-colors duration-200"
+            href={`${localActive}/etouri-properties`}
+            className="text-gray-600 hover:text-gray-800 transition-colors duration-200 "
           >
-            Etouri Properties
+            {t('Etouri')}
           </Link>
 
           <div className="text-gray-700">
@@ -62,6 +68,8 @@ export default function Navigation() {
           <GoogleLogoutButton>
             Logout
           </GoogleLogoutButton>
+
+          <LocaleSwitcher />
         </div>
       </div>
     </nav>

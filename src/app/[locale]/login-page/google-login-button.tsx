@@ -25,7 +25,7 @@ export const GoogleLoginButton: FC<GoogleSignInButtonProps> = ({ children }) => 
     }, [dispatch]);
 
     const loginWithGoogle = () => {
-        signIn('google', { callbackUrl: 'http://localhost:3000/en' });
+        signIn('google', { callbackUrl: 'http://localhost:3000/' });
 
     };
 

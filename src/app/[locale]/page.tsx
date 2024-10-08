@@ -10,6 +10,7 @@ import { userData } from "./lib/types";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { loginAction } from "./lib/features/login/loginSlice";
+import { useTranslations } from "next-intl";
 
 export default function Page() {
   const reservations = useAppSelector(
@@ -24,6 +25,8 @@ export default function Page() {
 
   const [data, setData] = useState<userData[]>([]);
   const router = useRouter();
+
+
 
   // useEffect(() => {
 
