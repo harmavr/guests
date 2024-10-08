@@ -4,28 +4,42 @@ import ReservationDetails from "./ui/reservation-details/page";
 import Map from "./ui/map/page";
 import Navigation from "./ui/navigation/page";
 import villa from "@/public/villa.jpg";
-import { useAppSelector } from "./lib/hooks";
+import { useAppDispatch, useAppSelector } from "./lib/hooks";
 import { useEffect, useState } from "react";
 import { userData } from "./lib/types";
 import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { loginAction } from "./lib/features/login/loginSlice";
 
 export default function Page() {
   const reservations = useAppSelector(
     (state) => state.reservation.items
   );
 
-  const loggedIn = useAppSelector(state => state.login.loggedIn)
+  // const loggedIn = useAppSelector(state => state.login.loggedIn)
+
+  // const [state, setState] = useState(loggedIn)
+
+  const dispatch = useAppDispatch()
 
   const [data, setData] = useState<userData[]>([]);
-  useEffect(() => {
+  const router = useRouter();
+
+  // useEffect(() => {
 
 
+  //   setState(loggedIn)
 
-    !loggedIn ? redirect('/login-page') : null;
-
-    setData(reservations);
-    console.log(reservations);
-  }, [reservations]);
+  //   // Only redirect if the loggedIn state has changed
+  //   if (loggedIn) {
+  //     console.log("User is logged in, redirecting...");
+  //     dispatch(loginAction.login({ user: { firstName: '', lastName: '' } }))
+  //     router.push('/'); // Use router.push to redirect to the home page
+  //   } else if (!loggedIn) {
+  //     console.log("User not logged in, redirecting to login page...");
+  //     router.push('/login-page'); // Redirect to login page
+  //   }
+  // }, [loggedIn, router]);
 
   return (
     <div className="relative ">

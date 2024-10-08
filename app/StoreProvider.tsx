@@ -5,6 +5,8 @@ import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { Provider } from "react-redux";
 import { AppStore, makeStore } from "./lib/store";
+import { PersistGate } from "redux-persist/integration/react";
+import Loading from "./loading";
 
 interface Props {
   readonly children: ReactNode;
@@ -27,5 +29,9 @@ export const StoreProvider = ({ children }: Props) => {
     }
   }, []);
 
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={storeRef.current}>
+      {children}
+    </Provider>
+  )
 };

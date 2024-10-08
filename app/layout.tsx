@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Provider } from "react-redux";
 import { StoreProvider } from "./StoreProvider";
+import { PersistGate } from "redux-persist/integration/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,10 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <StoreProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-      </html>
-    </StoreProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <StoreProvider>
+          {children}
+        </StoreProvider>
+      </body>
+    </html>
   );
 }

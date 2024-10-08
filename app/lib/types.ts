@@ -110,7 +110,8 @@ export interface ReservationData {
 }
 
 export interface UserLogin {
-  loggedIn: boolean;
+  // loggedIn: boolean;
+  loggedInUser: { firstName: string; lastName: string };
   userCredentials: [
     {
       firstName: string;

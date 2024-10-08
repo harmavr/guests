@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../lib/hooks";
 import { loginAction } from "../lib/features/login/loginSlice";
 import { useRouter } from "next/navigation";
+import { GoogleLoginButton } from "./google-login-button";
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +14,7 @@ export default function LoginPage() {
     const router = useRouter();
 
     const user = useAppSelector(state => state.login.userCredentials);
-    const login = useAppSelector(state => state.login.loggedIn);
+    // const login = useAppSelector(state => state.login.loggedIn);
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -30,7 +31,7 @@ export default function LoginPage() {
 
         if (matchedUser) {
             console.log("Login success");
-            dispatch(loginAction.changeStatus());
+            dispatch(loginAction.login({ user: matchedUser }));
 
             router.push("/");
         } else {
@@ -103,6 +104,12 @@ export default function LoginPage() {
                             <Link href="/signup-page" className="text-blue-500 hover:underline">
                                 Sign up
                             </Link>
+                        </div>
+                        <div>
+                            <p>or</p>
+                        </div>
+                        <div>
+                            <GoogleLoginButton>Sign in with Google </GoogleLoginButton>
                         </div>
                     </div>
                 </div>
