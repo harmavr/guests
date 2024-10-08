@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "@/app/[locale]/globals.css";
+import "/home/charmavr/project/guests/src/app/[locale]/globals.css";
+
+
 import { StoreProvider } from "./StoreProvider";
 
 

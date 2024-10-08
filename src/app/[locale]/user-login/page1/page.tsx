@@ -1,15 +1,15 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/app/[locale]/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/src/app/[locale]/lib/hooks";
 import React, { useEffect, useState } from "react";
 import { log } from "console";
 import Kids from "../kids";
 import { useSelector } from "react-redux";
 import ModalForKids from "../modalForKids";
-import { userData } from "@/app/[locale]/lib/types";
-import { formActions } from "@/app/[locale]/lib/features/form/formSlice";
+import { userData } from "@/src/app/[locale]/lib/types";
+import { formActions } from "@/src/app/[locale]/lib/features/form/formSlice";
 import { usePathname, useSearchParams } from "next/navigation";
-import { reservationDataActions } from "@/app/[locale]/lib/features/reservationData/reservationDataSlice";
+import { reservationDataActions } from "@/src/app/[locale]/lib/features/reservationData/reservationDataSlice";
 
 export default function Page1() {
 

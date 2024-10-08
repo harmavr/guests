@@ -1,5 +1,5 @@
 import React from "react";
-import map from "@/app/public/map.jpg";
+import map from "@/src/app/public/map.jpg";
 import Image from "next/image";
 
 export default function Map() {

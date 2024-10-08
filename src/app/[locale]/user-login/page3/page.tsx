@@ -1,6 +1,6 @@
-import { formActions } from "@/app/[locale]/lib/features/form/formSlice";
-import { reservationDataActions } from "@/app/[locale]/lib/features/reservationData/reservationDataSlice";
-import { useAppDispatch, useAppSelector } from "@/app/[locale]/lib/hooks";
+import { formActions } from "@/src/app/[locale]/lib/features/form/formSlice";
+import { reservationDataActions } from "@/src/app/[locale]/lib/features/reservationData/reservationDataSlice";
+import { useAppDispatch, useAppSelector } from "@/src/app/[locale]/lib/hooks";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 

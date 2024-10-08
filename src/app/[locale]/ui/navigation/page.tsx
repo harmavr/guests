@@ -1,7 +1,7 @@
 // components/Navigation.js
 
-import { loginAction } from "@/app/[locale]/lib/features/login/loginSlice";
-import { useAppDispatch, useAppSelector } from "@/app/[locale]/lib/hooks";
+import { loginAction } from "@/src/app/[locale]/lib/features/login/loginSlice";
+import { useAppDispatch, useAppSelector } from "@/src/app/[locale]/lib/hooks";
 import Link from "next/link";
 import { GoogleLogoutButton } from "../google-logout-button";
 import { useEffect, useState } from "react";

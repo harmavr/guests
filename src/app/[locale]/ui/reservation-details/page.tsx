@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import Modal from "../modal";
-import { useAppSelector } from "@/app/[locale]/lib/hooks";
-import { userData } from "@/app/[locale]/lib/types";
-import TravellerModal from "@/app/[locale]/travellerModal";
+import { useAppSelector } from "@/src/app/[locale]/lib/hooks";
+import { userData } from "@/src/app/[locale]/lib/types";
+import TravellerModal from "@/src/app/[locale]/travellerModal";
 
 interface ReservationProps {
   title: string;

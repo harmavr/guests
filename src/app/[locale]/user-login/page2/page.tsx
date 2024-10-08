@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/app/[locale]/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/src/app/[locale]/lib/hooks";
 import { useSearchParams } from "next/navigation";
-import { reservationDataActions } from "@/app/[locale]/lib/features/reservationData/reservationDataSlice";
+import { reservationDataActions } from "@/src/app/[locale]/lib/features/reservationData/reservationDataSlice";
 
 export default function Page2() {
   const searchParams = useSearchParams(); // Get the search params (query string)
