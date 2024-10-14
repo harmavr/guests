@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
-import { useAppDispatch } from "@/src/app/[locale]/lib/hooks"; // Assuming you have a custom hook to get dispatch from Redux
+import { useAppDispatch } from "@/src/app/[locale]/lib/hooks";
 import { reservationActions } from "@/src/app/[locale]/lib/features/reservation/reservationSlice";
 import Image from "next/image";
 import ExcelIcon from "../../../public/excel.png";
@@ -46,6 +46,8 @@ const CSVUpload = () => {
             kidsAges: row.kidsAges ? JSON.parse(row.kidsAges) : [],
           }));
           setCsvData(parsedData);
+          console.log(csvData);
+
         },
         error: function (error) {
           console.error("Error while parsing CSV:", error);

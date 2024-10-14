@@ -24,25 +24,26 @@ export default function Page() {
   const dispatch = useAppDispatch()
 
   const [data, setData] = useState<userData[]>([]);
+
+
   const router = useRouter();
 
+  useEffect(() => {
 
+    setData(reservations)
 
-  // useEffect(() => {
+    // setState(loggedIn)
 
-
-  //   setState(loggedIn)
-
-  //   // Only redirect if the loggedIn state has changed
-  //   if (loggedIn) {
-  //     console.log("User is logged in, redirecting...");
-  //     dispatch(loginAction.login({ user: { firstName: '', lastName: '' } }))
-  //     router.push('/'); // Use router.push to redirect to the home page
-  //   } else if (!loggedIn) {
-  //     console.log("User not logged in, redirecting to login page...");
-  //     router.push('/login-page'); // Redirect to login page
-  //   }
-  // }, [loggedIn, router]);
+    // Only redirect if the loggedIn state has changed
+    // if (loggedIn) {
+    //   console.log("User is logged in, redirecting...");
+    dispatch(loginAction.login({ user: { firstName: '', lastName: '' } }))
+    router.push('/'); // Use router.push to redirect to the home page
+    // } else if (!loggedIn) {
+    //   console.log("User not logged in, redirecting to login page...");
+    //   router.push('/login-page'); // Redirect to login page
+    // }
+  }, [router]);
 
   return (
     <div className="relative ">

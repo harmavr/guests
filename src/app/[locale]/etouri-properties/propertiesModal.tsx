@@ -7,6 +7,7 @@ import reservationSlice, {
   reservationActions,
 } from "../lib/features/reservation/reservationSlice";
 import { reservationDataActions } from "../lib/features/reservationData/reservationDataSlice";
+import { useLocale } from "next-intl";
 
 interface ModalDetails {
   openModal: boolean;
@@ -38,9 +39,15 @@ export default function PropertiesModal({
 
   const statusHandler = (row: number) => {
     if (properties[row].status === "Confirmed") {
+      console.log('reservations', properties[row]);
+
       dispatch(reservationActions.saveReservation({ formData: properties[row] }));
     }
   };
+
+  const localeActive = useLocale()
+  console.log(localeActive);
+
 
   return (
     <>
@@ -80,9 +87,10 @@ export default function PropertiesModal({
                 <Link
                   href={
                     properties[row].status === "Pre Check-in"
-                      ? `/user-login?row=${row + 1}`
+                      ? `/${localeActive.replace(/^\/?/, '')}/user-login?row=${row + 1}`
                       : "/"
                   }
+
                   onClick={() => {
                     closeModal(openModal, modalHandler);
                     statusHandler(row);

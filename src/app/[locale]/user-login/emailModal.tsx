@@ -6,7 +6,8 @@ import Link from "next/link";
 import { verificationActions } from "../lib/features/verification-code/verificationCodeSlice";
 import { ReservationData } from "../lib/types";
 import { reservationDataActions } from "../lib/features/reservationData/reservationDataSlice";
-import { useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useLocale } from "next-intl";
 
 interface ModalDetails {
   openModal: boolean;
@@ -37,6 +38,11 @@ export default function EmailModal({ openModal, modalHandler }: ModalDetails) {
 
   const accessCode = useSelector((state: any) => state.verification.keyAccess);
 
+  const localeActive = useLocale()
+
+  const router = useRouter()
+
+
   useEffect(() => {
     console.log(accessCode);
   });
@@ -56,6 +62,11 @@ export default function EmailModal({ openModal, modalHandler }: ModalDetails) {
       closeModal(openModal, modalHandler);
       dispatch(formActions.init());
       dispatch(verificationActions.newCode());
+
+
+      router.push(`/${localeActive.replace(/^\/?/, '')}/etouri-properties`);
+
+      // redirect(`/${localeActive.replace(/^\/?/, '')}/etouri-properties`)
 
       // Proceed with next step (e.g., close modal, redirect, etc.)
     }

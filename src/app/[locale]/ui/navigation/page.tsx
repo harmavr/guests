@@ -25,6 +25,10 @@ export default function Navigation() {
 
   }
 
+  const localeActive = useLocale()
+  console.log(localeActive);
+
+
   useEffect(() => {
     const checkSession = async () => {
       const session = await getSession();
@@ -42,7 +46,6 @@ export default function Navigation() {
   },);
 
   const t = useTranslations('Navigation');
-  const localActive = useLocale()
 
 
   return (
@@ -55,7 +58,7 @@ export default function Navigation() {
 
         <div className="flex items-center space-x-6">
           <Link
-            href={`${localActive}/etouri-properties`}
+            href={`/${localeActive.replace(/^\/?/, '')}/etouri-properties`}
             className="text-gray-600 hover:text-gray-800 transition-colors duration-200 "
           >
             {t('Etouri')}

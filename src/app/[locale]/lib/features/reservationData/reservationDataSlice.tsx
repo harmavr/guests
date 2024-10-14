@@ -80,11 +80,11 @@ const reservationDataSlice = createSlice({
   reducers: {
     saveReservationData(state, action) {
       const { resData, status } = action.payload;
-      console.log(resData);
+      console.log('saveReservation data', resData);
 
       state.data.push({ ...resData, status: status });
 
-      console.log(state.data);
+      console.log('array reservation', state.data);
 
     },
     changeStatus(state, action) {
