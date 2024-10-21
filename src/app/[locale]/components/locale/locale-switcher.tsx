@@ -46,10 +46,10 @@ export default function LocaleSwitcher() {
 	};
 
 	return (
-		<div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+		<div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 ">
 			<select
 				value={localActive}
-				className="md:w-full"
+				className="md:w-full hover:cursor-pointer"
 				name="dropdown"
 				id="dropdown"
 				onChange={onSelectChange}

@@ -72,7 +72,7 @@ export default function MapContainer() {
 					</ul>
 				</div>
 				<div className="w-2/3 p-8 ">
-					<div className="top-16 sticky  overflow-hidden shadow-lg">
+					<div className="top-28 sticky  overflow-hidden shadow-lg">
 						<Map />
 					</div>
 				</div>

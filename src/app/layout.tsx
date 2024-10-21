@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import "/home/charmavr/project/guests/src/app/[locale]/globals.css";
+import "@/src/app/[locale]/globals.css";
 
 import { getMessages } from "next-intl/server";
 import { StoreProvider } from "./[locale]/StoreProvider";
-import MainNavigation from "./[locale]/components/navigation/mainNavigation";
+import PrimaryNavigation from "./[locale]/components/navigation/mainNavigation/primaryNavigation";
+import SecondaryMainNavigation from "./[locale]/components/navigation/mainNavigation/secondaryNavigation";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -27,7 +28,10 @@ export default async function RootLayout({
 					<NextIntlClientProvider
 						messages={messages}
 					>
-						<MainNavigation />
+						<div className="shadow-lg sticky top-0 z-10">
+							<PrimaryNavigation />
+							<SecondaryMainNavigation />
+						</div>
 						{children}
 					</NextIntlClientProvider>
 				</StoreProvider>

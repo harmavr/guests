@@ -12,12 +12,12 @@ import {
 	useLocale,
 	useTranslations,
 } from "next-intl";
-import { GoogleLogoutButton } from "../authentication/google-logout-button";
-import LocaleSwitcher from "../locale/locale-switcher";
-import UserLoginDropdown from "../userLoginDropdown/userLoginDropdown";
-import SecondaryMainNavigation from "./mainNavigation/secondaryNavigation";
+import { GoogleLogoutButton } from "../../authentication/google-logout-button";
+import LocaleSwitcher from "../../locale/locale-switcher";
+import UserLoginDropdown from "../../userLoginDropdown/userLoginDropdown";
+import SecondaryMainNavigation from "./secondaryNavigation";
 
-export default function MainNavigation() {
+export default function PrimaryNavigation() {
 	// const loggedIn = useAppSelector(state => state.login.loggedIn)
 
 	const user = useAppSelector(
@@ -63,31 +63,9 @@ export default function MainNavigation() {
 				</div>
 
 				<div className="flex items-center space-x-6">
-					{/* <Link
-
-						href={`/${localeActive.replace(
-							/^\/?/,
-							""
-						)}/reservations`}
-						className="text-gray-600 hover:underline  "
-					>
-						Reservations
-					</Link>
-
-					<Link href={`/${localeActive}/layouts`} className="text-gray-600 hover:underline  ">
-						Layouts
-					</Link> */}
-
 					<UserLoginDropdown user={username} />
 
-
 					<LocaleSwitcher />
-					<GoogleLogoutButton>
-						Logout
-					</GoogleLogoutButton>
-
-					<SecondaryMainNavigation />
-
 				</div>
 			</div>
 		</nav>
