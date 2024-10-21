@@ -1,7 +1,6 @@
 "use client";
 
 /* eslint-disable react/no-children-prop */
-import ContainerWraper from "./container-wrapper";
 import Navigation from "../ui/navigation/page";
 
 export default function Layout({
@@ -16,7 +15,7 @@ export default function Layout({
       </div> */}
 
 			<div className="border border-gray-300 rounded-md bg-white  flex-grow mt-28 mb-8 mr-9 ml-10  flex items-center justify-center h-full">
-				<ContainerWraper />
+				{children}
 			</div>
 		</>
 	);

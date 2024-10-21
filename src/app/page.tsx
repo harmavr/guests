@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation'
-import React from 'react'
+import React from "react";
 
-export default function RootPage() {
-    // redirect('/en')
+export default function RootLayout() {
+	return <h1>as</h1>;
 }
