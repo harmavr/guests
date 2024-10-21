@@ -13,7 +13,7 @@ import ReservationsTable from "../components/chart/reservations-table";
 import ProductRevenue from "../components/chart/productRevenue";
 import TodaysSales from "../components/chart/todaysSales";
 
-export default function HomePage() {
+export default function Layouts() {
 	const reservations = useAppSelector(
 		(state) => state.reservation.items
 	);

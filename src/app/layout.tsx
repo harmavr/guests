@@ -4,8 +4,7 @@ import "/home/charmavr/project/guests/src/app/[locale]/globals.css";
 
 import { getMessages } from "next-intl/server";
 import { StoreProvider } from "./[locale]/StoreProvider";
-import Navigation from "./[locale]/ui/navigation/page";
-import MainNavigation from "./[locale]/components/navigations/mainNavigation";
+import MainNavigation from "./[locale]/components/navigation/mainNavigation";
 
 export const metadata: Metadata = {
 	title: "Create Next App",

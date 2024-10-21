@@ -39,7 +39,7 @@ export const GoogleLoginButton: FC<
 	const loginWithGoogle = () => {
 		signIn("google", {
 			callbackUrl:
-				"http://localhost:3000/en/home-page",
+				"http://localhost:3000/en/map-container",
 		});
 	};
 

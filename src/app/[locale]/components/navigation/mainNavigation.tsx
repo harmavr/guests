@@ -49,7 +49,7 @@ export default function MainNavigation() {
 	const t = useTranslations("Navigation");
 
 	return (
-		<nav className="bg-white shadow-lg p-4">
+		<nav className="bg-white shadow-lg p-4 sticky top-0 z-10">
 			<div className="container mx-auto flex justify-between items-center">
 				<div className="text-black text-2xl font-bold hover:text-gray-700">
 					<Link
@@ -70,11 +70,9 @@ export default function MainNavigation() {
 						Reservations
 					</Link>
 
-					{/* <Link
-						href={`/${localeActive}/home-page`}
-					>
-						Reservations
-					</Link> */}
+					<Link href={`/${localeActive}/layouts`}>
+						Layouts
+					</Link>
 
 					<div className="text-gray-700">
 						Hello,{" "}

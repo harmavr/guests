@@ -94,7 +94,7 @@ export default function EmailModal({
 				`/${localeActive.replace(
 					/^\/?/,
 					""
-				)}/etouri-properties`
+				)}/reservations`
 			);
 
 			// redirect(`/${localeActive.replace(/^\/?/, '')}/etouri-properties`)

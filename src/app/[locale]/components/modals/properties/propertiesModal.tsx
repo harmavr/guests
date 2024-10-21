@@ -116,7 +116,7 @@ export default function PropertiesModal({
 											  )}/user-login?row=${
 													row + 1
 											  }`
-											: `/${localeActive}/home-page`
+											: `/${localeActive}/reservations`
 									}
 									onClick={() => {
 										closeModal(

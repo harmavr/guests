@@ -10,7 +10,7 @@ import Image, {
 import { useAppSelector } from "@/src/app/[locale]/lib/hooks";
 import { userData } from "../../lib/types";
 import Modal from "../../ui/modal";
-import TravellerModal from "../../travellerModal";
+import TravellerModal from "../modals/travellerModal";
 
 interface ReservationProps {
 	title: string;
@@ -40,12 +40,10 @@ export default function ReservationDetails({
 		(state) => state.reservation.items
 	);
 
-	const [firstName, setFirstName] =
-		useState();
-		// travellers[0].detailedUser[travellerId].firstName
-	const [lastName, setLastName] =
-		useState();
-		// travellers[0].detailedUser[travellerId].lastName
+	const [firstName, setFirstName] = useState();
+	// travellers[0].detailedUser[travellerId].firstName
+	const [lastName, setLastName] = useState();
+	// travellers[0].detailedUser[travellerId].lastName
 	const userDetailsHandler = (
 		firstName: string,
 		lastName: string

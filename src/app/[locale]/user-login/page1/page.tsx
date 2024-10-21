@@ -86,7 +86,7 @@ export default function Page1() {
 		// console.log(reservation);
 		console.log(data);
 		console.log(reservation[row - 1]);
-	}, [data, row]);
+	}, [data, reservation, row]);
 
 	const handleInputChange = (
 		e: React.ChangeEvent<HTMLInputElement>
