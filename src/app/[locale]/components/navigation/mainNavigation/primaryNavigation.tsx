@@ -15,7 +15,6 @@ import {
 import { GoogleLogoutButton } from "../../authentication/google-logout-button";
 import LocaleSwitcher from "../../locale/locale-switcher";
 import UserLoginDropdown from "../../userLoginDropdown/userLoginDropdown";
-import SecondaryMainNavigation from "./secondaryNavigation";
 
 export default function PrimaryNavigation() {
 	// const loggedIn = useAppSelector(state => state.login.loggedIn)
