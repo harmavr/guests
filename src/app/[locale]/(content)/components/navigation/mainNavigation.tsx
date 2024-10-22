@@ -1,10 +1,10 @@
 // components/Navigation.js
 "use client";
-import { loginAction } from "@/src/app/[locale]/lib/features/login/loginSlice";
+import { loginAction } from "@/src/app/[locale]/(content)/lib/features/login/loginSlice";
 import {
 	useAppDispatch,
 	useAppSelector,
-} from "@/src/app/[locale]/lib/hooks";
+} from "@/src/app/[locale]/(content)/lib/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
@@ -80,14 +80,12 @@ export default function MainNavigation() {
 
 					<UserLoginDropdown user={username} />
 
-
 					<LocaleSwitcher />
 					<GoogleLogoutButton>
 						Logout
 					</GoogleLogoutButton>
 
 					<SecondaryMainNavigation />
-
 				</div>
 			</div>
 		</nav>

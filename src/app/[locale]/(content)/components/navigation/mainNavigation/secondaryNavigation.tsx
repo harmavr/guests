@@ -9,10 +9,8 @@ export default function SecondaryMainNavigation() {
 	const localeActive = useLocale();
 
 	return (
-		<nav className="bg-white shadow-lg p-4 sticky top-0 ">
-			<div className="container mx-auto flex justify-start items-center">
-				<div className="text-black text-2xl font-bold hover:text-gray-700"></div>
-
+		<nav className="bg-orange-50 shadow-lg p-2 sticky top-20 z-10">
+			<div className="container mx-auto flex justify-start items-center ">
 				<div className="flex items-center space-x-6">
 					<Link
 						href={`/${localeActive.replace(

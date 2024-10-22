@@ -4,8 +4,8 @@ import "@/src/app/[locale]/globals.css";
 
 import { getMessages } from "next-intl/server";
 import { StoreProvider } from "./[locale]/StoreProvider";
-import PrimaryNavigation from "./[locale]/components/navigation/mainNavigation/primaryNavigation";
-import SecondaryMainNavigation from "./[locale]/components/navigation/mainNavigation/secondaryNavigation";
+import PrimaryNavigation from "./[locale]/(content)/components/navigation/mainNavigation/primaryNavigation";
+import SecondaryMainNavigation from "./[locale]/(content)/components/navigation/mainNavigation/secondaryNavigation";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -28,10 +28,6 @@ export default async function RootLayout({
 					<NextIntlClientProvider
 						messages={messages}
 					>
-						<div className="shadow-lg sticky top-0 z-10">
-							<PrimaryNavigation />
-							<SecondaryMainNavigation />
-						</div>
 						{children}
 					</NextIntlClientProvider>
 				</StoreProvider>

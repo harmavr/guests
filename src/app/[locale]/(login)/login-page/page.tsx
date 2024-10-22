@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import {
 	useAppSelector,
 	useAppDispatch,
-} from "../lib/hooks";
-import { loginAction } from "../lib/features/login/loginSlice";
+} from "../../(content)/lib/hooks";
+import { loginAction } from "../../(content)/lib/features/login/loginSlice";
 import { useRouter } from "next/navigation";
-import { GoogleLoginButton } from "../components/authentication/google-login-button";
+import { GoogleLoginButton } from "../../(content)/components/authentication/google-login-button";
 
 export default function LoginPage() {
 	const [showPassword, setShowPassword] =

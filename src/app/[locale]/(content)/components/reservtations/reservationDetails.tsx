@@ -7,7 +7,7 @@ import React, {
 import Image, {
 	StaticImageData,
 } from "next/image";
-import { useAppSelector } from "@/src/app/[locale]/lib/hooks";
+import { useAppSelector } from "@/src/app/[locale]/(content)/lib/hooks";
 import { userData } from "../../lib/types";
 import Modal from "../../ui/modal";
 import TravellerModal from "../modals/travellerModal";

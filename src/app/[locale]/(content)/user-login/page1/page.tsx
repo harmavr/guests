@@ -3,7 +3,7 @@
 import {
 	useAppDispatch,
 	useAppSelector,
-} from "@/src/app/[locale]/lib/hooks";
+} from "@/src/app/[locale]/(content)/lib/hooks";
 import React, {
 	useEffect,
 	useState,
@@ -12,13 +12,13 @@ import { log } from "console";
 import Kids from "../kids";
 import { useSelector } from "react-redux";
 import ModalForKids from "../../components/modals/modalForKids";
-import { userData } from "@/src/app/[locale]/lib/types";
-import { formActions } from "@/src/app/[locale]/lib/features/form/formSlice";
+import { userData } from "@/src/app/[locale]/(content)/lib/types";
+import { formActions } from "@/src/app/[locale]/(content)/lib/features/form/formSlice";
 import {
 	usePathname,
 	useSearchParams,
 } from "next/navigation";
-import { reservationDataActions } from "@/src/app/[locale]/lib/features/reservationData/reservationDataSlice";
+import { reservationDataActions } from "@/src/app/[locale]/(content)/lib/features/reservationData/reservationDataSlice";
 
 export default function Page1() {
 	const searchParams = useSearchParams(); // Get the search params (query string)
