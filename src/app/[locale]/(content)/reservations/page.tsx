@@ -10,12 +10,15 @@ import PaymentsModal from "../components/modals/payments/paymentsModal";
 import CreateReservation from "../components/reservtations/create-reservation";
 
 export default function EtouriProperties() {
-	// Fetching reservations from the Redux state
 	const reservations = useAppSelector(
 		(state) => state.reservationData.data
 	);
 
-	// State variables
+	const [
+		selectedDateState,
+		setSelectedDateState,
+	] = useState("");
+
 	const [openModal, setOpenModal] =
 		useState(false);
 	const [openPaymentModal, setOpenPaymentModal] =
@@ -114,66 +117,80 @@ export default function EtouriProperties() {
 	// Search By Date (Current Year, Month, or Day)
 	const searchByDate = (date: string) => {
 		setLoading(true);
+		if (date == "x") {
+			setSelectedDateState("");
+		} else {
+			console.log(date);
 
-		setTimeout(() => {
-			const resultsArray = reservations.filter(
-				(el) => {
-					const arrivalDate =
-						el.tripDetails[0].arrivalDate.replace(
-							/[^\d\/\n]/g,
-							""
-						);
-					const departureDate =
-						el.tripDetails[0].departureDate.replace(
-							/[^\d\/\n]/g,
-							""
-						);
-					const dates = arrivalDate.split("\n");
+			setSelectedDateState(date);
+		}
 
-					const currentDate = new Date();
-					let currentDay = currentDate.getDate();
-					let currentMonth =
-						currentDate.getMonth() + 1;
-					let currentYear =
-						currentDate.getFullYear();
+		setTimeout(
+			() => {
+				const resultsArray = reservations.filter(
+					(el) => {
+						const arrivalDate =
+							el.tripDetails[0].arrivalDate.replace(
+								/[^\d\/\n]/g,
+								""
+							);
+						const departureDate =
+							el.tripDetails[0].departureDate.replace(
+								/[^\d\/\n]/g,
+								""
+							);
+						const dates = arrivalDate.split("\n");
 
-					return dates.some((dateStr) => {
-						const [day, month, year] = dateStr
-							.split("-")
-							.map(Number);
-						if (!day || !month || !year)
-							return false;
+						const currentDate = new Date();
+						let currentDay =
+							currentDate.getDate();
+						let currentMonth =
+							currentDate.getMonth() + 1;
+						let currentYear =
+							currentDate.getFullYear();
 
-						switch (date) {
-							case "Current Year":
-								return year === currentYear;
-							case "Current Month":
-								return (
-									month === currentMonth &&
-									year === currentYear
-								);
-							case "Current Day":
-								return (
-									day === currentDay &&
-									month === currentMonth &&
-									year === currentYear
-								);
-							default:
+						return dates.some((dateStr) => {
+							const year = dateStr.slice(0, 4); // First 4 characters are the year
+							const month = dateStr.slice(4, 6); // Characters 5 and 6 are the month
+							const day = dateStr.slice(6, 8); // Characters 7 and 8 are the day
+							if (!day || !month || !year)
 								return false;
-						}
-					});
-				}
-			);
 
-			setResultList(resultsArray);
-			setResultsFound(resultsArray.length > 0);
-			setLoading(false);
-		}, 500);
+							switch (date) {
+								case "Current Year":
+									return year == currentYear;
+								case "Current Month":
+									return (
+										month == currentMonth &&
+										year == currentYear
+									);
+								case "Current Day":
+									return (
+										day == currentDay &&
+										month == currentMonth &&
+										year == currentYear
+									);
+								case "x":
+									return reservations;
+								default:
+									return false;
+							}
+						});
+					}
+				);
+
+				setResultList(resultsArray);
+				setResultsFound(resultsArray.length > 0);
+				setLoading(false);
+			},
+
+			500
+		);
 	};
 
 	return (
 		<>
-			<div className="container mx-auto pt-4 pb-4">
+			<div className="container mx-auto pt-4 pb-4 inset-0">
 				<h2 className="text-2xl font-bold mb-4 text-gray-800">
 					List of Reservations
 				</h2>
@@ -203,7 +220,7 @@ export default function EtouriProperties() {
 
 				{tab === 1 && (
 					<div className="pt-5">
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+						<div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 							<input
 								className="border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:ring-blue-500 transition-all outline-none"
 								type="search"
@@ -266,28 +283,40 @@ export default function EtouriProperties() {
 								)}
 							</div>
 
-							<select
-								name="account"
-								id="account"
-								defaultValue=""
-								className="border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:ring-blue-500 transition-all outline-none"
-								onChange={(e) =>
-									searchByDate(e.target.value)
-								}
-							>
-								<option value="" disabled>
-									Select Date
-								</option>
-								<option value="Current Year">
-									Current Year
-								</option>
-								<option value="Current Month">
-									Current Month
-								</option>
-								<option value="Current Day">
-									Current Day
-								</option>
-							</select>
+							<div className="relative w-fit">
+								<select
+									name="account"
+									id="account"
+									// defaultValue={selectedDateState}
+									value={selectedDateState}
+									className="border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:ring-blue-500 transition-all outline-none pr-10"
+									onChange={(e) =>
+										searchByDate(e.target.value)
+									}
+								>
+									<option value="" disabled>
+										Select Date
+									</option>
+									<option value="Current Year">
+										Current Year
+									</option>
+									<option value="Current Month">
+										Current Month
+									</option>
+									<option value="Current Day">
+										Current Day
+									</option>
+								</select>
+								<button
+									type="button"
+									className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+									onClick={() =>
+										searchByDate("x")
+									}
+								>
+									x
+								</button>
+							</div>
 						</div>
 
 						<div className="flex flex-col">

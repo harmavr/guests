@@ -6,7 +6,7 @@ export default function Layout({ children }) {
 	return (
 		<div className=" shadow-lg ">
 			<PrimaryNavigation />
-			<SecondaryMainNavigation />
+			{/* <SecondaryMainNavigation /> */}
 			{children}
 		</div>
 	);

@@ -20,7 +20,7 @@ const UserLoginDropdown: React.FC<
 
 	return (
 		<>
-			<div className="flex items-center justify-between p-2 ">
+			<div className="flex items-center justify-between p-2">
 				<div className="font-semibold">
 					{user}
 				</div>
@@ -29,7 +29,7 @@ const UserLoginDropdown: React.FC<
 						<ManageAccountsIcon />
 					</button>
 					{isOpenDropdown && (
-						<div className="absolute w-fit bg-white shadow-lg border rounded p-2 ">
+						<div className="absolute w-fit bg-white shadow-lg border rounded p-2">
 							<p>Settings</p>
 							<p>User Details</p>
 							<GoogleLogoutButton>

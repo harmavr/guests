@@ -15,6 +15,7 @@ import {
 import { GoogleLogoutButton } from "../../authentication/google-logout-button";
 import LocaleSwitcher from "../../locale/locale-switcher";
 import UserLoginDropdown from "../../userLoginDropdown/userLoginDropdown";
+import SecondaryMainNavigation from "./secondaryNavigation";
 
 export default function PrimaryNavigation() {
 	// const loggedIn = useAppSelector(state => state.login.loggedIn)
@@ -48,23 +49,26 @@ export default function PrimaryNavigation() {
 	});
 
 	return (
-		<nav className="bg-white shadow-lg p-2 sticky top-0 z-20 ">
-			<div className="container mx-auto flex justify-between items-center ">
-				<div className="text-black text-2xl font-bold hover:text-gray-700">
-					<Link
-						className="hover:underline"
-						href={`/${localeActive}/map-container`}
-					>
-						<i>Etouri</i>
-					</Link>
-				</div>
+		<>
+			<nav className="bg-white shadow-lg p-2 sticky top-0 z-10 ">
+				<div className="container mx-auto flex justify-between items-center ">
+					<div className="text-black text-2xl font-bold hover:text-gray-700">
+						<Link
+							className="hover:underline"
+							href={`/${localeActive}/map-container`}
+						>
+							<i>Etouri</i>
+						</Link>
+					</div>
 
-				<div className="flex items-center space-x-6">
-					<UserLoginDropdown user={username} />
+					<div className="flex items-center space-x-6">
+						<UserLoginDropdown user={username} />
 
-					<LocaleSwitcher />
+						<LocaleSwitcher />
+					</div>
 				</div>
-			</div>
-		</nav>
+				<SecondaryMainNavigation />
+			</nav>
+		</>
 	);
 }

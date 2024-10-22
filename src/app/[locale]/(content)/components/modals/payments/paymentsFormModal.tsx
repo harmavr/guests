@@ -48,7 +48,7 @@ export default function PaymentsFormModal({
 					<div className="fixed inset-0 bg-black bg-opacity-5 backdrop-blur-sm z-10"></div>
 
 					<div className="fixed inset-0 flex items-center justify-end z-10 overflow-auto ">
-						<div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 space-y-6 h-full">
+						<div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 space-y-6 h-full z-20">
 							<h1 className="text-xl font-semibold">
 								New transaction
 							</h1>
