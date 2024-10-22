@@ -1,5 +1,6 @@
 {
-  "Navigation": {
-    "Etouri": "Etouri Properties"
-  }
+	"SecondaryNavigation": {
+		"Reservations": "Reservations",
+		"Layouts": "Layouts"
+	}
 }

@@ -47,8 +47,6 @@ export default function PrimaryNavigation() {
 		checkSession();
 	});
 
-	const t = useTranslations("Navigation");
-
 	return (
 		<nav className="bg-white shadow-lg p-2 sticky top-0 z-20 ">
 			<div className="container mx-auto flex justify-between items-center ">

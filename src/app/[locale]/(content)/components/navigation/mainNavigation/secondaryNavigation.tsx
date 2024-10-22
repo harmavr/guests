@@ -3,10 +3,17 @@ import React from "react";
 import { GoogleLogoutButton } from "../../authentication/google-logout-button";
 import LocaleSwitcher from "../../locale/locale-switcher";
 import UserLoginDropdown from "../../userLoginDropdown/userLoginDropdown";
-import { useLocale } from "next-intl";
+import {
+	useLocale,
+	useTranslations,
+} from "next-intl";
 
 export default function SecondaryMainNavigation() {
 	const localeActive = useLocale();
+
+	const t = useTranslations(
+		"SecondaryNavigation"
+	);
 
 	return (
 		<nav className="bg-orange-50 shadow-lg p-2 sticky top-20 z-10">
@@ -19,14 +26,14 @@ export default function SecondaryMainNavigation() {
 						)}/reservations`}
 						className="text-gray-600 hover:underline  "
 					>
-						Reservations
+						{t("Reservations")}
 					</Link>
 
 					<Link
 						href={`/${localeActive}/layouts`}
 						className="text-gray-600 hover:underline  "
 					>
-						Layouts
+						{t("Layouts")}
 					</Link>
 
 					{/* <UserLoginDropdown user={username} /> */}

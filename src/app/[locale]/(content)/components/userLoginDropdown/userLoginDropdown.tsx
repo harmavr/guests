@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { GoogleLogoutButton } from "../authentication/google-logout-button";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 interface UserLoginDropdownProps {
 	user: string;
@@ -25,7 +26,7 @@ const UserLoginDropdown: React.FC<
 				</div>
 				<div>
 					<button onClick={handleDropdown}>
-						Icon{" "}
+						<ManageAccountsIcon />
 					</button>
 					{isOpenDropdown && (
 						<div className="absolute w-fit bg-white shadow-lg border rounded p-2 ">

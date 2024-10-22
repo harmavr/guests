@@ -1,5 +1,6 @@
 {
-  "Navigation": {
-    "Etouri": "Etouri Ιδιοκτησίες"
-  }
+	"SecondaryNavigation": {
+		"Reservations": "Ιδιοκτησίες",
+		"Layouts": "Σχέδια"
+	}
 }
