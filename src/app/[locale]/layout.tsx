@@ -1,7 +1,11 @@
 import React from "react";
-import PrimaryNavigation from "./(content)/components/navigation/mainNavigation/primaryNavigation";
-import SecondaryMainNavigation from "./(content)/components/navigation/mainNavigation/secondaryNavigation";
+import ArrowScrollTop from "./(content)/components/arrowTop/arrowScrollTop";
 
 export default function Layout({ children }) {
-	return <div>{children}</div>;
+	return (
+		<div>
+			{children}
+			<ArrowScrollTop />
+		</div>
+	);
 }
