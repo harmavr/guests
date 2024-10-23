@@ -41,7 +41,7 @@ export default function ArrowScrollTop() {
 		<div>
 			{showArrow && (
 				<div
-					className="fixed bottom-5 right-5 z-20 cursor-pointer"
+					className="fixed bottom-5 right-5 z-20 cursor-pointer border-2 bg-white rounded "
 					onClick={scrollToTop}
 				>
 					<ArrowCircleUpSharpIcon

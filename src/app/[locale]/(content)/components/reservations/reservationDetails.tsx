@@ -16,7 +16,7 @@ interface ReservationProps {
 	title: string;
 	image: StaticImageData | string;
 
-	details: userData;
+	details: any;
 }
 
 export default function ReservationDetails({
@@ -67,6 +67,10 @@ export default function ReservationDetails({
 		setTravellerModalOpen(!travellerModalOpen);
 		setTravellerId(index);
 	};
+
+	useEffect(() => {
+		console.log(details);
+	}, [details]);
 
 	return (
 		<>
@@ -172,11 +176,11 @@ export default function ReservationDetails({
 					</h2>
 					<p className="text-gray-700 mt-2">
 						<strong>Arrival:</strong>{" "}
-						{/* {`${details.tripDetails[0].LocationArrival}, ${details.tripDetails[0].FlightArrivalDate} at ${details.tripDetails[0].FlightArrivalTime}`} */}
+						{`${details.tripDetails.LocationArrival}, ${details.tripDetails.FlightArrivalDate} at ${details.tripDetails.FlightArrivalTime}`}
 					</p>
 					<p className="text-gray-700 mt-1">
 						<strong>Departure:</strong>{" "}
-						{/* {`${details.tripDetails[0].LocationDeparture}, ${details.tripDetails[0].FlightDepartureDate} at ${details.tripDetails[0].FlightDepartureTime}`} */}
+						{`${details.tripDetails.LocationDeparture}, ${details.tripDetails.FlightDepartureDate} at ${details.tripDetails.FlightDepartureTime}`}
 					</p>
 				</div>
 
@@ -187,11 +191,11 @@ export default function ReservationDetails({
 					</h2>
 					<p className="text-gray-700 mt-2">
 						<strong>Arrival Notes:</strong>{" "}
-						{/* {details.tripDetails[0].NotesArrival} */}
+						{details.tripDetails.NotesArrival}
 					</p>
 					<p className="text-gray-700 mt-1">
 						<strong>Departure Notes:</strong>{" "}
-						{/* {details.tripDetails[0].NotesDeparture} */}
+						{details.tripDetails.NotesDeparture}
 					</p>
 				</div>
 

@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { loginAction } from "../lib/features/login/loginSlice";
 import { userData } from "../lib/types";
 import Map from "../components/map/map";
-import ReservationDetails from "../components/reservtations/reservationDetails";
+import ReservationDetails from "../components/reservations/reservationDetails";
 
 export default function MapContainer() {
 	const reservations = useAppSelector(
@@ -28,6 +28,11 @@ export default function MapContainer() {
 
 	const [data, setData] = useState<userData[]>(
 		[]
+	);
+
+	const tripDetails = useAppSelector(
+		(state) =>
+			state.reservationData.data[0].tripDetails
 	);
 
 	const router = useRouter();
