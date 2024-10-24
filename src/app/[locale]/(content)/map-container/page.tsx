@@ -32,7 +32,7 @@ export default function MapContainer() {
 
 	const tripDetails = useAppSelector(
 		(state) =>
-			state.reservationData.data[0].tripDetails
+			state.reservationData[0].tripDetails
 	);
 
 	const router = useRouter();

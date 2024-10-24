@@ -4,11 +4,14 @@ import {
 	useAppDispatch,
 	useAppSelector,
 } from "@/src/app/[locale]/(content)/lib/hooks";
+import { log } from "console";
 import { useSearchParams } from "next/navigation";
 import React, {
 	useEffect,
 	useState,
 } from "react";
+import map from "../../components/map/map";
+import { type } from "os";
 
 export default function Page3() {
 	const dispatch = useAppDispatch();
@@ -19,8 +22,7 @@ export default function Page3() {
 	);
 	const tripDetails = useAppSelector(
 		(state) =>
-			state.reservationData.data[row - 1]
-				.tripDetails
+			state.reservationData[row - 1].tripDetails
 	);
 
 	const [data, setData] = useState(tripDetails);
@@ -42,29 +44,41 @@ export default function Page3() {
 			}
 		});
 
-		setData(tripDetails);
+		// setData(tripDetails);
 
-		console.log(data[0].arrivalCheckbox);
-	}, [tripDetails]);
+		// console.log(data.arrivalCheckbox);
+	}, [data, tripDetails]);
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		const updatedData = data.map(
-			(item, index) => {
-				// if (index === 0) {
-				return { ...item, [name]: value };
-				// }
-				return item;
-			}
-		);
-		setData(updatedData);
+		const { name, type, value, checked } =
+			e.target;
+
+		const newValue =
+			type === "checkbox" ? checked : value;
+
+		console.log(name, value, newValue);
+
+		const updatedTripDetails = {
+			...data,
+			[name]: newValue, // Only update the relevant field
+		};
+
+		setData({
+			...data,
+			[name]: newValue,
+			...updatedTripDetails,
+		});
+
+		console.log(updatedTripDetails);
+
+		console.log(data);
+
 		dispatch(
-			reservationDataActions.saveTravelDetails({
-				row,
-				data:
-					// ...data,
-					updatedData,
-				// [name]: value
+			reservationDataActions.update({
+				...data,
+				[name]: newValue,
+				tripDetails: updatedTripDetails,
+				index: row - 1,
 			})
 		);
 	};
@@ -86,7 +100,7 @@ export default function Page3() {
 						type="checkbox"
 						id="travel-chania"
 						name="arrivalCheckbox"
-						checked={data[0].arrivalCheckbox}
+						checked={data.arrivalCheckbox}
 						onChange={handleChange}
 					/>
 					<label
@@ -111,7 +125,7 @@ export default function Page3() {
 							<input
 								type="date"
 								name="arrivalDate"
-								value={data[0].arrivalDate}
+								value={data.arrivalDate}
 								className={inputClass}
 								onChange={handleChange}
 							/>
@@ -121,7 +135,7 @@ export default function Page3() {
 								type="time"
 								name="arrivalTime"
 								className={inputClass}
-								value={data[0].arrivalTime}
+								value={data.arrivalTime}
 								onChange={handleChange}
 							/>
 						</div>
@@ -130,7 +144,7 @@ export default function Page3() {
 								name="arrivalLocation"
 								id="arrivalLocation"
 								className="block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-								value={data[0].arrivalLocation}
+								value={data.arrivalLocation}
 								onChange={handleChange}
 							>
 								<option value="Greece">
@@ -153,9 +167,7 @@ export default function Page3() {
 								type="text"
 								className={inputClass}
 								name="arrivalFlightNumber"
-								value={
-									data[0].arrivalFlightNumber
-								}
+								value={data.arrivalFlightNumber}
 								placeholder="Arrival Flight Number"
 								onChange={handleChange}
 							/>
@@ -165,7 +177,7 @@ export default function Page3() {
 								className={inputClass}
 								name="arrivalNotes"
 								placeholder="Your notes go here"
-								value={data[0].arrivalNotes}
+								value={data.arrivalNotes}
 								onChange={handleChange}
 							></textarea>
 						</div>
@@ -178,7 +190,7 @@ export default function Page3() {
 						type="checkbox"
 						id="travel-athens"
 						name="departureCheckbox"
-						checked={data[0].departureCheckbox}
+						checked={data.departureCheckbox}
 						onChange={handleChange}
 					/>
 					<label
@@ -203,7 +215,7 @@ export default function Page3() {
 							<input
 								type="date"
 								name="departureDate"
-								value={data[0].departureDate}
+								value={data.departureDate}
 								className={inputClass}
 								onChange={handleChange}
 							/>
@@ -212,7 +224,7 @@ export default function Page3() {
 							<input
 								type="time"
 								name="departureTime"
-								value={data[0].departureTime}
+								value={data.departureTime}
 								className={inputClass}
 								onChange={handleChange}
 							/>
@@ -222,7 +234,7 @@ export default function Page3() {
 								name="departureLocation"
 								id="locations"
 								className="block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-								value={data[0].departureLocation}
+								value={data.departureLocation}
 								onChange={handleChange}
 							>
 								<option value="Greece">
@@ -245,10 +257,8 @@ export default function Page3() {
 								type="text"
 								name="departureFlightNumber"
 								className={inputClass}
-								value={
-									data[0].departureFlightNumber
-								}
-								placeholder="Departure Fligth Number"
+								value={data.departureFlightNumber}
+								placeholder="Departure Flight Number"
 								onChange={handleChange}
 							/>
 						</div>
@@ -256,7 +266,8 @@ export default function Page3() {
 							<textarea
 								className={inputClass}
 								placeholder="Your notes go here"
-								value={data[0].departureNotes}
+								name="departureNotes"
+								value={data.departureNotes}
 								onChange={handleChange}
 							></textarea>
 						</div>

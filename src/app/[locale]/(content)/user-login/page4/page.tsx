@@ -18,49 +18,25 @@ export default function Page4() {
 	);
 
 	const dispatch = useAppDispatch();
-	const property = useAppSelector(
-		(state) =>
-			state.reservationData.data[row - 1]
-				.propertyName
-	);
-	const city = useAppSelector(
-		(state) =>
-			state.reservationData.data[row - 1].city
-	);
-	const num_of_adults = useAppSelector(
-		(state) =>
-			state.reservationData.data[row - 1]
-				.numOfAdults
-	);
-	const num_of_kids = useAppSelector(
-		(state) =>
-			state.reservationData.data[row - 1]
-				.numOfKids
-	);
-	const kidsAges = useAppSelector(
-		(state) =>
-			state.reservationData.data[row - 1].kidsAges
-	);
-	const detailedUser = useAppSelector(
-		(state) =>
-			state.reservationData.data[row - 1]
-				.detailedUser
-	);
-	const tripDetails = useAppSelector(
-		(state) =>
-			state.reservationData.data[row - 1]
-				.tripDetails
-	);
 	const reservation = useAppSelector(
-		(state) => state.reservationData.data[row - 1]
+		(state) => state.reservationData[row - 1]
 	);
 
-	const [data, setData] = useState(reservation);
+	const {
+		propertyName: property,
+		city,
+		numOfAdults: num_of_adults,
+		numOfKids: num_of_kids,
+		kidsAges,
+		detailedUser,
+		tripDetails,
+	} = reservation;
+
 	const [user, setUser] = useState(detailedUser);
 
 	useEffect(() => {
 		console.log(property, tripDetails);
-	}, [data, detailedUser, kidsAges]);
+	}, [property, tripDetails]);
 
 	const saveData = (idx: number) => {
 		console.log(user.details[idx]);
@@ -170,6 +146,7 @@ export default function Page4() {
 						</div>
 					))}
 				</div>
+
 				<div>
 					<h2 className="text-xl font-semibold mb-4">
 						Kids Ages
@@ -182,123 +159,125 @@ export default function Page4() {
 						}`}</p>
 					))}
 				</div>
+
 				<div className="mb-6">
 					<h2 className="text-xl font-semibold mb-4">
 						Travel Details
 					</h2>
-					{tripDetails.map((trip, idx) => (
-						<div
-							key={idx}
-							className="p-4 border border-gray-300 rounded mb-4"
-						>
-							<div className="grid grid-cols-2 gap-4">
-								<div>
-									<label className="font-medium">
-										Arrival Checkbox:
-									</label>
-									<input
-										type="checkbox"
-										checked={trip.arrivalCheckbox}
-										readOnly
-										className="ml-2"
-									/>
-								</div>
-								<div>
-									<label className="font-medium">
-										Flight Arrival Date:
-									</label>
-									<span className="ml-2">
-										{trip.arrivalDate}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Flight Arrival Time:
-									</label>
-									<span className="ml-2">
-										{trip.arrivalTime}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Location Arrival:
-									</label>
-									<span className="ml-2">
-										{trip.arrivalLocation}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Flight Arrival Number:
-									</label>
-									<span className="ml-2">
-										{trip.arrivalFlightNumber}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Notes Arrival:
-									</label>
-									<span className="ml-2">
-										{trip.arrivalNotes}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Departure Checkbox:
-									</label>
-									<input
-										type="checkbox"
-										checked={
-											trip.departureCheckbox
-										}
-										readOnly
-										className="ml-2"
-									/>
-								</div>
-								<div>
-									<label className="font-medium">
-										Flight Departure Date:
-									</label>
-									<span className="ml-2">
-										{trip.departureDate}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Flight Departure Time:
-									</label>
-									<span className="ml-2">
-										{trip.departureTime}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Location Departure:
-									</label>
-									<span className="ml-2">
-										{trip.departureLocation}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Flight Departure Number:
-									</label>
-									<span className="ml-2">
-										{trip.departureFlightNumber}
-									</span>
-								</div>
-								<div>
-									<label className="font-medium">
-										Notes Departure:
-									</label>
-									<span className="ml-2">
-										{trip.departureNotes}
-									</span>
-								</div>
+					<div className="p-4 border border-gray-300 rounded mb-4">
+						<div className="grid grid-cols-2 gap-4">
+							<div>
+								<label className="font-medium">
+									Arrival Checkbox:
+								</label>
+								<input
+									type="checkbox"
+									checked={
+										tripDetails.arrivalCheckbox
+									}
+									readOnly
+									className="ml-2"
+								/>
+							</div>
+							<div>
+								<label className="font-medium">
+									Flight Arrival Date:
+								</label>
+								<span className="ml-2">
+									{tripDetails.arrivalDate}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Flight Arrival Time:
+								</label>
+								<span className="ml-2">
+									{tripDetails.arrivalTime}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Location Arrival:
+								</label>
+								<span className="ml-2">
+									{tripDetails.arrivalLocation}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Flight Arrival Number:
+								</label>
+								<span className="ml-2">
+									{
+										tripDetails.arrivalFlightNumber
+									}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Notes Arrival:
+								</label>
+								<span className="ml-2">
+									{tripDetails.arrivalNotes}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Departure Checkbox:
+								</label>
+								<input
+									type="checkbox"
+									checked={
+										tripDetails.departureCheckbox
+									}
+									readOnly
+									className="ml-2"
+								/>
+							</div>
+							<div>
+								<label className="font-medium">
+									Flight Departure Date:
+								</label>
+								<span className="ml-2">
+									{tripDetails.departureDate}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Flight Departure Time:
+								</label>
+								<span className="ml-2">
+									{tripDetails.departureTime}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Location Departure:
+								</label>
+								<span className="ml-2">
+									{tripDetails.departureLocation}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Flight Departure Number:
+								</label>
+								<span className="ml-2">
+									{
+										tripDetails.departureFlightNumber
+									}
+								</span>
+							</div>
+							<div>
+								<label className="font-medium">
+									Notes Departure:
+								</label>
+								<span className="ml-2">
+									{tripDetails.departureNotes}
+								</span>
 							</div>
 						</div>
-					))}
+					</div>
 				</div>
 			</div>
 		</form>

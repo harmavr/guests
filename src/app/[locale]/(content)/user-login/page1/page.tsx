@@ -32,7 +32,7 @@ export default function Page1() {
 
 	const kidsAges = useAppSelector(
 		(state) =>
-			state.reservationData.data[row - 1].kidsAges
+			state.reservationData[row - 1].kidsAges
 	);
 	const [smallKidsArray, setSmallKidsArray] =
 		useState<{ value: number; help: boolean }[]>([
@@ -49,7 +49,7 @@ export default function Page1() {
 		(state) => state.form.weAreFreeToGo
 	);
 	const reservation = useAppSelector(
-		(state) => state.reservationData.data
+		(state) => state.reservationData
 	);
 	// const properties = useSelector((state: userData) => state.properties.id);
 	const [data, setData] = useState(
@@ -88,45 +88,34 @@ export default function Page1() {
 		console.log(reservation[row - 1]);
 	}, [data, reservation, row]);
 
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement>
-	) => {
+	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 
-		console.log(`Name ${name}, Value ${value}`);
-		console.log(data);
+		console.log(name, value);
 
-		const updatedTripDetails =
-			data.tripDetails.map((trip, index) =>
-				index === 0
-					? { ...trip, [name]: value }
-					: trip
-			);
+		const updatedTripDetails = {
+			...data.tripDetails,
+			[name]: value, // Only update the relevant field
+		};
 
 		setData({
 			...data,
-			tripDetails: updatedTripDetails,
 			[name]: value,
+			tripDetails: updatedTripDetails,
 		});
+
+		console.log(updatedTripDetails);
+
+		console.log(data);
 
 		dispatch(
 			reservationDataActions.update({
 				...data,
-				tripDetails: updatedTripDetails,
 				[name]: value,
+				tripDetails: updatedTripDetails,
 				index: row - 1,
 			})
 		);
-
-		// Optional: Trigger validation logic here if needed
-		// dispatch(
-		//   formActions.validate({
-		//     ...data.errors,
-		//     propertyName: name === "propertyName" ? value : undefined,
-		//     city: name === "city" ? value : undefined,
-		//     numOfAdults: name === "numberOfAdults" ? parseInt(value) : undefined,
-		//   })
-		// );
 	};
 
 	const modalHandler = () => {
@@ -255,9 +244,7 @@ export default function Page1() {
 							className="appearance-none block md:w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 							type="date"
 							name="arrivalDate"
-							value={
-								data.tripDetails[0].arrivalDate
-							}
+							value={data.tripDetails.arrivalDate}
 							onChange={handleInputChange}
 							placeholder="Check in"
 						/>
@@ -269,7 +256,7 @@ export default function Page1() {
 							name="departureDate"
 							onChange={handleInputChange}
 							value={
-								data.tripDetails[0].departureDate
+								data.tripDetails.departureDate
 							}
 							placeholder="Check out"
 							// required

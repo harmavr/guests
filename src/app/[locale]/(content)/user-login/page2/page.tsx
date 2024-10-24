@@ -19,7 +19,7 @@ export default function Page2() {
 
 	const detailedUsers = useAppSelector(
 		(state) =>
-			state.reservationData.data[row - 1]
+			state.reservationData[row - 1]
 				?.detailedUser || []
 	);
 
@@ -32,7 +32,7 @@ export default function Page2() {
 
 	const num_of_adults = useAppSelector(
 		(state) =>
-			state.reservationData.data[row - 1]
+			state.reservationData[row - 1]
 				?.numOfAdults || 0
 	);
 
@@ -65,8 +65,8 @@ export default function Page2() {
 
 	const adultsArray = useAppSelector(
 		(state) =>
-			state.reservationData.data[row - 1]
-				?.detailedUser.details || []
+			state.reservationData[row - 1]?.detailedUser
+				.details || []
 	);
 
 	const saveData = (index: number) => {

@@ -26,13 +26,11 @@ export const Footer = () => {
 	);
 	const detailedUser = useAppSelector(
 		(state) =>
-			state.reservationData.data[row - 1]
-				.detailedUser
+			state.reservationData[row - 1].detailedUser
 	);
 	const numOfAdults = useAppSelector(
 		(state) =>
-			state.reservationData.data[row - 1]
-				.numOfAdults
+			state.reservationData[row - 1].numOfAdults
 	);
 	const weAreFree = useAppSelector(
 		(state) => state.form.weAreFreeToGo

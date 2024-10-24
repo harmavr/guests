@@ -10,7 +10,7 @@ import PropertiesModal from "../modals/properties/propertiesModal";
 
 export default function DisplayReservations() {
 	const reservations = useAppSelector(
-		(state) => state.reservationData.data
+		(state) => state.reservationData
 	);
 
 	const [
@@ -20,24 +20,27 @@ export default function DisplayReservations() {
 
 	const [openModal, setOpenModal] =
 		useState(false);
+
 	const [openPaymentModal, setOpenPaymentModal] =
 		useState(false);
+
 	const [loading, setLoading] = useState(false);
+
 	const [row, setRow] = useState(0);
+
 	const [resultList, setResultList] =
 		useState(reservations); // Initial result list
+
 	const [isOpenDropdown, setIsOpenDropdown] =
 		useState(false);
-	const [resultsFound, setResultsFound] =
-		useState(true); // Initially true since we're displaying all reservations
+
+	// const [resultsFound, setResultsFound] =
+	// 	useState(true); // Initially true since we're displaying all reservations
+
 	const [
 		propertyFromDropdown,
 		setPropertyFromDropdown,
 	] = useState("");
-	const [searchArray, setSearchArray] = useState(
-		[]
-	);
-	const [tab, setTab] = useState(0);
 
 	const modalHandler = () => {
 		setOpenModal(!openModal);
@@ -47,13 +50,13 @@ export default function DisplayReservations() {
 		setOpenPaymentModal(!openPaymentModal);
 	};
 
-	useEffect(() => {
-		setResultList(reservations); // Update result list whenever reservations change
-		console.log(
-			"RESUST LIST" +
-				resultList[1].tripDetails[0].arrivalDate
-		);
-	}, [reservations, resultList]);
+	// useEffect(() => {
+	// 	setResultList(reservations); // Update result list whenever reservations change
+	// 	// console.log(
+	// 	// 	"RESUST LIST" +
+	// 	// 		resultList[0].tripDetails[0].arrivalDate
+	// 	// );
+	// }, [reservations, resultList]);
 
 	// Handle Search by Property Name, ID, or Visitor Name
 	const handleSearch = (term: string) => {
@@ -61,7 +64,7 @@ export default function DisplayReservations() {
 		setTimeout(() => {
 			if (!term) {
 				setResultList(reservations); // Show all reservations if search is empty
-				setResultsFound(true);
+				// setResultsFound(true);
 			} else {
 				const resultsArray = reservations.filter(
 					(el) =>
@@ -78,8 +81,10 @@ export default function DisplayReservations() {
 							.toLowerCase()
 							.includes(term.toLowerCase())
 				);
+
 				setResultList(resultsArray);
-				setResultsFound(resultsArray.length > 0);
+
+				// setResultsFound(resultsArray.length > 0);
 			}
 			setLoading(false);
 		}, 500);
@@ -91,7 +96,7 @@ export default function DisplayReservations() {
 	) => {
 		if (!term) {
 			setResultList(reservations);
-			setResultsFound(true);
+			// setResultsFound(true);
 		} else {
 			const resultsArray = reservations.filter(
 				(el) =>
@@ -133,12 +138,12 @@ export default function DisplayReservations() {
 				const resultsArray = reservations.filter(
 					(el) => {
 						const arrivalDate =
-							el.tripDetails[0].arrivalDate.replace(
+							el.tripDetails.arrivalDate.replace(
 								/[^\d\/\n]/g,
 								""
 							);
 						const departureDate =
-							el.tripDetails[0].departureDate.replace(
+							el.tripDetails.departureDate.replace(
 								/[^\d\/\n]/g,
 								""
 							);
@@ -183,7 +188,7 @@ export default function DisplayReservations() {
 				);
 
 				setResultList(resultsArray);
-				setResultsFound(resultsArray.length > 0);
+				// setResultsFound(resultsArray.length > 0);
 				setLoading(false);
 			},
 
@@ -353,14 +358,14 @@ export default function DisplayReservations() {
 													<div>
 														{
 															reservation
-																.tripDetails[0]
+																.tripDetails
 																.arrivalDate
 														}{" "}
 													</div>
 													<div>
 														{
 															reservation
-																.tripDetails[0]
+																.tripDetails
 																.departureDate
 														}
 													</div>
@@ -370,11 +375,11 @@ export default function DisplayReservations() {
 												{(() => {
 													const arrivalDate =
 														new Date(
-															reservation.tripDetails[0].arrivalDate
+															reservation.tripDetails.arrivalDate
 														);
 													const departureDate =
 														new Date(
-															reservation.tripDetails[0].departureDate
+															reservation.tripDetails.departureDate
 														);
 													// const nights = (departureDate - arrivalDate) / (1000 * 60 * 60 * 24);
 													const nights =

@@ -33,28 +33,28 @@ const reservationSlice = createSlice({
 			// Transform tripDetails to match state.items structure
 			const transformedTripDetails = {
 				checkboxArrival:
-					tripDetails[0].arrivalCheckbox,
+					tripDetails.arrivalCheckbox,
 				FlightArrivalDate:
-					tripDetails[0].arrivalDate,
+					tripDetails.arrivalDate,
 				FlightArrivalTime:
-					tripDetails[0].arrivalTime,
+					tripDetails.arrivalTime,
 				LocationArrival:
-					tripDetails[0].arrivalLocation,
+					tripDetails.arrivalLocation,
 				FlightArrivalNumber:
-					tripDetails[0].arrivalFlightNumber,
-				NotesArrival: tripDetails[0].arrivalNotes,
+					tripDetails.arrivalFlightNumber,
+				NotesArrival: tripDetails.arrivalNotes,
 				checkboxDeparture:
-					tripDetails[0].departureCheckbox,
+					tripDetails.departureCheckbox,
 				FlightDepartureDate:
-					tripDetails[0].departureDate,
+					tripDetails.departureDate,
 				FlightDepartureTime:
-					tripDetails[0].departureTime,
+					tripDetails.departureTime,
 				LocationDeparture:
-					tripDetails[0].departureLocation,
+					tripDetails.departureLocation,
 				FlightDepartureNumber:
-					tripDetails[0].departureFlightNumber,
+					tripDetails.departureFlightNumber,
 				NotesDeparture:
-					tripDetails[0].departureNotes,
+					tripDetails.departureNotes,
 			};
 
 			console.log(

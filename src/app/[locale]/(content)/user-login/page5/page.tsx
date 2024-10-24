@@ -11,7 +11,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function Page5() {
 	const reservation = useAppSelector(
-		(state) => state.reservationData.data
+		(state) => state.reservationData
 	);
 
 	const searchParams = useSearchParams();

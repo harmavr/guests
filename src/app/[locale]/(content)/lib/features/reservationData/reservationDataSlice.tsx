@@ -14,91 +14,87 @@ import { ReservationData } from "../../types";
 // FlightDepartureNumber: string;
 // NotesDeparture: string;
 
-const initialState: ReservationData = {
-	data: [
-		{
-			propertyName: "Villa Aroma",
-			id: 1,
-			tripDetails: [
+const initialState: ReservationData[] = [
+	{
+		propertyName: "Villa Aroma",
+		id: 1,
+		tripDetails: {
+			arrivalDate: "2024-09-10",
+			departureDate: "2024-09-11",
+			arrivalCheckbox: true,
+			arrivalTime: "11:50",
+			arrivalLocation: "",
+			arrivalFlightNumber: "",
+			arrivalNotes: "",
+			departureCheckbox: false,
+			departureTime: "",
+			departureLocation: "",
+			departureFlightNumber: "10101",
+			departureNotes: "123",
+		},
+
+		detailedUser: {
+			details: [
 				{
-					arrivalDate: "2024-09-10",
-					departureDate: "2024-09-11",
-					arrivalCheckbox: true,
-					arrivalTime: "11:50",
-					arrivalLocation: "",
-					arrivalFlightNumber: "",
-					arrivalNotes: "",
-					departureCheckbox: false,
-					departureTime: "",
-					departureLocation: "",
-					departureFlightNumber: "10101",
-					departureNotes: "123",
+					firstName: "Charis",
+					lastName: "Mavr",
 				},
 			],
-
-			detailedUser: {
-				details: [
-					{
-						firstName: "Charis",
-						lastName: "Mavr",
-					},
-				],
-				user: 0,
-			},
-			numOfKids: 1,
-			numOfAdults: 2,
-			total_amount: 1000,
-			status: "Confirmed",
-			city: "Rethymno",
-			kidsAges: [{ value: 2, help: false }],
-
-			totalAmount: 0,
+			user: 0,
 		},
-		{
-			propertyName: "Euphoria",
-			id: 2,
-			tripDetails: [
+		numOfKids: 1,
+		numOfAdults: 2,
+		total_amount: 1000,
+		status: "Confirmed",
+		city: "Rethymno",
+		kidsAges: [{ value: 2, help: false }],
+
+		totalAmount: 0,
+	},
+	{
+		propertyName: "Euphoria",
+		id: 2,
+		tripDetails: {
+			arrivalDate: "2024-10-20",
+			departureDate: "2024-11-26",
+			arrivalCheckbox: true,
+			arrivalTime: "11:50",
+			arrivalLocation: "Turkey",
+			arrivalFlightNumber: "111111",
+			arrivalNotes: "asd",
+			departureCheckbox: true,
+			departureTime: "12:50",
+			departureLocation: "Greece",
+			departureFlightNumber: "10101",
+			departureNotes: "123",
+		},
+
+		detailedUser: {
+			details: [
 				{
-					arrivalDate: "2024-10-20",
-					departureDate: "2024-11-26",
-					arrivalCheckbox: true,
-					arrivalTime: "11:50",
-					arrivalLocation: "Turkey",
-					arrivalFlightNumber: "111111",
-					arrivalNotes: "asd",
-					departureCheckbox: true,
-					departureTime: "12:50",
-					departureLocation: "Greece",
-					departureFlightNumber: "10101",
-					departureNotes: "123",
+					firstName: "Giannis",
+					lastName: "Zoub",
+				},
+				{
+					firstName: "Titos",
+					lastName: "Chan",
 				},
 			],
-			detailedUser: {
-				details: [
-					{
-						firstName: "Giannis",
-						lastName: "Zoub",
-					},
-					{
-						firstName: "Titos",
-						lastName: "Chan",
-					},
-				],
-				user: 0,
-			},
-			numOfKids: 3,
-			numOfAdults: 2,
-			total_amount: 1500,
-			status: "Pre Check-in",
-			city: "Chania",
-			kidsAges: [
-				{ value: 10, help: true },
-				{ value: 15, help: false },
-				{ value: 2, help: false },
-			],
+			user: 0,
 		},
-	],
-};
+		numOfKids: 3,
+		numOfAdults: 2,
+		total_amount: 1500,
+		status: "Pre Check-in",
+		city: "Chania",
+		kidsAges: [
+			{ value: 10, help: true },
+			{ value: 15, help: false },
+			{ value: 2, help: false },
+		],
+		totalAmount: 0,
+	},
+];
 
 const reservationDataSlice = createSlice({
 	name: "reservationData",
@@ -111,20 +107,17 @@ const reservationDataSlice = createSlice({
 				resData
 			);
 
-			state.data.push({
+			state.push({
 				...resData,
 				status: status,
 			});
 
-			console.log(
-				"array reservation",
-				state.data
-			);
+			console.log("array reservation", state);
 		},
 		changeStatus(state, action) {
 			const { index } = action.payload;
 			console.log(index);
-			state.data[index].status = "Confirmed";
+			state[index].status = "Confirmed";
 		},
 
 		update(state, action) {
@@ -135,32 +128,27 @@ const reservationDataSlice = createSlice({
 				numOfKids,
 				kidsAges,
 				index,
-				arrivalDate,
-				departureDate,
+				tripDetails,
 			} = action.payload;
 
 			if (propertyName !== undefined)
-				state.data[index].propertyName =
-					propertyName;
+				state[index].propertyName = propertyName;
 			if (city !== undefined)
-				state.data[index].city = city;
+				state[index].city = city;
 			if (numOfAdults !== undefined)
-				state.data[index].numOfAdults =
+				state[index].numOfAdults =
 					parseInt(numOfAdults);
 
 			if (
 				numOfAdults >
-				state.data[index].detailedUser.details
-					.length
+				state[index].detailedUser.details.length
 			) {
 				const missingUsers =
 					numOfAdults -
-					state.data[index].detailedUser.details
+					state[index].detailedUser.details
 						.length;
 				for (let i = 0; i < missingUsers; i++) {
-					state.data[
-						index
-					].detailedUser.details.push({
+					state[index].detailedUser.details.push({
 						firstName: "",
 						lastName: "",
 					});
@@ -168,36 +156,35 @@ const reservationDataSlice = createSlice({
 			}
 
 			if (kidsAges !== undefined)
-				state.data[index].kidsAges = kidsAges;
+				state[index].kidsAges = kidsAges;
 
 			if (numOfKids !== undefined) {
 				if (
-					numOfKids >
-					state.data[index].kidsAges.length
+					numOfKids > state[index].kidsAges.length
 				) {
 					const missingKids =
 						numOfKids -
-						state.data[index].kidsAges.length;
+						state[index].kidsAges.length;
 					for (let i = 0; i < missingKids; i++) {
-						state.data[index].kidsAges.push({
+						state[index].kidsAges.push({
 							value: 0,
 							help: false,
 						});
 					}
 				}
-				state.data[index].numOfKids = numOfKids;
+				state[index].numOfKids = numOfKids;
 			}
 
-			if (arrivalDate !== undefined)
-				state.data[
-					index
-				].tripDetails[0].arrivalDate =
-					arrivalDate;
-			if (departureDate !== undefined)
-				state.data[
-					index
-				].tripDetails[0].departureDate =
-					departureDate;
+			if (tripDetails !== undefined) {
+				state[index].tripDetails = tripDetails;
+			}
+
+			// if (tripDetails.arrivalDate !== undefined)
+			// 	state[index].tripDetails.arrivalDate =
+			// 		tripDetails.arrivalDate;
+			// if (tripDetails.departureDate !== undefined)
+			// 	state[index].tripDetails.departureDate =
+			// 		tripDetails.departureDate;
 		},
 
 		saveKids(state, action) {
@@ -206,19 +193,17 @@ const reservationDataSlice = createSlice({
 
 			console.log(action.payload);
 
-			// while (state.data[index].kidsAges.length <= index) {
-			//   state.data[index].kidsAges.push({ value: 0, help: false });
+			// while (state[index].kidsAges.length <= index) {
+			//   state[index].kidsAges.push({ value: 0, help: false });
 			// }
-			// state.data[index].kidsAges[kidId] = { value: age, help };
+			// state[index].kidsAges[kidId] = { value: age, help };
 			console.log(kids);
 
-			// console.log(state.data[row - 1].propertyName);
+			// console.log(state[row - 1].propertyName);
 
-			state.data[row - 1].kidsAges = kids;
+			state[row - 1].kidsAges = kids;
 
-			console.log(
-				state.data[row - 1].kidsAges[index]
-			);
+			console.log(state[row - 1].kidsAges[index]);
 			// console.log(state.data[row - 1].kidsAges[0].value);
 
 			// console.log(state.data[row - 1].kidsAges[0].value);
@@ -230,26 +215,23 @@ const reservationDataSlice = createSlice({
 			console.log(action.payload);
 
 			if (index >= 0) {
-				state.data[row - 1].detailedUser.details[
+				state[row - 1].detailedUser.details[
 					index
 				] = { firstName, lastName };
-				state.data[row - 1].detailedUser.user++;
+				state[row - 1].detailedUser.user++;
 			} else {
 				console.error("Invalid index");
 			}
 
 			console.log(
-				state.data[row - 1].detailedUser.details[
-					index
-				]
+				state[row - 1].detailedUser.details[index]
 			);
 		},
 
 		saveHelpForKids(state, action) {
 			const { row, kidId, help } = action.payload;
 
-			state.data[row - 1].kidsAges[kidId].help =
-				help;
+			state[row - 1].kidsAges[kidId].help = help;
 		},
 
 		saveTravelDetails(state, action) {
@@ -257,11 +239,9 @@ const reservationDataSlice = createSlice({
 
 			console.log(row, data);
 
-			state.data[row - 1].tripDetails[0] = data;
+			state[row - 1].tripDetails = data;
 
-			console.log(
-				state.data[row - 1].tripDetails[0]
-			);
+			console.log(state[row - 1].tripDetails);
 		},
 	},
 });

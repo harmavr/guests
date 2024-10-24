@@ -27,12 +27,12 @@ export default function ModalForKids({
 
 	const kids = useAppSelector(
 		(state) =>
-			state.reservationData.data[row - 1]
-				?.kidsAges || []
+			state.reservationData[row - 1]?.kidsAges ||
+			[]
 	);
 
 	const test = useAppSelector(
-		(state) => state.reservationData.data[row - 1]
+		(state) => state.reservationData[row - 1]
 	);
 
 	const [localKidsAges, setLocalKidsAges] =
