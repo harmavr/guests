@@ -1,7 +1,8 @@
 export interface DetailedUser {
-	details: [
-		{ firstName: string; lastName: string }
-	];
+	details: {
+		firstName: string;
+		lastName: string;
+	}[];
 	user: number;
 }
 
@@ -56,7 +57,7 @@ export interface userData {
 	//   lastName: boolean;
 	// };
 	weAreFreeToGo: boolean;
-	tripDetails: TripDetail[];
+	tripDetails: TripDetail;
 }
 
 export interface Reservation {
@@ -94,38 +95,32 @@ export interface TransactionList {
 }
 
 export interface ReservationData {
-	data: [
-		{
-			propertyName: string;
-			id: number;
-			city: string;
-			tripDetails: Trip[];
-			detailedUser: DetailedUser;
-			kidsAges: {
-				value: number;
-				help: boolean;
-			}[];
-			numOfKids: number;
-			totalAmount: number;
-			numOfAdults: number;
-			total_amount: number;
-			status: string;
-		}
-	];
-}
+	propertyName: string;
+	id: number;
+	city: string;
+	tripDetails: Trip;
+	detailedUser: DetailedUser;
+	kidsAges: {
+		value: number;
+		help: boolean;
+	}[];
 
+	numOfKids: number;
+	totalAmount: number;
+	numOfAdults: number;
+	total_amount: number;
+	status: string;
+}
 export interface UserLogin {
 	// loggedIn: boolean;
 	loggedInUser: {
 		firstName: string;
 		lastName: string;
 	};
-	userCredentials: [
-		{
-			firstName: string;
-			lastName: string;
-			email: string;
-			password: string;
-		}
-	];
+	userCredentials: {
+		firstName: string;
+		lastName: string;
+		email: string;
+		password: string;
+	}[];
 }
