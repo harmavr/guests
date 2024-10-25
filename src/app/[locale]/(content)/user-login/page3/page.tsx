@@ -147,6 +147,9 @@ export default function Page3() {
 								value={data.arrivalLocation}
 								onChange={handleChange}
 							>
+								<option value="" disabled>
+									Select Date
+								</option>
 								<option value="Greece">
 									Greece
 								</option>
@@ -237,6 +240,9 @@ export default function Page3() {
 								value={data.departureLocation}
 								onChange={handleChange}
 							>
+								<option value="" disabled>
+									Select Date
+								</option>
 								<option value="Greece">
 									Greece
 								</option>

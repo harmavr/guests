@@ -23,12 +23,12 @@ const initialState: ReservationData[] = [
 			departureDate: "2024-09-11",
 			arrivalCheckbox: true,
 			arrivalTime: "11:50",
-			arrivalLocation: "",
-			arrivalFlightNumber: "",
-			arrivalNotes: "",
+			arrivalLocation: "Italy",
+			arrivalFlightNumber: "010",
+			arrivalNotes: "notes arrival",
 			departureCheckbox: false,
-			departureTime: "",
-			departureLocation: "",
+			departureTime: "12:01",
+			departureLocation: "Bulgaria",
 			departureFlightNumber: "10101",
 			departureNotes: "123",
 		},
@@ -242,6 +242,27 @@ const reservationDataSlice = createSlice({
 			state[row - 1].tripDetails = data;
 
 			console.log(state[row - 1].tripDetails);
+		},
+
+		saveReservationFromCSV: (state, action) => {
+			const { formData } = action.payload;
+			console.log(formData);
+
+			formData.forEach((reservation) => {
+				state.push({
+					propertyName: reservation.propertyName,
+					city: reservation.city,
+					numOfAdults: reservation.numOfAdults,
+					numOfKids: reservation.numOfKids,
+					kidsAges: reservation.kidsAges,
+					detailedUser: reservation.detailedUser,
+					tripDetails: reservation.tripDetails,
+					id: state.length + 1,
+					totalAmount: 0,
+					total_amount: 2000,
+					status: "Confirmed",
+				});
+			});
 		},
 	},
 });

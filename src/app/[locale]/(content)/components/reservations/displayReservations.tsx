@@ -50,13 +50,9 @@ export default function DisplayReservations() {
 		setOpenPaymentModal(!openPaymentModal);
 	};
 
-	// useEffect(() => {
-	// 	setResultList(reservations); // Update result list whenever reservations change
-	// 	// console.log(
-	// 	// 	"RESUST LIST" +
-	// 	// 		resultList[0].tripDetails[0].arrivalDate
-	// 	// );
-	// }, [reservations, resultList]);
+	useEffect(() => {
+		setResultList(reservations); // Update result list whenever reservations change
+	}, [reservations]);
 
 	// Handle Search by Property Name, ID, or Visitor Name
 	const handleSearch = (term: string) => {

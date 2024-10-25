@@ -4,6 +4,7 @@ import { useAppDispatch } from "@/src/app/[locale]/(content)/lib/hooks";
 import { reservationActions } from "@/src/app/[locale]/(content)/lib/features/reservation/reservationSlice";
 import Image from "next/image";
 import ExcelIcon from "@/src/app/public/excel.png";
+import { reservationDataActions } from "../../lib/features/reservationData/reservationDataSlice";
 
 interface ModalDetails {
 	open: boolean;
@@ -55,6 +56,7 @@ const CSVUpload = () => {
 								: [],
 						})
 					);
+
 					setCsvData(parsedData);
 					console.log(csvData);
 				},
@@ -74,7 +76,7 @@ const CSVUpload = () => {
 		if (csvData.length) {
 			// Dispatch the data to the Redux store
 			dispatch(
-				reservationActions.saveReservationFromCSV(
+				reservationDataActions.saveReservationFromCSV(
 					{ formData: csvData }
 				)
 			);

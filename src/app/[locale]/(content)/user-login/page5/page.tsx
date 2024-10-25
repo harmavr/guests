@@ -49,6 +49,8 @@ export default function Page5() {
 	const exportData = () => {
 		const data = [reservation[row - 1]];
 
+		console.log(data);
+
 		const fileName = "localData";
 		const exportType = exportFromJSON.types.csv;
 

@@ -26,11 +26,11 @@ export const Footer = () => {
 	);
 	const detailedUser = useAppSelector(
 		(state) =>
-			state.reservationData[row - 1].detailedUser
+			state.reservationData[row - 1]?.detailedUser
 	);
 	const numOfAdults = useAppSelector(
 		(state) =>
-			state.reservationData[row - 1].numOfAdults
+			state.reservationData[row - 1]?.numOfAdults
 	);
 	const weAreFree = useAppSelector(
 		(state) => state.form.weAreFreeToGo
@@ -56,7 +56,7 @@ export const Footer = () => {
 		console.log(detailedUser);
 
 		console.log(
-			`number of adults ${numOfAdults} and detailed user length ${detailedUser.user}`
+			`number of adults ${numOfAdults} and detailed user length ${detailedUser?.user}`
 		);
 
 		if (page === 2) {

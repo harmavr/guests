@@ -32,7 +32,7 @@ export default function Page1() {
 
 	const kidsAges = useAppSelector(
 		(state) =>
-			state.reservationData[row - 1].kidsAges
+			state.reservationData[row - 1]?.kidsAges
 	);
 	const [smallKidsArray, setSmallKidsArray] =
 		useState<{ value: number; help: boolean }[]>([
@@ -56,7 +56,7 @@ export default function Page1() {
 		reservation[row - 1]
 	);
 	const [numOfKids, setNumOfKids] = useState(
-		reservation[row - 1].kidsAges
+		reservation[row - 1]?.kidsAges
 	);
 
 	useEffect(() => {
@@ -205,7 +205,7 @@ export default function Page1() {
 							type="text"
 							name="propertyName"
 							placeholder="Property Name"
-							value={data.propertyName}
+							value={data?.propertyName}
 							onChange={handleInputChange}
 							required
 						/>
@@ -225,7 +225,7 @@ export default function Page1() {
 							type="text"
 							name="city"
 							placeholder="City"
-							value={data.city}
+							value={data?.city}
 							onChange={handleInputChange}
 							required
 						/>
@@ -244,7 +244,9 @@ export default function Page1() {
 							className="appearance-none block md:w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 							type="date"
 							name="arrivalDate"
-							value={data.tripDetails.arrivalDate}
+							value={
+								data?.tripDetails.arrivalDate
+							}
 							onChange={handleInputChange}
 							placeholder="Check in"
 						/>
@@ -256,7 +258,7 @@ export default function Page1() {
 							name="departureDate"
 							onChange={handleInputChange}
 							value={
-								data.tripDetails.departureDate
+								data?.tripDetails.departureDate
 							}
 							placeholder="Check out"
 							// required
@@ -276,7 +278,7 @@ export default function Page1() {
 							type="number"
 							name="numOfAdults"
 							placeholder="Number of Adults"
-							value={data.numOfAdults}
+							value={data?.numOfAdults}
 							onChange={handleInputChange}
 							required
 						/>
@@ -292,7 +294,7 @@ export default function Page1() {
 							type="number"
 							name="n_of_kids"
 							placeholder="Number of Kids"
-							value={data.numOfKids}
+							value={data?.numOfKids}
 							onChange={handleNumOfKidsChange}
 							required
 						/>
